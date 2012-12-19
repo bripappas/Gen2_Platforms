@@ -1,4 +1,13 @@
-Encoder::Encoder(int ch1Pin, int ch2Pin, boolean m_direction)
+/*
+Library for reading the optical encoders on Gen2_Robots
+Author: Brian Pappas
+Last Update: 12/18/2012
+*/
+
+#include "Arduino.h"
+#include "gen2_encoder.h"
+
+gen2_encoder::gen2_encoder(int ch1Pin, int ch2Pin, boolean m_direction)
 {
   pinMode(ch1Pin, INPUT);
   pinMode(ch2Pin, INPUT);
@@ -10,7 +19,7 @@ Encoder::Encoder(int ch1Pin, int ch2Pin, boolean m_direction)
   m_dir = m_direction;
 }
 
-void Encoder::count()
+void gen2_encoder::count()
 {
   if(m_dir == true) {
   if(digitalRead(_ch2Pin) == HIGH)
@@ -34,12 +43,12 @@ void Encoder::count()
   }
 }
 
-int Encoder::totaldistance()
+int gen2_encoder::totaldistance()
 {
   return _odometer;
 }
 
-int Encoder::deltadistance()
+int gen2_encoder::deltadistance()
 {
   _delta = _odometer-_oldodom;
   _odometer = _oldodom;
