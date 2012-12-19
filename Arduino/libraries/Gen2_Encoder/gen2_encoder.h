@@ -16,7 +16,6 @@ class gen2_encoder
     gen2_encoder(int ch1Pin, int ch2Pin, boolean m_direction);
     void count();
     int totaldistance();
-    int deltadistance();
   
   private:
     int _ch1Pin;

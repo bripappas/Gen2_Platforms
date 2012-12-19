@@ -47,10 +47,3 @@ int gen2_encoder::totaldistance()
 {
   return _odometer;
 }
-
-int gen2_encoder::deltadistance()
-{
-  _delta = _odometer-_oldodom;
-  _odometer = _oldodom;
-  return _delta;
-}
