@@ -1,0 +1,3 @@
+In order to flash the code onto the Arduino. Set the sketchbook directory to this folder.  This will correctly setup the library folders (You will have to restart the Arduino IDE).  Open the Gen2_Arduino sketch in the Arduino IDE.  You should now be able to flash the program.
+
+-Brian Pappas
