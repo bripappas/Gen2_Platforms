@@ -1,3 +1,4 @@
+#include <gen2_motor.h>
 #include <gen2_encoder.h>
 
 //Define Pin Connection for Encoders.
@@ -5,6 +6,14 @@ const int encoderLeft_CH1 = 19; //<-left motor interrupt
 const int encoderLeft_CH2 = 22; //<-left motor direction
 const int encoderRight_CH1 = 18;//<-right motor interrupt
 const int encoderRight_CH2 = 23;//<-right motor direction 
+
+//Define Pin Connections for Motor Controller
+const int motorLeft_Enable = 2;
+const int motorLeft_I1 = 25;
+const int motorLeft_I2 = 24;
+const int motorRight_Enable = 3;
+const int motorRight_I1 = 29;
+const int motorRight_I2 = 28;
 
 
 //Intialize Encoder Objects
@@ -23,7 +32,7 @@ void setup()
 
 void loop()
 {
-  delay(100);
+  delay(250);
   encoder_test();
 }
 

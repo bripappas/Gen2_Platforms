@@ -19,6 +19,7 @@ gen2_encoder::gen2_encoder(int ch1Pin, int ch2Pin, boolean m_direction)
   m_dir = m_direction;
 }
 
+//Increment/Decrement Encoder Tick Count
 void gen2_encoder::count()
 {
   if(m_dir == true) {
@@ -43,6 +44,7 @@ void gen2_encoder::count()
   }
 }
 
+//Return Total Tick Count
 int gen2_encoder::totaldistance()
 {
   return _odometer;
