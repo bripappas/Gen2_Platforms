@@ -1,5 +1,16 @@
+//ROS includes
+#include <ros.h>
+#include <std_msgs/Int16.h>
+
+//Gen2 Includes
 #include <gen2_motor.h>
 #include <gen2_encoder.h>
+
+//Create ROS nodehandle and define messages
+ros::NodeHandle  nh;
+std_msgs::Int16 l_enc,r_enc;
+ros::Publisher lwheel("lwheel", &l_enc);
+ros::Publisher rwheel("rwheel", &r_enc);
 
 //Define Pin Connection for Encoders.
 const int encoderLeft_CH1 = 19; //<-left motor interrupt
@@ -29,14 +40,26 @@ void setup()
   attachInterrupt(5, countright, RISING);
   attachInterrupt(4, countleft, RISING);
   
+  //ROS setup/advertise
+  nh.initNode();
+  nh.advertise(lwheel);
+  nh.advertise(rwheel);
+  
   //Start serial interface
-  Serial.begin(9600);
+  //Serial.begin(9600);
 }
 
 void loop()
 {
-  delay(250);
-  encoder_test();
+  //ROS publish
+  r_enc.data = eright.totaldistance();
+  l_enc.data = eleft.totaldistance();
+  lwheel.publish( &l_enc );
+  rwheel.publish( &r_enc );
+  nh.spinOnce();
+  
+  //delay(250);
+  //encoder_test();
   motor_test();
 }
 
