@@ -1,4 +1,3 @@
-
 #include <gen2_encoder.h>
 
 //Define Pin Connection for Encoders.
@@ -10,7 +9,7 @@ const int encoderRight_CH2 = 23;//<-right motor direction
 
 //Intialize Encoder Objects
   gen2_encoder eright(encoderRight_CH1, encoderRight_CH2, true);
-  gen2_encoder eleft(encoderLeft_CH1, encoderLeft_CH2, false);
+  gen2_encoder eleft(encoderLeft_CH1, encoderLeft_CH2, true);
 
 void setup()
 {
@@ -24,9 +23,11 @@ void setup()
 
 void loop()
 {
+  delay(100);
   encoder_test();
 }
 
+//Encoder Interrupt Function Calls------------------------------------------------------
 void countright()
 {
   eright.count();
