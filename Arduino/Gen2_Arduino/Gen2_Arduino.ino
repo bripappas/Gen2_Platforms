@@ -21,6 +21,9 @@ const int motorRight_Enable = 3;
 const int motorRight_I1 = 29;
 const int motorRight_I2 = 28;
 
+//Gyro-Pin analog (A8)
+const int gyro_pin = 8;
+
 //Intialize Encoder Objects
 gen2_encoder eright(encoderRight_CH1, encoderRight_CH2, true);
 gen2_encoder eleft(encoderLeft_CH1, encoderLeft_CH2, true);
@@ -65,9 +68,10 @@ void r_cmd_Cb(const std_msgs::Float32& r_motor_cmd)
 
 //Create ROS nodehandle and define messages
 ros::NodeHandle  nh;
-std_msgs::Int16 l_enc,r_enc;
+std_msgs::Int16 l_enc,r_enc, gyro_raw;
 ros::Publisher lwheel("lwheel", &l_enc);  //left encoder ticks
 ros::Publisher rwheel("rwheel", &r_enc);  //right encoder ticks
+ros::Publisher gyro_val("gyro_val", &gyro_raw); //raw gyro value
 ros::Subscriber<std_msgs::Float32> l_cmd_sub("l_motor_cmd", &l_cmd_Cb);
 ros::Subscriber<std_msgs::Float32> r_cmd_sub("r_motor_cmd", &r_cmd_Cb);
 
@@ -82,6 +86,7 @@ void setup()
   nh.initNode();
   nh.advertise(lwheel);
   nh.advertise(rwheel);
+  nh.advertise(gyro_val);
   nh.subscribe(l_cmd_sub);
   nh.subscribe(r_cmd_sub);
   
@@ -91,14 +96,16 @@ void setup()
 
 void loop()
 {
-  //Publish encoder data every (pub_duration) ms
+  //Publish encoder/gyro data every (pub_duration) ms
   if (millis() > pub_timer)
   {
     pub_timer = millis() + pub_duration;
     r_enc.data = eright.totaldistance();
     l_enc.data = eleft.totaldistance();
+    gyro_raw.data = analogRead(gyro_pin);
     lwheel.publish( &l_enc );
     rwheel.publish( &r_enc );
+    gyro_val.publish( &gyro_raw ); 
   }
     
   nh.spinOnce();
