@@ -1,16 +1,11 @@
 //ROS includes
 #include <ros.h>
 #include <std_msgs/Int16.h>
+#include <std_msgs/Float32.h>
 
 //Gen2 Includes
 #include <gen2_motor.h>
 #include <gen2_encoder.h>
-
-//Create ROS nodehandle and define messages
-ros::NodeHandle  nh;
-std_msgs::Int16 l_enc,r_enc;
-ros::Publisher lwheel("lwheel", &l_enc);
-ros::Publisher rwheel("rwheel", &r_enc);
 
 //Define Pin Connection for Encoders.
 const int encoderLeft_CH1 = 19; //<-left motor interrupt
@@ -26,13 +21,52 @@ const int motorRight_Enable = 3;
 const int motorRight_I1 = 29;
 const int motorRight_I2 = 28;
 
-
 //Intialize Encoder Objects
   gen2_encoder eright(encoderRight_CH1, encoderRight_CH2, true);
   gen2_encoder eleft(encoderLeft_CH1, encoderLeft_CH2, true);
   
-//Intialize Motor Object
+//Intialize Motor Object (One motor object controls 2 motors)
   gen2_motor m(motorRight_Enable, motorRight_I1, motorRight_I2,motorLeft_Enable, motorLeft_I1, motorLeft_I2);
+
+//ROS subscriber Callback functions
+void l_cmd_Cb(const std_msgs::Float32& l_motor_cmd)
+{
+  //Cast to int. Add 0.5 for correct rounding
+  int cmd = (int) l_motor_cmd.data + 0.5; 
+  
+  //Set motor direction
+  if(cmd < 0)
+    m.left_backward();
+  else
+    m.left_forward();
+  
+  //Set motor speed (0-255)  
+  m.left_mspeed(abs(cmd));
+}
+
+void r_cmd_Cb(const std_msgs::Float32& r_motor_cmd)
+{
+  //Cast to int. Add 0.5 for correct rounding
+  int cmd = (int) r_motor_cmd.data + 0.5; 
+  
+  //Set motor direction
+  if(cmd < 0)
+    m.right_backward();
+  else
+    m.right_forward();
+  
+  //Set motor speed (0-255)  
+  m.right_mspeed(abs(cmd));
+}
+
+//Create ROS nodehandle and define messages
+ros::NodeHandle  nh;
+std_msgs::Int16 l_enc,r_enc;
+ros::Publisher lwheel("lwheel", &l_enc);  //left encoder ticks
+ros::Publisher rwheel("rwheel", &r_enc);  //right encoder ticks
+ros::Subscriber<std_msgs::Float32> l_cmd_sub("l_motor_cmd", &l_cmd_Cb);
+ros::Subscriber<std_msgs::Float32> r_cmd_sub("r_motor_cmd", &r_cmd_Cb);
+
 
 void setup()
 {
@@ -40,10 +74,12 @@ void setup()
   attachInterrupt(5, countright, RISING);
   attachInterrupt(4, countleft, RISING);
   
-  //ROS setup/advertise
+  //ROS setup/advertise/subscribe
   nh.initNode();
   nh.advertise(lwheel);
   nh.advertise(rwheel);
+  nh.subscribe(l_cmd_sub);
+  nh.subscribe(r_cmd_sub);
   
   //Start serial interface
   //Serial.begin(9600);
@@ -60,7 +96,7 @@ void loop()
   
   //delay(250);
   //encoder_test();
-  motor_test();
+  //motor_test();
 }
 
 //Encoder Interrupt Function Calls------------------------------------------------------
