@@ -22,11 +22,15 @@ const int motorRight_I1 = 29;
 const int motorRight_I2 = 28;
 
 //Intialize Encoder Objects
-  gen2_encoder eright(encoderRight_CH1, encoderRight_CH2, true);
-  gen2_encoder eleft(encoderLeft_CH1, encoderLeft_CH2, true);
+gen2_encoder eright(encoderRight_CH1, encoderRight_CH2, true);
+gen2_encoder eleft(encoderLeft_CH1, encoderLeft_CH2, true);
   
 //Intialize Motor Object (One motor object controls 2 motors)
-  gen2_motor m(motorRight_Enable, motorRight_I1, motorRight_I2,motorLeft_Enable, motorLeft_I1, motorLeft_I2);
+gen2_motor m(motorRight_Enable, motorRight_I1, motorRight_I2,motorLeft_Enable, motorLeft_I1, motorLeft_I2);
+
+//Publish/Subscribe Timer durations
+long pub_duration = 10;   //Rate in ms to publish encoder topics 
+unsigned long pub_timer = 0;
 
 //ROS subscriber Callback functions
 void l_cmd_Cb(const std_msgs::Float32& l_motor_cmd)
@@ -87,11 +91,16 @@ void setup()
 
 void loop()
 {
-  //ROS publish
-  r_enc.data = eright.totaldistance();
-  l_enc.data = eleft.totaldistance();
-  lwheel.publish( &l_enc );
-  rwheel.publish( &r_enc );
+  //Publish encoder data every (pub_duration) ms
+  if (millis() > pub_timer)
+  {
+    pub_timer = millis() + pub_duration;
+    r_enc.data = eright.totaldistance();
+    l_enc.data = eleft.totaldistance();
+    lwheel.publish( &l_enc );
+    rwheel.publish( &r_enc );
+  }
+    
   nh.spinOnce();
   
   //delay(250);
