@@ -1,1 +1,3 @@
 Repository for Generation 2 Robots. Part of the Auburn University CRRLAB
+
+Arduino-Contains arduino project and required libraries for the arduino megas onboard the robots. See the readme file in the Arduino folder for instructions on flashing the code.
