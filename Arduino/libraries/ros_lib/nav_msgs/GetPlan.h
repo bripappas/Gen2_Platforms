@@ -1,9 +1,9 @@
-#ifndef ros_SERVICE_GetPlan_h
-#define ros_SERVICE_GetPlan_h
+#ifndef _ROS_SERVICE_GetPlan_h
+#define _ROS_SERVICE_GetPlan_h
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../ros/msg.h"
+#include "ros/msg.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "nav_msgs/Path.h"
 
@@ -19,14 +19,14 @@ static const char GETPLAN[] = "nav_msgs/GetPlan";
       geometry_msgs::PoseStamped goal;
       float tolerance;
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->start.serialize(outbuffer + offset);
       offset += this->goal.serialize(outbuffer + offset);
       union {
         float real;
-        unsigned long base;
+        uint32_t base;
       } u_tolerance;
       u_tolerance.real = this->tolerance;
       *(outbuffer + offset + 0) = (u_tolerance.base >> (8 * 0)) & 0xFF;
@@ -44,19 +44,20 @@ static const char GETPLAN[] = "nav_msgs/GetPlan";
       offset += this->goal.deserialize(inbuffer + offset);
       union {
         float real;
-        unsigned long base;
+        uint32_t base;
       } u_tolerance;
       u_tolerance.base = 0;
-      u_tolerance.base |= ((typeof(u_tolerance.base)) (*(inbuffer + offset + 0))) << (8 * 0);
-      u_tolerance.base |= ((typeof(u_tolerance.base)) (*(inbuffer + offset + 1))) << (8 * 1);
-      u_tolerance.base |= ((typeof(u_tolerance.base)) (*(inbuffer + offset + 2))) << (8 * 2);
-      u_tolerance.base |= ((typeof(u_tolerance.base)) (*(inbuffer + offset + 3))) << (8 * 3);
+      u_tolerance.base |= ((uint32_t) (*(inbuffer + offset + 0))) << (8 * 0);
+      u_tolerance.base |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1);
+      u_tolerance.base |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2);
+      u_tolerance.base |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       this->tolerance = u_tolerance.real;
       offset += sizeof(this->tolerance);
      return offset;
     }
 
     const char * getType(){ return GETPLAN; };
+    const char * getMD5(){ return "e25a43e0752bcca599a8c2eef8282df8"; };
 
   };
 
@@ -65,7 +66,7 @@ static const char GETPLAN[] = "nav_msgs/GetPlan";
     public:
       nav_msgs::Path plan;
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->plan.serialize(outbuffer + offset);
@@ -80,7 +81,14 @@ static const char GETPLAN[] = "nav_msgs/GetPlan";
     }
 
     const char * getType(){ return GETPLAN; };
+    const char * getMD5(){ return "0002bc113c0259d71f6cf8cbc9430e18"; };
 
+  };
+
+  class GetPlan {
+    public:
+    typedef GetPlanRequest Request;
+    typedef GetPlanResponse Response;
   };
 
 }

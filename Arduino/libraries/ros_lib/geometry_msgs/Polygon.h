@@ -1,10 +1,10 @@
-#ifndef ros_geometry_msgs_Polygon_h
-#define ros_geometry_msgs_Polygon_h
+#ifndef _ROS_geometry_msgs_Polygon_h
+#define _ROS_geometry_msgs_Polygon_h
 
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../ros/msg.h"
+#include "ros/msg.h"
 #include "geometry_msgs/Point32.h"
 
 namespace geometry_msgs
@@ -13,18 +13,18 @@ namespace geometry_msgs
   class Polygon : public ros::Msg
   {
     public:
-      unsigned char points_length;
+      uint8_t points_length;
       geometry_msgs::Point32 st_points;
       geometry_msgs::Point32 * points;
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       *(outbuffer + offset++) = points_length;
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
-      for( unsigned char i = 0; i < points_length; i++){
+      for( uint8_t i = 0; i < points_length; i++){
       offset += this->points[i].serialize(outbuffer + offset);
       }
       return offset;
@@ -33,12 +33,12 @@ namespace geometry_msgs
     virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      unsigned char points_lengthT = *(inbuffer + offset++);
+      uint8_t points_lengthT = *(inbuffer + offset++);
       if(points_lengthT > points_length)
         this->points = (geometry_msgs::Point32*)realloc(this->points, points_lengthT * sizeof(geometry_msgs::Point32));
       offset += 3;
       points_length = points_lengthT;
-      for( unsigned char i = 0; i < points_length; i++){
+      for( uint8_t i = 0; i < points_length; i++){
       offset += this->st_points.deserialize(inbuffer + offset);
         memcpy( &(this->points[i]), &(this->st_points), sizeof(geometry_msgs::Point32));
       }
@@ -46,6 +46,7 @@ namespace geometry_msgs
     }
 
     const char * getType(){ return "geometry_msgs/Polygon"; };
+    const char * getMD5(){ return "cd60a26494a087f577976f0329fa120e"; };
 
   };
 

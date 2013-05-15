@@ -1,10 +1,10 @@
-#ifndef ros_geometry_msgs_PolygonStamped_h
-#define ros_geometry_msgs_PolygonStamped_h
+#ifndef _ROS_geometry_msgs_PolygonStamped_h
+#define _ROS_geometry_msgs_PolygonStamped_h
 
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../ros/msg.h"
+#include "ros/msg.h"
 #include "std_msgs/Header.h"
 #include "geometry_msgs/Polygon.h"
 
@@ -17,7 +17,7 @@ namespace geometry_msgs
       std_msgs::Header header;
       geometry_msgs::Polygon polygon;
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
@@ -34,6 +34,7 @@ namespace geometry_msgs
     }
 
     const char * getType(){ return "geometry_msgs/PolygonStamped"; };
+    const char * getMD5(){ return "c6be8f7dc3bee7fe9e8d296070f53340"; };
 
   };
 

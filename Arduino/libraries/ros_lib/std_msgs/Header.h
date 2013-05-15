@@ -1,10 +1,10 @@
-#ifndef ros_std_msgs_Header_h
-#define ros_std_msgs_Header_h
+#ifndef _ROS_std_msgs_Header_h
+#define _ROS_std_msgs_Header_h
 
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../ros/msg.h"
+#include "ros/msg.h"
 #include "ros/time.h"
 
 namespace std_msgs
@@ -13,44 +13,29 @@ namespace std_msgs
   class Header : public ros::Msg
   {
     public:
-      unsigned long seq;
+      uint32_t seq;
       ros::Time stamp;
       char * frame_id;
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      union {
-        unsigned long real;
-        unsigned long base;
-      } u_seq;
-      u_seq.real = this->seq;
-      *(outbuffer + offset + 0) = (u_seq.base >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (u_seq.base >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (u_seq.base >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (u_seq.base >> (8 * 3)) & 0xFF;
+      *(outbuffer + offset + 0) = (this->seq >> (8 * 0)) & 0xFF;
+      *(outbuffer + offset + 1) = (this->seq >> (8 * 1)) & 0xFF;
+      *(outbuffer + offset + 2) = (this->seq >> (8 * 2)) & 0xFF;
+      *(outbuffer + offset + 3) = (this->seq >> (8 * 3)) & 0xFF;
       offset += sizeof(this->seq);
-      union {
-        unsigned long real;
-        unsigned long base;
-      } u_sec;
-      u_sec.real = this->stamp.sec;
-      *(outbuffer + offset + 0) = (u_sec.base >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (u_sec.base >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (u_sec.base >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (u_sec.base >> (8 * 3)) & 0xFF;
+      *(outbuffer + offset + 0) = (this->stamp.sec >> (8 * 0)) & 0xFF;
+      *(outbuffer + offset + 1) = (this->stamp.sec >> (8 * 1)) & 0xFF;
+      *(outbuffer + offset + 2) = (this->stamp.sec >> (8 * 2)) & 0xFF;
+      *(outbuffer + offset + 3) = (this->stamp.sec >> (8 * 3)) & 0xFF;
       offset += sizeof(this->stamp.sec);
-      union {
-        unsigned long real;
-        unsigned long base;
-      } u_nsec;
-      u_nsec.real = this->stamp.nsec;
-      *(outbuffer + offset + 0) = (u_nsec.base >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (u_nsec.base >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (u_nsec.base >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (u_nsec.base >> (8 * 3)) & 0xFF;
+      *(outbuffer + offset + 0) = (this->stamp.nsec >> (8 * 0)) & 0xFF;
+      *(outbuffer + offset + 1) = (this->stamp.nsec >> (8 * 1)) & 0xFF;
+      *(outbuffer + offset + 2) = (this->stamp.nsec >> (8 * 2)) & 0xFF;
+      *(outbuffer + offset + 3) = (this->stamp.nsec >> (8 * 3)) & 0xFF;
       offset += sizeof(this->stamp.nsec);
-      long * length_frame_id = (long *)(outbuffer + offset);
+      uint32_t * length_frame_id = (uint32_t *)(outbuffer + offset);
       *length_frame_id = strlen( (const char*) this->frame_id);
       offset += 4;
       memcpy(outbuffer + offset, this->frame_id, *length_frame_id);
@@ -61,44 +46,26 @@ namespace std_msgs
     virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      union {
-        unsigned long real;
-        unsigned long base;
-      } u_seq;
-      u_seq.base = 0;
-      u_seq.base |= ((typeof(u_seq.base)) (*(inbuffer + offset + 0))) << (8 * 0);
-      u_seq.base |= ((typeof(u_seq.base)) (*(inbuffer + offset + 1))) << (8 * 1);
-      u_seq.base |= ((typeof(u_seq.base)) (*(inbuffer + offset + 2))) << (8 * 2);
-      u_seq.base |= ((typeof(u_seq.base)) (*(inbuffer + offset + 3))) << (8 * 3);
-      this->seq = u_seq.real;
+      this->seq =  ((uint32_t) (*(inbuffer + offset)));
+      this->seq |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1);
+      this->seq |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2);
+      this->seq |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       offset += sizeof(this->seq);
-      union {
-        unsigned long real;
-        unsigned long base;
-      } u_sec;
-      u_sec.base = 0;
-      u_sec.base |= ((typeof(u_sec.base)) (*(inbuffer + offset + 0))) << (8 * 0);
-      u_sec.base |= ((typeof(u_sec.base)) (*(inbuffer + offset + 1))) << (8 * 1);
-      u_sec.base |= ((typeof(u_sec.base)) (*(inbuffer + offset + 2))) << (8 * 2);
-      u_sec.base |= ((typeof(u_sec.base)) (*(inbuffer + offset + 3))) << (8 * 3);
-      this->stamp.sec = u_sec.real;
+      this->stamp.sec =  ((uint32_t) (*(inbuffer + offset)));
+      this->stamp.sec |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1);
+      this->stamp.sec |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2);
+      this->stamp.sec |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       offset += sizeof(this->stamp.sec);
-      union {
-        unsigned long real;
-        unsigned long base;
-      } u_nsec;
-      u_nsec.base = 0;
-      u_nsec.base |= ((typeof(u_nsec.base)) (*(inbuffer + offset + 0))) << (8 * 0);
-      u_nsec.base |= ((typeof(u_nsec.base)) (*(inbuffer + offset + 1))) << (8 * 1);
-      u_nsec.base |= ((typeof(u_nsec.base)) (*(inbuffer + offset + 2))) << (8 * 2);
-      u_nsec.base |= ((typeof(u_nsec.base)) (*(inbuffer + offset + 3))) << (8 * 3);
-      this->stamp.nsec = u_nsec.real;
+      this->stamp.nsec =  ((uint32_t) (*(inbuffer + offset)));
+      this->stamp.nsec |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1);
+      this->stamp.nsec |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2);
+      this->stamp.nsec |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       offset += sizeof(this->stamp.nsec);
       uint32_t length_frame_id = *(uint32_t *)(inbuffer + offset);
       offset += 4;
       for(unsigned int k= offset; k< offset+length_frame_id; ++k){
           inbuffer[k-1]=inbuffer[k];
-           }
+      }
       inbuffer[offset+length_frame_id-1]=0;
       this->frame_id = (char *)(inbuffer + offset-1);
       offset += length_frame_id;
@@ -106,6 +73,7 @@ namespace std_msgs
     }
 
     const char * getType(){ return "std_msgs/Header"; };
+    const char * getMD5(){ return "2176decaecbce78abc3b96ef049fabed"; };
 
   };
 

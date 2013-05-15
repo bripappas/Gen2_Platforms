@@ -1,9 +1,9 @@
-#ifndef ros_SERVICE_RequestParam_h
-#define ros_SERVICE_RequestParam_h
+#ifndef _ROS_SERVICE_RequestParam_h
+#define _ROS_SERVICE_RequestParam_h
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../ros/msg.h"
+#include "ros/msg.h"
 
 namespace rosserial_msgs
 {
@@ -15,10 +15,10 @@ static const char REQUESTPARAM[] = "rosserial_msgs/RequestParam";
     public:
       char * name;
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      long * length_name = (long *)(outbuffer + offset);
+      uint32_t * length_name = (uint32_t *)(outbuffer + offset);
       *length_name = strlen( (const char*) this->name);
       offset += 4;
       memcpy(outbuffer + offset, this->name, *length_name);
@@ -33,7 +33,7 @@ static const char REQUESTPARAM[] = "rosserial_msgs/RequestParam";
       offset += 4;
       for(unsigned int k= offset; k< offset+length_name; ++k){
           inbuffer[k-1]=inbuffer[k];
-           }
+      }
       inbuffer[offset+length_name-1]=0;
       this->name = (char *)(inbuffer + offset-1);
       offset += length_name;
@@ -41,33 +41,34 @@ static const char REQUESTPARAM[] = "rosserial_msgs/RequestParam";
     }
 
     const char * getType(){ return REQUESTPARAM; };
+    const char * getMD5(){ return "c1f3d28f1b044c871e6eff2e9fc3c667"; };
 
   };
 
   class RequestParamResponse : public ros::Msg
   {
     public:
-      unsigned char ints_length;
-      long st_ints;
-      long * ints;
-      unsigned char floats_length;
+      uint8_t ints_length;
+      int32_t st_ints;
+      int32_t * ints;
+      uint8_t floats_length;
       float st_floats;
       float * floats;
-      unsigned char strings_length;
+      uint8_t strings_length;
       char* st_strings;
       char* * strings;
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       *(outbuffer + offset++) = ints_length;
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
-      for( unsigned char i = 0; i < ints_length; i++){
+      for( uint8_t i = 0; i < ints_length; i++){
       union {
-        long real;
-        unsigned long base;
+        int32_t real;
+        uint32_t base;
       } u_intsi;
       u_intsi.real = this->ints[i];
       *(outbuffer + offset + 0) = (u_intsi.base >> (8 * 0)) & 0xFF;
@@ -80,10 +81,10 @@ static const char REQUESTPARAM[] = "rosserial_msgs/RequestParam";
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
-      for( unsigned char i = 0; i < floats_length; i++){
+      for( uint8_t i = 0; i < floats_length; i++){
       union {
         float real;
-        unsigned long base;
+        uint32_t base;
       } u_floatsi;
       u_floatsi.real = this->floats[i];
       *(outbuffer + offset + 0) = (u_floatsi.base >> (8 * 0)) & 0xFF;
@@ -96,8 +97,8 @@ static const char REQUESTPARAM[] = "rosserial_msgs/RequestParam";
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
-      for( unsigned char i = 0; i < strings_length; i++){
-      long * length_stringsi = (long *)(outbuffer + offset);
+      for( uint8_t i = 0; i < strings_length; i++){
+      uint32_t * length_stringsi = (uint32_t *)(outbuffer + offset);
       *length_stringsi = strlen( (const char*) this->strings[i]);
       offset += 4;
       memcpy(outbuffer + offset, this->strings[i], *length_stringsi);
@@ -109,55 +110,55 @@ static const char REQUESTPARAM[] = "rosserial_msgs/RequestParam";
     virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      unsigned char ints_lengthT = *(inbuffer + offset++);
+      uint8_t ints_lengthT = *(inbuffer + offset++);
       if(ints_lengthT > ints_length)
-        this->ints = (long*)realloc(this->ints, ints_lengthT * sizeof(long));
+        this->ints = (int32_t*)realloc(this->ints, ints_lengthT * sizeof(int32_t));
       offset += 3;
       ints_length = ints_lengthT;
-      for( unsigned char i = 0; i < ints_length; i++){
+      for( uint8_t i = 0; i < ints_length; i++){
       union {
-        long real;
-        unsigned long base;
+        int32_t real;
+        uint32_t base;
       } u_st_ints;
       u_st_ints.base = 0;
-      u_st_ints.base |= ((typeof(u_st_ints.base)) (*(inbuffer + offset + 0))) << (8 * 0);
-      u_st_ints.base |= ((typeof(u_st_ints.base)) (*(inbuffer + offset + 1))) << (8 * 1);
-      u_st_ints.base |= ((typeof(u_st_ints.base)) (*(inbuffer + offset + 2))) << (8 * 2);
-      u_st_ints.base |= ((typeof(u_st_ints.base)) (*(inbuffer + offset + 3))) << (8 * 3);
+      u_st_ints.base |= ((uint32_t) (*(inbuffer + offset + 0))) << (8 * 0);
+      u_st_ints.base |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1);
+      u_st_ints.base |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2);
+      u_st_ints.base |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       this->st_ints = u_st_ints.real;
       offset += sizeof(this->st_ints);
-        memcpy( &(this->ints[i]), &(this->st_ints), sizeof(long));
+        memcpy( &(this->ints[i]), &(this->st_ints), sizeof(int32_t));
       }
-      unsigned char floats_lengthT = *(inbuffer + offset++);
+      uint8_t floats_lengthT = *(inbuffer + offset++);
       if(floats_lengthT > floats_length)
         this->floats = (float*)realloc(this->floats, floats_lengthT * sizeof(float));
       offset += 3;
       floats_length = floats_lengthT;
-      for( unsigned char i = 0; i < floats_length; i++){
+      for( uint8_t i = 0; i < floats_length; i++){
       union {
         float real;
-        unsigned long base;
+        uint32_t base;
       } u_st_floats;
       u_st_floats.base = 0;
-      u_st_floats.base |= ((typeof(u_st_floats.base)) (*(inbuffer + offset + 0))) << (8 * 0);
-      u_st_floats.base |= ((typeof(u_st_floats.base)) (*(inbuffer + offset + 1))) << (8 * 1);
-      u_st_floats.base |= ((typeof(u_st_floats.base)) (*(inbuffer + offset + 2))) << (8 * 2);
-      u_st_floats.base |= ((typeof(u_st_floats.base)) (*(inbuffer + offset + 3))) << (8 * 3);
+      u_st_floats.base |= ((uint32_t) (*(inbuffer + offset + 0))) << (8 * 0);
+      u_st_floats.base |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1);
+      u_st_floats.base |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2);
+      u_st_floats.base |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       this->st_floats = u_st_floats.real;
       offset += sizeof(this->st_floats);
         memcpy( &(this->floats[i]), &(this->st_floats), sizeof(float));
       }
-      unsigned char strings_lengthT = *(inbuffer + offset++);
+      uint8_t strings_lengthT = *(inbuffer + offset++);
       if(strings_lengthT > strings_length)
         this->strings = (char**)realloc(this->strings, strings_lengthT * sizeof(char*));
       offset += 3;
       strings_length = strings_lengthT;
-      for( unsigned char i = 0; i < strings_length; i++){
+      for( uint8_t i = 0; i < strings_length; i++){
       uint32_t length_st_strings = *(uint32_t *)(inbuffer + offset);
       offset += 4;
       for(unsigned int k= offset; k< offset+length_st_strings; ++k){
           inbuffer[k-1]=inbuffer[k];
-           }
+      }
       inbuffer[offset+length_st_strings-1]=0;
       this->st_strings = (char *)(inbuffer + offset-1);
       offset += length_st_strings;
@@ -167,7 +168,14 @@ static const char REQUESTPARAM[] = "rosserial_msgs/RequestParam";
     }
 
     const char * getType(){ return REQUESTPARAM; };
+    const char * getMD5(){ return "9f0e98bda65981986ddf53afa7a40e49"; };
 
+  };
+
+  class RequestParam {
+    public:
+    typedef RequestParamRequest Request;
+    typedef RequestParamResponse Response;
   };
 
 }

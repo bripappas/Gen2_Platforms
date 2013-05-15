@@ -1,10 +1,10 @@
-#ifndef ros_geometry_msgs_WrenchStamped_h
-#define ros_geometry_msgs_WrenchStamped_h
+#ifndef _ROS_geometry_msgs_WrenchStamped_h
+#define _ROS_geometry_msgs_WrenchStamped_h
 
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../ros/msg.h"
+#include "ros/msg.h"
 #include "std_msgs/Header.h"
 #include "geometry_msgs/Wrench.h"
 
@@ -17,7 +17,7 @@ namespace geometry_msgs
       std_msgs::Header header;
       geometry_msgs::Wrench wrench;
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
@@ -34,6 +34,7 @@ namespace geometry_msgs
     }
 
     const char * getType(){ return "geometry_msgs/WrenchStamped"; };
+    const char * getMD5(){ return "d78d3cb249ce23087ade7e7d0c40cfa7"; };
 
   };
 

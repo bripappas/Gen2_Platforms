@@ -1,10 +1,10 @@
-#ifndef ros_std_msgs_String_h
-#define ros_std_msgs_String_h
+#ifndef _ROS_std_msgs_String_h
+#define _ROS_std_msgs_String_h
 
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../ros/msg.h"
+#include "ros/msg.h"
 
 namespace std_msgs
 {
@@ -14,10 +14,10 @@ namespace std_msgs
     public:
       char * data;
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      long * length_data = (long *)(outbuffer + offset);
+      uint32_t * length_data = (uint32_t *)(outbuffer + offset);
       *length_data = strlen( (const char*) this->data);
       offset += 4;
       memcpy(outbuffer + offset, this->data, *length_data);
@@ -32,7 +32,7 @@ namespace std_msgs
       offset += 4;
       for(unsigned int k= offset; k< offset+length_data; ++k){
           inbuffer[k-1]=inbuffer[k];
-           }
+      }
       inbuffer[offset+length_data-1]=0;
       this->data = (char *)(inbuffer + offset-1);
       offset += length_data;
@@ -40,6 +40,7 @@ namespace std_msgs
     }
 
     const char * getType(){ return "std_msgs/String"; };
+    const char * getMD5(){ return "992ce8a1687cec8c8bd883ec73ca41d1"; };
 
   };
 

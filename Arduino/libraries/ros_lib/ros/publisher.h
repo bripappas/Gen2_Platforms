@@ -32,30 +32,36 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PUBLISHER_H_
-#define PUBLISHER_H_
+#ifndef _ROS_PUBLISHER_H_
+#define _ROS_PUBLISHER_H_
 
-#include "node_output.h"
+#include "rosserial_msgs/TopicInfo.h"
+#include "node_handle.h"
 
-namespace ros{
+namespace ros {
 
   /* Generic Publisher */
   class Publisher
   {
     public:
-      Publisher( const char * topic_name, Msg * msg ): topic_(topic_name), msg_(msg){};
-      int publish( Msg * msg ){
-    	  return no_->publish(id_, msg_);
-      };
+      Publisher( const char * topic_name, Msg * msg, int endpoint=rosserial_msgs::TopicInfo::ID_PUBLISHER) :
+        topic_(topic_name), 
+        msg_(msg),
+        endpoint_(endpoint) {};
+
+      int publish( const Msg * msg ) { return nh_->publish(id_, msg); };
+      int getEndpointType(){ return endpoint_; }
 
       const char * topic_;
-
       Msg *msg_;
+      // id_ and no_ are set by NodeHandle when we advertise 
       int id_;
-      NodeOutput_* no_;
+      NodeHandleBase_* nh_;
+
+    private:
+      int endpoint_;
   };
 
 }
-
 
 #endif

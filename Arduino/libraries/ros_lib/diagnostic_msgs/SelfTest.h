@@ -1,9 +1,9 @@
-#ifndef ros_SERVICE_SelfTest_h
-#define ros_SERVICE_SelfTest_h
+#ifndef _ROS_SERVICE_SelfTest_h
+#define _ROS_SERVICE_SelfTest_h
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../ros/msg.h"
+#include "ros/msg.h"
 #include "diagnostic_msgs/DiagnosticStatus.h"
 
 namespace diagnostic_msgs
@@ -15,7 +15,7 @@ static const char SELFTEST[] = "diagnostic_msgs/SelfTest";
   {
     public:
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       return offset;
@@ -28,6 +28,7 @@ static const char SELFTEST[] = "diagnostic_msgs/SelfTest";
     }
 
     const char * getType(){ return SELFTEST; };
+    const char * getMD5(){ return "d41d8cd98f00b204e9800998ecf8427e"; };
 
   };
 
@@ -35,22 +36,22 @@ static const char SELFTEST[] = "diagnostic_msgs/SelfTest";
   {
     public:
       char * id;
-      unsigned char passed;
-      unsigned char status_length;
+      int8_t passed;
+      uint8_t status_length;
       diagnostic_msgs::DiagnosticStatus st_status;
       diagnostic_msgs::DiagnosticStatus * status;
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      long * length_id = (long *)(outbuffer + offset);
+      uint32_t * length_id = (uint32_t *)(outbuffer + offset);
       *length_id = strlen( (const char*) this->id);
       offset += 4;
       memcpy(outbuffer + offset, this->id, *length_id);
       offset += *length_id;
       union {
-        unsigned char real;
-        unsigned char base;
+        int8_t real;
+        uint8_t base;
       } u_passed;
       u_passed.real = this->passed;
       *(outbuffer + offset + 0) = (u_passed.base >> (8 * 0)) & 0xFF;
@@ -59,7 +60,7 @@ static const char SELFTEST[] = "diagnostic_msgs/SelfTest";
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
-      for( unsigned char i = 0; i < status_length; i++){
+      for( uint8_t i = 0; i < status_length; i++){
       offset += this->status[i].serialize(outbuffer + offset);
       }
       return offset;
@@ -72,24 +73,24 @@ static const char SELFTEST[] = "diagnostic_msgs/SelfTest";
       offset += 4;
       for(unsigned int k= offset; k< offset+length_id; ++k){
           inbuffer[k-1]=inbuffer[k];
-           }
+      }
       inbuffer[offset+length_id-1]=0;
       this->id = (char *)(inbuffer + offset-1);
       offset += length_id;
       union {
-        unsigned char real;
-        unsigned char base;
+        int8_t real;
+        uint8_t base;
       } u_passed;
       u_passed.base = 0;
-      u_passed.base |= ((typeof(u_passed.base)) (*(inbuffer + offset + 0))) << (8 * 0);
+      u_passed.base |= ((uint8_t) (*(inbuffer + offset + 0))) << (8 * 0);
       this->passed = u_passed.real;
       offset += sizeof(this->passed);
-      unsigned char status_lengthT = *(inbuffer + offset++);
+      uint8_t status_lengthT = *(inbuffer + offset++);
       if(status_lengthT > status_length)
         this->status = (diagnostic_msgs::DiagnosticStatus*)realloc(this->status, status_lengthT * sizeof(diagnostic_msgs::DiagnosticStatus));
       offset += 3;
       status_length = status_lengthT;
-      for( unsigned char i = 0; i < status_length; i++){
+      for( uint8_t i = 0; i < status_length; i++){
       offset += this->st_status.deserialize(inbuffer + offset);
         memcpy( &(this->status[i]), &(this->st_status), sizeof(diagnostic_msgs::DiagnosticStatus));
       }
@@ -97,7 +98,14 @@ static const char SELFTEST[] = "diagnostic_msgs/SelfTest";
     }
 
     const char * getType(){ return SELFTEST; };
+    const char * getMD5(){ return "74c9372c870a76da4fc2b3973978b898"; };
 
+  };
+
+  class SelfTest {
+    public:
+    typedef SelfTestRequest Request;
+    typedef SelfTestResponse Response;
   };
 
 }

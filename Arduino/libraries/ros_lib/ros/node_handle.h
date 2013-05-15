@@ -53,12 +53,23 @@
 
 #define MSG_TIMEOUT 20  //20 milliseconds to recieve all of message data
 
-#include "node_output.h"
+#include "msg.h"
+
+namespace ros {
+
+  class NodeHandleBase_{
+    public:
+      virtual int publish(int id, const Msg* msg)=0;
+      virtual int spinOnce()=0;
+      virtual bool connected()=0;
+    };
+
+}
 
 #include "publisher.h"
-#include "msg_receiver.h"
 #include "subscriber.h"
 #include "service_server.h"
+#include "service_client.h"
 
 namespace ros {
 
@@ -70,11 +81,10 @@ namespace ros {
            int MAX_PUBLISHERS=25,
            int INPUT_SIZE=512,
            int OUTPUT_SIZE=512>
-  class NodeHandle_
+  class NodeHandle_ : public NodeHandleBase_
   {
     protected:
       Hardware hardware_;
-      NodeOutput<Hardware, OUTPUT_SIZE> no_;
 
       /* time used for syncing */
       unsigned long rt_time;
@@ -83,15 +93,16 @@ namespace ros {
       unsigned long sec_offset, nsec_offset;
 
       unsigned char message_in[INPUT_SIZE];
+      unsigned char message_out[OUTPUT_SIZE];
 
       Publisher * publishers[MAX_PUBLISHERS];
-      MsgReceiver * receivers[MAX_SUBSCRIBERS];
+      Subscriber_ * subscribers[MAX_SUBSCRIBERS];
 
       /*
        * Setup Functions
        */
     public:
-      NodeHandle_() : no_(&hardware_) {}
+      NodeHandle_() : configured_(false) {}
       
       Hardware* getHardware(){
         return &hardware_;
@@ -104,7 +115,15 @@ namespace ros {
         bytes_ = 0;
         index_ = 0;
         topic_ = 0;
-        total_receivers=0;
+      };
+
+      /* Start a named port, which may be network server IP, initialize buffers */
+      void initNode(char *portName){
+        hardware_.init(portName);
+        mode_ = 0;
+        bytes_ = 0;
+        index_ = 0;
+        topic_ = 0;
       };
 
     protected:
@@ -115,33 +134,24 @@ namespace ros {
       int index_;
       int checksum_;
 
-      int total_receivers;
+      bool configured_;
 
       /* used for syncing the time */
       unsigned long last_sync_time;
       unsigned long last_sync_receive_time;
       unsigned long last_msg_timeout_time;
 
-      bool registerReceiver(MsgReceiver* rcv){
-        if (total_receivers >= MAX_SUBSCRIBERS)
-          return false;
-        receivers[total_receivers] = rcv;
-        rcv->id_ = 100+total_receivers;
-        total_receivers++;
-        return true;
-      }
-
     public:
       /* This function goes in your loop() function, it handles
        *  serial input and callbacks for subscribers.
        */
 
-      virtual void spinOnce(){
+      virtual int spinOnce(){
 
         /* restart if timed out */
         unsigned long c_time = hardware_.time();
         if( (c_time - last_sync_receive_time) > (SYNC_SECONDS*2200) ){
-            no_.setConfigured(false);
+            configured_ = false;
          }
          
         /* reset if message has timed out */
@@ -191,46 +201,49 @@ namespace ros {
             if(bytes_ == 0)
               mode_ = MODE_CHECKSUM;
           }else if( mode_ == MODE_CHECKSUM ){ /* do checksum */
+            mode_ = MODE_FIRST_FF;
             if( (checksum_%256) == 255){
               if(topic_ == TopicInfo::ID_PUBLISHER){
                 requestSyncTime();
                 negotiateTopics();
                 last_sync_time = c_time;
                 last_sync_receive_time = c_time;
+                return -1;
               }else if(topic_ == TopicInfo::ID_TIME){
                 syncTime(message_in);
               }else if (topic_ == TopicInfo::ID_PARAMETER_REQUEST){
                   req_param_resp.deserialize(message_in);
                   param_recieved= true;
               }else{
-                if(receivers[topic_-100])
-                  receivers[topic_-100]->receive( message_in );
+                if(subscribers[topic_-100])
+                  subscribers[topic_-100]->callback( message_in );
               }
             }
-            mode_ = MODE_FIRST_FF;
           }
         }
 
         /* occasionally sync time */
-        if( no_.configured() && ((c_time-last_sync_time) > (SYNC_SECONDS*500) )){
+        if( configured_ && ((c_time-last_sync_time) > (SYNC_SECONDS*500) )){
           requestSyncTime();
           last_sync_time = c_time;
         }
+
+        return 0;
       }
 
       /* Are we connected to the PC? */
-      bool connected() {
-        return no_.configured();
+      virtual bool connected() {
+        return configured_;
       };
 
-      /*
+      /********************************************************************
        * Time functions
        */
 
       void requestSyncTime()
       {
         std_msgs::Time t;
-        no_.publish(TopicInfo::ID_TIME, &t);
+        publish(TopicInfo::ID_TIME, &t);
         rt_time = hardware_.time();
       }
 
@@ -240,7 +253,6 @@ namespace ros {
         unsigned long offset = hardware_.time() - rt_time;
 
         t.deserialize(data);
-
         t.data.sec += offset/1000;
         t.data.nsec += (offset%1000)*1000000UL;
 
@@ -265,42 +277,67 @@ namespace ros {
         normalizeSecNSec(sec_offset, nsec_offset);
       }
 
-      /*
-       * Registration 
+      /********************************************************************
+       * Topic Management 
        */
 
+      /* Register a new publisher */    
       bool advertise(Publisher & p)
       {
-        int i;
-        for(i = 0; i < MAX_PUBLISHERS; i++)
-        {
-          if(publishers[i] == 0) // empty slot
-          {
+        for(int i = 0; i < MAX_PUBLISHERS; i++){
+          if(publishers[i] == 0){ // empty slot
             publishers[i] = &p;
             p.id_ = i+100+MAX_SUBSCRIBERS;
-            p.no_ = &this->no_;
+            p.nh_ = this;
             return true;
           }
         }
         return false;
       }
 
-      /* Register a subscriber with the node */
+      /* Register a new subscriber */
       template<typename MsgT>
-        bool subscribe(Subscriber< MsgT> &s){
-        return registerReceiver((MsgReceiver*) &s);
+      bool subscribe(Subscriber< MsgT> & s){
+        for(int i = 0; i < MAX_SUBSCRIBERS; i++){
+          if(subscribers[i] == 0){ // empty slot
+            subscribers[i] = (Subscriber_*) &s;
+            s.id_ = i+100;
+            return true;
+          }
+        }
+        return false;
       }
 
-      template<typename SrvReq, typename SrvResp>
-      bool advertiseService(ServiceServer<SrvReq,SrvResp>& srv){
-        srv.no_ = &no_;
-        return registerReceiver((MsgReceiver*) &srv);
+      /* Register a new Service Server */
+      template<typename MReq, typename MRes>
+      bool advertiseService(ServiceServer<MReq,MRes>& srv){
+        bool v = advertise(srv.pub);
+        for(int i = 0; i < MAX_SUBSCRIBERS; i++){
+          if(subscribers[i] == 0){ // empty slot
+            subscribers[i] = (Subscriber_*) &srv;
+            srv.id_ = i+100;
+            return v;
+          }
+        }
+        return false;
+      }
+
+      /* Register a new Service Client */
+      template<typename MReq, typename MRes>
+      bool serviceClient(ServiceClient<MReq, MRes>& srv){
+        bool v = advertise(srv.pub);
+        for(int i = 0; i < MAX_SUBSCRIBERS; i++){
+          if(subscribers[i] == 0){ // empty slot
+            subscribers[i] = (Subscriber_*) &srv;
+            srv.id_ = i+100;
+            return v;
+          }
+        }
+        return false;
       }
 
       void negotiateTopics()
       {
-        no_.setConfigured(true);
-
         rosserial_msgs::TopicInfo ti;
         int i;
         for(i = 0; i < MAX_PUBLISHERS; i++)
@@ -310,22 +347,57 @@ namespace ros {
             ti.topic_id = publishers[i]->id_;
             ti.topic_name = (char *) publishers[i]->topic_;
             ti.message_type = (char *) publishers[i]->msg_->getType();
-            no_.publish( TopicInfo::ID_PUBLISHER, &ti );
+            ti.md5sum = (char *) publishers[i]->msg_->getMD5();
+            ti.buffer_size = OUTPUT_SIZE;
+            publish( publishers[i]->getEndpointType(), &ti );
           }
         }
         for(i = 0; i < MAX_SUBSCRIBERS; i++)
         {
-          if(receivers[i] != 0) // non-empty slot
+          if(subscribers[i] != 0) // non-empty slot
           {
-            ti.topic_id = receivers[i]->id_;
-            ti.topic_name = (char *) receivers[i]->topic_;
-            ti.message_type = (char *) receivers[i]->getMsgType();
-            no_.publish( TopicInfo::ID_SUBSCRIBER, &ti );
+            ti.topic_id = subscribers[i]->id_;
+            ti.topic_name = (char *) subscribers[i]->topic_;
+            ti.message_type = (char *) subscribers[i]->getMsgType();
+            ti.md5sum = (char *) subscribers[i]->getMsgMD5();
+            ti.buffer_size = INPUT_SIZE;
+            publish( subscribers[i]->getEndpointType(), &ti );
           }
+        }
+        configured_ = true;
+      }
+
+      virtual int publish(int id, const Msg * msg)
+      {
+        if(id >= 100 && !configured_) return 0;
+
+        /* serialize message */
+        int l = msg->serialize(message_out+6);
+
+        /* setup the header */
+        message_out[0] = 0xff;
+        message_out[1] = 0xff;
+        message_out[2] = (unsigned char) id&255;
+        message_out[3] = (unsigned char) id>>8;
+        message_out[4] = (unsigned char) l&255;
+        message_out[5] = ((unsigned char) l>>8);
+
+        /* calculate checksum */
+        int chk = 0;
+        for(int i =2; i<l+6; i++)
+          chk += message_out[i];
+        l += 6;
+        message_out[l++] = 255 - (chk%256);
+
+        if( l <= OUTPUT_SIZE ){
+          hardware_.write(message_out, l);
+          return l;
+        }else{
+          logerror("Message from device dropped: message larger than buffer.");
         }
       }
 
-      /*
+      /********************************************************************
        * Logging
        */
 
@@ -334,12 +406,12 @@ namespace ros {
         rosserial_msgs::Log l;
         l.level= byte;
         l.msg = (char*)msg;
-        this->no_.publish(rosserial_msgs::TopicInfo::ID_LOG, &l);
+        publish(rosserial_msgs::TopicInfo::ID_LOG, &l);
       }
 
     public:
       void logdebug(const char* msg){
-        log(rosserial_msgs::Log::DEBUG, msg);
+        log(rosserial_msgs::Log::ROSDEBUG, msg);
       }
       void loginfo(const char * msg){
         log(rosserial_msgs::Log::INFO, msg);
@@ -354,9 +426,8 @@ namespace ros {
         log(rosserial_msgs::Log::FATAL, msg);
       }
 
-
-      /*
-       * Retrieve Parameters
+      /********************************************************************
+       * Parameters
        */
 
     private:
@@ -367,11 +438,11 @@ namespace ros {
         param_recieved = false;
         rosserial_msgs::RequestParamRequest req;
         req.name  = (char*)name;
-        no_.publish(TopicInfo::ID_PARAMETER_REQUEST, &req);
-        int end_time = hardware_.time();
+        publish(TopicInfo::ID_PARAMETER_REQUEST, &req);
+        int end_time = hardware_.time() + time_out;
         while(!param_recieved ){
           spinOnce();
-          if (end_time > hardware_.time()) return false;
+          if (hardware_.time() > end_time) return false;
         }
         return true;
       }

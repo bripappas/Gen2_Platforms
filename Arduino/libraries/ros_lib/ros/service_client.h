@@ -32,22 +32,50 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ROS_MSG_RECEIVER_H_
-#define ROS_MSG_RECEIVER_H_
+#ifndef _ROS_SERVICE_CLIENT_H_
+#define _ROS_SERVICE_CLIENT_H_
+
+#include "rosserial_msgs/TopicInfo.h"
+
+#include "publisher.h"
+#include "subscriber.h"
 
 namespace ros {
 
-  /* Base class for objects recieving messages (Services and Subscribers) */
-  class MsgReceiver
-  {
+  template<typename MReq , typename MRes>
+  class ServiceClient : public Subscriber_  {
     public:
-      virtual void receive(unsigned char *data)=0;
+      ServiceClient(const char* topic_name) : 
+        pub(topic_name, &req, rosserial_msgs::TopicInfo::ID_SERVICE_CLIENT + rosserial_msgs::TopicInfo::ID_PUBLISHER)
+      {
+        this->topic_ = topic_name;
+        this->waiting = true;
+      }
 
-      //Distinguishes between different receiver types
-      virtual int _getType()=0;
-      virtual const char * getMsgType()=0;
-      int id_;
-      const char * topic_;
+      virtual void call(const MReq & request, MRes & response)
+      {
+        if(!pub.nh_->connected()) return;
+        ret = &response;
+        waiting = true;
+        pub.publish(&request);
+        while(waiting && pub.nh_->connected())
+          if(pub.nh_->spinOnce() < 0) break;
+      }
+
+      // these refer to the subscriber
+      virtual void callback(unsigned char *data){
+        ret->deserialize(data);
+        waiting = false;
+      }
+      virtual const char * getMsgType(){ return this->resp.getType(); }
+      virtual const char * getMsgMD5(){ return this->resp.getMD5(); }
+      virtual int getEndpointType(){ return rosserial_msgs::TopicInfo::ID_SERVICE_CLIENT + rosserial_msgs::TopicInfo::ID_SUBSCRIBER; }
+
+      MReq req;
+      MRes resp;
+      MRes * ret;
+      bool waiting;
+      Publisher pub;
   };
 
 }

@@ -1,10 +1,10 @@
-#ifndef ros_std_msgs_Int8_h
-#define ros_std_msgs_Int8_h
+#ifndef _ROS_std_msgs_Int8_h
+#define _ROS_std_msgs_Int8_h
 
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../ros/msg.h"
+#include "ros/msg.h"
 
 namespace std_msgs
 {
@@ -12,14 +12,14 @@ namespace std_msgs
   class Int8 : public ros::Msg
   {
     public:
-      signed char data;
+      int8_t data;
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
-        signed char real;
-        unsigned char base;
+        int8_t real;
+        uint8_t base;
       } u_data;
       u_data.real = this->data;
       *(outbuffer + offset + 0) = (u_data.base >> (8 * 0)) & 0xFF;
@@ -31,17 +31,18 @@ namespace std_msgs
     {
       int offset = 0;
       union {
-        signed char real;
-        unsigned char base;
+        int8_t real;
+        uint8_t base;
       } u_data;
       u_data.base = 0;
-      u_data.base |= ((typeof(u_data.base)) (*(inbuffer + offset + 0))) << (8 * 0);
+      u_data.base |= ((uint8_t) (*(inbuffer + offset + 0))) << (8 * 0);
       this->data = u_data.real;
       offset += sizeof(this->data);
      return offset;
     }
 
     const char * getType(){ return "std_msgs/Int8"; };
+    const char * getMD5(){ return "27ffa0c9c4b8fb8492252bcad9e5c57b"; };
 
   };
 

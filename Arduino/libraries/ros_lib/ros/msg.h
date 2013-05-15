@@ -32,8 +32,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ROS_MSG_H_
-#define ROS_MSG_H_
+#ifndef _ROS_MSG_H_
+#define _ROS_MSG_H_
 
 namespace ros {
 
@@ -41,9 +41,10 @@ namespace ros {
   class Msg
   {
     public:
-      virtual int serialize(unsigned char *outbuffer) = 0;
+      virtual int serialize(unsigned char *outbuffer) const = 0;
 	  virtual int deserialize(unsigned char *data) = 0;
       virtual const char * getType() = 0;
+      virtual const char * getMD5() = 0;
   };
 
 }

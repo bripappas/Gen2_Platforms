@@ -1,10 +1,10 @@
-#ifndef ros_sensor_msgs_MagneticField_h
-#define ros_sensor_msgs_MagneticField_h
+#ifndef _ROS_sensor_msgs_MagneticField_h
+#define _ROS_sensor_msgs_MagneticField_h
 
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../ros/msg.h"
+#include "ros/msg.h"
 #include "std_msgs/Header.h"
 #include "geometry_msgs/Vector3.h"
 
@@ -18,18 +18,18 @@ namespace sensor_msgs
       geometry_msgs::Vector3 magnetic_field;
       float magnetic_field_covariance[9];
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
       offset += this->magnetic_field.serialize(outbuffer + offset);
       unsigned char * magnetic_field_covariance_val = (unsigned char *) this->magnetic_field_covariance;
-      for( unsigned char i = 0; i < 9; i++){
-      long * val_magnetic_field_covariancei = (long *) &(this->magnetic_field_covariance[i]);
-      long exp_magnetic_field_covariancei = (((*val_magnetic_field_covariancei)>>23)&255);
+      for( uint8_t i = 0; i < 9; i++){
+      int32_t * val_magnetic_field_covariancei = (int32_t *) &(this->magnetic_field_covariance[i]);
+      int32_t exp_magnetic_field_covariancei = (((*val_magnetic_field_covariancei)>>23)&255);
       if(exp_magnetic_field_covariancei != 0)
         exp_magnetic_field_covariancei += 1023-127;
-      long sig_magnetic_field_covariancei = *val_magnetic_field_covariancei;
+      int32_t sig_magnetic_field_covariancei = *val_magnetic_field_covariancei;
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
@@ -48,16 +48,16 @@ namespace sensor_msgs
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
       offset += this->magnetic_field.deserialize(inbuffer + offset);
-      unsigned char * magnetic_field_covariance_val = (unsigned char *) this->magnetic_field_covariance;
-      for( unsigned char i = 0; i < 9; i++){
-      unsigned long * val_magnetic_field_covariancei = (unsigned long*) &(this->magnetic_field_covariance[i]);
+      uint8_t * magnetic_field_covariance_val = (uint8_t*) this->magnetic_field_covariance;
+      for( uint8_t i = 0; i < 9; i++){
+      uint32_t * val_magnetic_field_covariancei = (uint32_t*) &(this->magnetic_field_covariance[i]);
       offset += 3;
-      *val_magnetic_field_covariancei = ((unsigned long)(*(inbuffer + offset++))>>5 & 0x07);
-      *val_magnetic_field_covariancei |= ((unsigned long)(*(inbuffer + offset++)) & 0xff)<<3;
-      *val_magnetic_field_covariancei |= ((unsigned long)(*(inbuffer + offset++)) & 0xff)<<11;
-      *val_magnetic_field_covariancei |= ((unsigned long)(*(inbuffer + offset)) & 0x0f)<<19;
-      unsigned long exp_magnetic_field_covariancei = ((unsigned long)(*(inbuffer + offset++))&0xf0)>>4;
-      exp_magnetic_field_covariancei |= ((unsigned long)(*(inbuffer + offset)) & 0x7f)<<4;
+      *val_magnetic_field_covariancei = ((uint32_t)(*(inbuffer + offset++))>>5 & 0x07);
+      *val_magnetic_field_covariancei |= ((uint32_t)(*(inbuffer + offset++)) & 0xff)<<3;
+      *val_magnetic_field_covariancei |= ((uint32_t)(*(inbuffer + offset++)) & 0xff)<<11;
+      *val_magnetic_field_covariancei |= ((uint32_t)(*(inbuffer + offset)) & 0x0f)<<19;
+      uint32_t exp_magnetic_field_covariancei = ((uint32_t)(*(inbuffer + offset++))&0xf0)>>4;
+      exp_magnetic_field_covariancei |= ((uint32_t)(*(inbuffer + offset)) & 0x7f)<<4;
       if(exp_magnetic_field_covariancei !=0)
         *val_magnetic_field_covariancei |= ((exp_magnetic_field_covariancei)-1023+127)<<23;
       if( ((*(inbuffer+offset++)) & 0x80) > 0) this->magnetic_field_covariance[i] = -this->magnetic_field_covariance[i];
@@ -66,6 +66,7 @@ namespace sensor_msgs
     }
 
     const char * getType(){ return "sensor_msgs/MagneticField"; };
+    const char * getMD5(){ return "2f3b0b43eed0c9501de0fa3ff89a45aa"; };
 
   };
 

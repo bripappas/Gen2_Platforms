@@ -1,10 +1,10 @@
-#ifndef ros_sensor_msgs_ChannelFloat32_h
-#define ros_sensor_msgs_ChannelFloat32_h
+#ifndef _ROS_sensor_msgs_ChannelFloat32_h
+#define _ROS_sensor_msgs_ChannelFloat32_h
 
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../ros/msg.h"
+#include "ros/msg.h"
 
 namespace sensor_msgs
 {
@@ -13,14 +13,14 @@ namespace sensor_msgs
   {
     public:
       char * name;
-      unsigned char values_length;
+      uint8_t values_length;
       float st_values;
       float * values;
 
-    virtual int serialize(unsigned char *outbuffer)
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      long * length_name = (long *)(outbuffer + offset);
+      uint32_t * length_name = (uint32_t *)(outbuffer + offset);
       *length_name = strlen( (const char*) this->name);
       offset += 4;
       memcpy(outbuffer + offset, this->name, *length_name);
@@ -29,10 +29,10 @@ namespace sensor_msgs
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
-      for( unsigned char i = 0; i < values_length; i++){
+      for( uint8_t i = 0; i < values_length; i++){
       union {
         float real;
-        unsigned long base;
+        uint32_t base;
       } u_valuesi;
       u_valuesi.real = this->values[i];
       *(outbuffer + offset + 0) = (u_valuesi.base >> (8 * 0)) & 0xFF;
@@ -51,25 +51,25 @@ namespace sensor_msgs
       offset += 4;
       for(unsigned int k= offset; k< offset+length_name; ++k){
           inbuffer[k-1]=inbuffer[k];
-           }
+      }
       inbuffer[offset+length_name-1]=0;
       this->name = (char *)(inbuffer + offset-1);
       offset += length_name;
-      unsigned char values_lengthT = *(inbuffer + offset++);
+      uint8_t values_lengthT = *(inbuffer + offset++);
       if(values_lengthT > values_length)
         this->values = (float*)realloc(this->values, values_lengthT * sizeof(float));
       offset += 3;
       values_length = values_lengthT;
-      for( unsigned char i = 0; i < values_length; i++){
+      for( uint8_t i = 0; i < values_length; i++){
       union {
         float real;
-        unsigned long base;
+        uint32_t base;
       } u_st_values;
       u_st_values.base = 0;
-      u_st_values.base |= ((typeof(u_st_values.base)) (*(inbuffer + offset + 0))) << (8 * 0);
-      u_st_values.base |= ((typeof(u_st_values.base)) (*(inbuffer + offset + 1))) << (8 * 1);
-      u_st_values.base |= ((typeof(u_st_values.base)) (*(inbuffer + offset + 2))) << (8 * 2);
-      u_st_values.base |= ((typeof(u_st_values.base)) (*(inbuffer + offset + 3))) << (8 * 3);
+      u_st_values.base |= ((uint32_t) (*(inbuffer + offset + 0))) << (8 * 0);
+      u_st_values.base |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1);
+      u_st_values.base |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2);
+      u_st_values.base |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       this->st_values = u_st_values.real;
       offset += sizeof(this->st_values);
         memcpy( &(this->values[i]), &(this->st_values), sizeof(float));
@@ -78,6 +78,7 @@ namespace sensor_msgs
     }
 
     const char * getType(){ return "sensor_msgs/ChannelFloat32"; };
+    const char * getMD5(){ return "3d40139cdd33dfedcb71ffeeeb42ae7f"; };
 
   };
 
