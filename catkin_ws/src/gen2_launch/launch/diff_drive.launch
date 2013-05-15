@@ -1,7 +1,7 @@
-<launch>
+<launch>ro
   <rosparam param="ticks_meter">4300</rosparam>
 
-  <node pkg="differential_drive" type="pid_velocity.py" name="lpid_velocity">
+  <node pkg="diff_drive" type="pid_velocity.py" name="lpid_velocity">
       <remap from="wheel" to="lwheel"/>
       <remap from="motor_cmd" to="l_motor_cmd"/>
       <remap from="wheel_vtarget" to="lwheel_vtarget"/>
@@ -15,7 +15,7 @@
       <rosparam param="timeout_ticks">4</rosparam>
       <rosparam param="rolling_pts">5</rosparam>
   </node>
-  <node pkg="differential_drive" type="pid_velocity.py" name="rpid_velocity">
+  <node pkg="diff_drive" type="pid_velocity.py" name="rpid_velocity">
       <remap from="wheel" to="rwheel"/>
       <remap from="motor_cmd" to="r_motor_cmd"/>
       <remap from="wheel_vtarget" to="rwheel_vtarget"/>
@@ -30,8 +30,8 @@
       <rosparam param="rolling_pts">5</rosparam>
   </node>
 
-  <node pkg="differential_drive" type="virtual_joystick.py" name="virtual_joystick" output="screen"/>
-  <node pkg="differential_drive" type="twist_to_motors.py" name="twist_to_motors" output="screen">
+  <node pkg="diff_drive" type="virtual_joystick.py" name="virtual_joystick" output="screen"/>
+  <node pkg="diff_drive" type="twist_to_motors.py" name="twist_to_motors" output="screen">
     <rosparam param="base_width">0.245</rosparam>
   </node>
 
