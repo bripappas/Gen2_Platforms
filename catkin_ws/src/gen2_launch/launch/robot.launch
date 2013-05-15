@@ -1,6 +1,9 @@
 <!--Launch base robot nodes (robot.launch) -->
 
 <launch>
-<!-- Launch Rosserial -->
+	<!-- Launch Rosserial -->
     <include file="$(find gen2_launch)/launch/arduino.launch" />
+    
+	<!-- Launch Diff-Drive -->
+    <include file="$(find gen2_launch)/launch/diff_drive.launch" />
 </launch>
