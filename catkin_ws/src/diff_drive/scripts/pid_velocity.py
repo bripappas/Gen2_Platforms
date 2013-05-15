@@ -104,6 +104,10 @@ class PidVelocity():
         self.derivative = 0.0 
         self.vel = 0.0
         
+        self.Kp = rospy.get_param('~Kp',10)
+        self.Ki = rospy.get_param('~Ki',10)
+        self.Kd = rospy.get_param('~Kd',0.001)
+        
         # only do the loop if we've recently recieved a target velocity message
         while not rospy.is_shutdown() and self.ticks_since_target < self.timeout_ticks:
             self.calcVelocity()
