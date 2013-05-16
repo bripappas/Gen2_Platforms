@@ -133,8 +133,8 @@ def main():
     global r_min
     global r_max
     
-    x_min = rospy.get_param("~x_min", -0.20)
-    x_max = rospy.get_param("~x_max", 0.20)
+    x_min = rospy.get_param("~x_min", -0.50)
+    x_max = rospy.get_param("~x_max", 0.50)
     r_min = rospy.get_param("~r_min", -1.0)
     r_max = rospy.get_param("~r_max", 1.0)
     
