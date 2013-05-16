@@ -94,8 +94,8 @@ class PidVelocity():
 			self.Kp = rospy.get_param('~Kp',10)
 			self.Ki = rospy.get_param('~Ki',10)
 			self.Kd = rospy.get_param('~Kd',0.001)
-            self.spinOnce()
-            self.r.sleep()
+			self.spinOnce()
+			self.r.sleep()
             
     #####################################################
     def spinOnce(self):
