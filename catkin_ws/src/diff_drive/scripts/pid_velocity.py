@@ -91,6 +91,9 @@ class PidVelocity():
         self.wheel_prev = self.wheel_latest
         self.then = rospy.Time.now()
         while not rospy.is_shutdown():
+			self.Kp = rospy.get_param('~Kp',10)
+			self.Ki = rospy.get_param('~Ki',10)
+			self.Kd = rospy.get_param('~Kd',0.001)
             self.spinOnce()
             self.r.sleep()
             
@@ -103,10 +106,6 @@ class PidVelocity():
         self.error = 0.0
         self.derivative = 0.0 
         self.vel = 0.0
-        
-        self.Kp = rospy.get_param('~Kp',10)
-        self.Ki = rospy.get_param('~Ki',10)
-        self.Kd = rospy.get_param('~Kd',0.001)
         
         # only do the loop if we've recently recieved a target velocity message
         while not rospy.is_shutdown() and self.ticks_since_target < self.timeout_ticks:
