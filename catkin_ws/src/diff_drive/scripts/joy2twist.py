@@ -29,7 +29,7 @@ class Joy2Twist(object):
         """Handles incoming Joy messages"""
         msg = Twist()
         msg.linear.x = data.axes[1] * LINEAR_SPEED * (1 + data.axes[8]*-6)
-        msg.angular.z = data.axes[0] * ANGULAR_SPEED * (1 + data.axes[8]*-4)
+        msg.angular.z = data.axes[0] * ANGULAR_SPEED * (1 + data.axes[8]*-6)
         self.twist_publisher.publish(msg)
  
 ### If Main ###

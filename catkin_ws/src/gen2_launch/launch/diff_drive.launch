@@ -12,7 +12,7 @@
       <rosparam param="out_min">-255</rosparam>
       <rosparam param="out_max">255</rosparam>
       <rosparam param="rate">30</rosparam>
-      <rosparam param="timeout_ticks">4</rosparam>
+      <rosparam param="timeout_ticks">1000</rosparam>
       <rosparam param="rolling_pts">5</rosparam>
   </node>
   <node pkg="diff_drive" type="pid_velocity.py" name="rpid_velocity">
@@ -26,13 +26,14 @@
       <rosparam param="out_min">-255</rosparam>
       <rosparam param="out_max">255</rosparam>
       <rosparam param="rate">30</rosparam>
-      <rosparam param="timeout_ticks">4</rosparam>
+      <rosparam param="timeout_ticks">1000</rosparam>
       <rosparam param="rolling_pts">5</rosparam>
   </node>
 
   <!--<node pkg="diff_drive" type="virtual_joystick.py" name="virtual_joystick" output="screen"/>-->
   <node pkg="diff_drive" type="twist_to_motors.py" name="twist_to_motors" output="screen">
     <rosparam param="base_width">0.245</rosparam>
+    <rosparam param="rate">30</rosparam>
   </node>
   
   <!-- joy node -->
