@@ -19,7 +19,7 @@ class Joy2Twist(object):
         self.joy_subscriber = rospy.Subscriber("joy", Joy, self.handleJoyMessage, queue_size=1)
         
         # Setup the Twist topic publisher
-        self.twist_publisher = rospy.Publisher("cmd_vel", Twist)
+        self.twist_publisher = rospy.Publisher("twist", Twist)
         
         # Spin
         rospy.spin()
