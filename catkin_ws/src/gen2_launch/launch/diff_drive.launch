@@ -30,9 +30,14 @@
       <rosparam param="rolling_pts">5</rosparam>
   </node>
 
-  <node pkg="diff_drive" type="virtual_joystick.py" name="virtual_joystick" output="screen"/>
+  <!--<node pkg="diff_drive" type="virtual_joystick.py" name="virtual_joystick" output="screen"/>-->
   <node pkg="diff_drive" type="twist_to_motors.py" name="twist_to_motors" output="screen">
     <rosparam param="base_width">0.245</rosparam>
   </node>
-
+  
+  <!-- joy node -->
+  <node respawn="true" pkg="joy" type="joy_node" name="joy_node" />
+  
+  <!-- joy2twist node -->
+  <node respawn="true" pkg="diff_drive" type="joy2twist.py" name="joy2twist" />
 </launch>
