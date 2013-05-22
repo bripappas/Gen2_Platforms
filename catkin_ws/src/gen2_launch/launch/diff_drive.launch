@@ -32,8 +32,12 @@
 
   <!--<node pkg="diff_drive" type="virtual_joystick.py" name="virtual_joystick" output="screen"/>-->
   <node pkg="diff_drive" type="twist_to_motors.py" name="twist_to_motors" output="screen">
-    <rosparam param="base_width">0.245</rosparam>
-    <rosparam param="rate">30</rosparam>
+    <rosparam param="base_width">0.35</rosparam>
+    <rosparam param="rate">40</rosparam>
+  </node>
+  
+  <node pkg="diff_drive" type="diff_tf.py" name="diff_tf" output="screen">
+    <rosparam param="base_width">0.35</rosparam>
   </node>
   
   <!-- joy node -->
