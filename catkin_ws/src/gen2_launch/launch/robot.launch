@@ -1,6 +1,9 @@
 <!--Launch base robot nodes (robot.launch) -->
 
 <launch>
+	<!-- Start static transforms -->
+    <include file="$(find gen2_launch)/launch/transforms.launch" />
+    
 	<!-- Launch Rosserial -->
     <include file="$(find gen2_launch)/launch/arduino.launch" />
     
