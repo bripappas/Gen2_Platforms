@@ -31,11 +31,6 @@
 
 <!-- base plate links and joints -->
 	<link name="base_footprint">
-	    <inertial>
-		<mass value="0.0001" />
-		<origin xyz="0 0 0" />
-		<inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001" />
-	    </inertial>	
 	    <visual>
 		<origin xyz="0 0 0" rpy="0 0 0" />
 		<geometry>
