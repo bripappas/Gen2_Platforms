@@ -44,7 +44,7 @@ def gyroCallback(msg):
 		angular_vel=0
 	yaw+=(angular_vel*dt)
 	
-	print(dt)
+	print(yaw)
 	
 	imu=Imu()
 	imu.header.stamp = currentTime
