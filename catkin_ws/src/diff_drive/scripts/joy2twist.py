@@ -4,7 +4,7 @@ import roslib; roslib.load_manifest('diff_drive')
 import rospy
 from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
-import sys
+
 
 LINEAR_SPEED = 0.3
 ANGULAR_SPEED = 1.5
@@ -34,7 +34,4 @@ class Joy2Twist(object):
  
 ### If Main ###
 if __name__ == '__main__':
-    try:
         Joy2Twist()
-    except:
-        rospy.logerr("Unhandled Exception in the joy2Twist Node:+\n"+traceback.format_exc())

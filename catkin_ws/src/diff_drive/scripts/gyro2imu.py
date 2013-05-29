@@ -36,11 +36,11 @@ def gyroCallback(msg):
 		if len(buffer) > buffer_length:
 			buffer.pop(0)
 			
-			
 	gyro_cal=numpy.mean(buffer)
+		
 	angular_vel=-(((gyroRaw-gyro_cal)/gyro_cal)*300*math.pi/180*gyroScale);
 	
-	if math.fabs(angular_vel) < 0.0:
+	if math.fabs(angular_vel) < 0.08:
 		angular_vel=0
 	yaw+=(angular_vel*dt)
 	
