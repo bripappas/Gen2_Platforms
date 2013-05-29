@@ -14,7 +14,7 @@ buffer=[]				#Array to average to calculate calibrated gyro value
 gyro_cal=0;				#mean of buffer
 gyroScale=1.25;			#Factor to scale gyro by
 
-imuPub=rospy.Publisher('imu',Imu)
+imuPub=rospy.Publisher('imu_data',Imu)
 previousTime=rospy.Time()
 yaw=0
 angular_vel=0
@@ -53,6 +53,7 @@ def publish_imu():
 			buffer.pop(0)
 			
 		gyro_cal=numpy.mean(buffer)
+		angular_vel=0
 	
 	else:	
 		angular_vel=-(((gyroRaw-gyro_cal)/gyro_cal)*300*gyroScale)*math.pi/180;
@@ -61,11 +62,12 @@ def publish_imu():
 			angular_vel=0
 		yaw+=(angular_vel*dt)
 		
-		print(yaw)
+		rospy.loginfo("Yaw %s" % yaw)
+		rospy.loginfo("Yaw Vel %s" % angular_vel)
 	
 	imu=Imu()
 	imu.header.stamp = currentTime
-	imu.header.frame_id = 'imu'
+	imu.header.frame_id = 'gyro_link'
 	imu.orientation.x=0
 	imu.orientation.y=0
 	imu.orientation.z=math.sin(yaw/2)

@@ -164,13 +164,13 @@ class DiffTf:
             quaternion.y = 0.0
             quaternion.z = sin( self.th / 2 )
             quaternion.w = cos( self.th / 2 )
-            self.odomBroadcaster.sendTransform(
-                (self.x, self.y, 0),
-                (quaternion.x, quaternion.y, quaternion.z, quaternion.w),
-                rospy.Time.now(),
-                self.base_frame_id,
-                self.odom_frame_id
-                )
+            #self.odomBroadcaster.sendTransform(
+            #   (self.x, self.y, 0),
+            #    (quaternion.x, quaternion.y, quaternion.z, quaternion.w),
+            #    rospy.Time.now(),
+            #    self.base_frame_id,
+            #    self.odom_frame_id
+            #    )
             
             odom = Odometry()
             odom.header.stamp = now
@@ -179,10 +179,22 @@ class DiffTf:
             odom.pose.pose.position.y = self.y
             odom.pose.pose.position.z = 0
             odom.pose.pose.orientation = quaternion
+            odom.pose.covariance=[1e-9, 0, 0, 0, 0, 0,  
+								0, 1e-3, 1e-9, 0, 0, 0, 
+								0, 0, 1e6, 0, 0, 0, 
+								0, 0, 0, 1e6, 0, 0, 
+								0, 0, 0, 0, 1e6, 0, 
+								0, 0, 0, 0, 0, 1e-9]
             odom.child_frame_id = self.base_frame_id
             odom.twist.twist.linear.x = self.dx
             odom.twist.twist.linear.y = 0
             odom.twist.twist.angular.z = self.dr
+            odom.twist.covariance=[1e-9, 0, 0, 0, 0, 0,  
+								0, 1e-3, 1e-9, 0, 0, 0, 
+								0, 0, 1e6, 0, 0, 0, 
+								0, 0, 0, 1e6, 0, 0, 
+								0, 0, 0, 0, 1e6, 0, 
+								0, 0, 0, 0, 0, 1e-9]
             self.odomPub.publish(odom)
             
             
