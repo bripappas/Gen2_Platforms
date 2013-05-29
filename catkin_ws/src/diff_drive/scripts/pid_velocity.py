@@ -108,7 +108,7 @@ class PidVelocity():
         self.vel = 0.0
         
         # only do the loop if we've recently recieved a target velocity message
-        while not rospy.is_shutdown() and self.ticks_since_target < self.timeout_ticks:
+        while not rospy.is_shutdown() #and self.ticks_since_target < self.timeout_ticks:
             self.calcVelocity()
             self.doPid()
             self.pub_motor.publish(self.motor)

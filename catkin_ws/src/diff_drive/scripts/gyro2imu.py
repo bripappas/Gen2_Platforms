@@ -40,9 +40,9 @@ def gyroCallback(msg):
 		
 	angular_vel=-(((gyroRaw-gyro_cal)/gyro_cal)*300*math.pi/180*gyroScale);
 	
-	if math.fabs(angular_vel) < 0.08:
+	if math.fabs(angular_vel) < 0.00:
 		angular_vel=0
-	yaw+=(angular_vel*dt)
+	yaw+=(angular_vel*dt)*180
 	
 	print(yaw)
 	
