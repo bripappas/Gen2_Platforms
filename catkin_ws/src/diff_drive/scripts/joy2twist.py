@@ -7,7 +7,7 @@ from geometry_msgs.msg import Twist
 
 
 LINEAR_SPEED = 0.3
-ANGULAR_SPEED = 1.5
+ANGULAR_SPEED = 1.2
 
 class Joy2Twist(object):
     """Joy2Twist ROS Node"""

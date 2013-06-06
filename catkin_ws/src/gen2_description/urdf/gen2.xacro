@@ -102,8 +102,6 @@
 	</joint>
 
 
-
-
 	<joint name="base_middle_joint" type="fixed">
 		<origin xyz=" 0 0 0.25" rpy="0 0 0" />        
 		<parent link="base_link" />
@@ -519,13 +517,13 @@
 <!-- kinnect links and joints -->
 
 
-	<joint name="base_kinect_joint" type="fixed">
+	<joint name="base_camera_joint" type="fixed">
   	        <origin xyz="0.14 0 0.055" rpy="0 0 0" />
  	        <parent link="base_middle_link" />
-                <child link="kinect_link" />
+                <child link="camera_link" />
        </joint>
 
-       <link name="kinect_link">
+       <link name="camera_link">
          <inertial>
           <mass value="0.00001" />
           <origin xyz="0 0 0" />
@@ -550,13 +548,13 @@
 
          </link>
 
-  <joint name="kinect_depth_joint" type="fixed">
+  <joint name="camera_depth_joint" type="fixed">
     <origin xyz="0 0.018 0" rpy="0 0 0" />
-    <parent link="kinect_link" />
-    <child link="kinect_depth_frame" />
+    <parent link="camera_link" />
+    <child link="camera_depth_frame" />
   </joint>
 
-  <link name="kinect_depth_frame">
+  <link name="camera_depth_frame">
     <inertial>
       <mass value="0.000001" />
       <origin xyz="0 0 0" />
@@ -566,13 +564,13 @@
     </inertial>
   </link>
 
-  <joint name="kinect_depth_optical_joint" type="fixed">
+  <joint name="camera_depth_optical_joint" type="fixed">
     <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
-    <parent link="kinect_depth_frame" />
-    <child link="kinect_depth_optical_frame" />
+    <parent link="camera_depth_frame" />
+    <child link="camera_depth_optical_frame" />
   </joint>
 
-  <link name="kinect_depth_optical_frame">
+  <link name="camera_depth_optical_frame">
     <inertial>
       <mass value="0.000001" />
       <origin xyz="0 0 0" />
@@ -583,13 +581,13 @@
   </link>
 
 
-  <joint name="kinect_rgb_joint" type="fixed">
+  <joint name="camera_rgb_joint" type="fixed">
     <origin xyz="0 -0.005 0" rpy="0 0 0" />
-    <parent link="kinect_link" />
-    <child link="kinect_rgb_frame" />
+    <parent link="camera_link" />
+    <child link="camera_rgb_frame" />
   </joint>
 
-  <link name="kinect_rgb_frame">
+  <link name="camera_rgb_frame">
     <inertial>
       <mass value="0.000001" />
       <origin xyz="0 0 0" />
@@ -600,13 +598,13 @@
   </link>
 
 
-  <joint name="kinect_rgb_optical_joint" type="fixed">
+  <joint name="camera_rgb_optical_joint" type="fixed">
     <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
-    <parent link="kinect_rgb_frame" />
-    <child link="kinect_rgb_optical_frame" />
+    <parent link="camera_rgb_frame" />
+    <child link="camera_rgb_optical_frame" />
   </joint>
 
-  <link name="kinect_rgb_optical_frame">
+  <link name="camera_rgb_optical_frame">
     <inertial>
       <mass value="0.000001" />
       <origin xyz="0 0 0" />
@@ -642,29 +640,6 @@
     </inertial>
   </link>
 
-<!--laser link and joint -->
-
- <joint name="laser_joint" type="fixed">
-    <origin xyz="-0.065 0 0.075" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="laser" />
-  </joint>
-
-  <link name="laser">
-    <visual>
-      <geometry>
-        <box size="0.02 0.035 0.002" />
-      </geometry>
-      <material name="Green" />
-    </visual>
-    <inertial>
-      <mass value="0.000001" />
-      <origin xyz="0 0 0" />
-      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-        iyy="0.0001" iyz="0.0"
-        izz="0.0001" />
-    </inertial>
-  </link>
 
 
 </robot>
