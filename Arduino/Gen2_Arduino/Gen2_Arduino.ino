@@ -90,6 +90,11 @@ void setup()
   nh.subscribe(l_cmd_sub);
   nh.subscribe(r_cmd_sub);
   
+  int myEraser = 7;
+  int myPrescaler =1;
+  TCCR3B &= ~myEraser; 
+  TCCR3B |= myPrescaler;
+  
   //Start serial interface
   //Serial.begin(9600);
 }
