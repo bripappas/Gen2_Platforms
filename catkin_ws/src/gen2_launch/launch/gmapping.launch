@@ -1,6 +1,9 @@
 <launch>
 
-    <arg name="scan_topic" default="scan" />
+	<!-- Start laser scan sensor -->
+    <include file="$(find gen2_launch)/launch/include/sensor.launch" />
+
+  <arg name="scan_topic" default="scan" />
 
   <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
     <param name="base_frame" value="base_footprint"/>

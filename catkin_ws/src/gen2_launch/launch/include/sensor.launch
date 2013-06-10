@@ -1,11 +1,11 @@
 <!--Launches the chosen laser scan sensor-->
-
-<!--Choose which sensor to use to generate the laser scan.  Choose only one-->
-<arg name="kinect" value="1" /> <!--Set to 1 if using Kinect -->
-<arg name="hokuyo" value="0" />	<!--Set to 1 if using Hokuyo -->
-
 <launch>
-	<group if=="$(arg kinect)">
+	<!--Choose which sensor to use to generate the laser scan.  Choose only one-->
+	<arg name="kinect" value="0" /> <!--Set to 1 if using Kinect -->
+	<arg name="hokuyo" value="1" />	<!--Set to 1 if using Hokuyo -->
+
+
+	<group if="$(arg kinect)">
 		<!-- Start Kinect (openni_launch) -->
 		<include file="$(find openni_launch)/launch/openni.launch" />
 		
@@ -15,12 +15,12 @@
 	</node>
 	</group>
 	
-	<group if=="$(arg hokuyo)">
+	<group if="$(arg hokuyo)">
 		<node pkg="hokuyo_node" type="hokuyo_node" name="base_hokuyo_node">
-			<param name="port" type="string" value="/dev/ttyACM1" />
-			<param name="frame_id" type="string" value="base_link" />
-			<param name="min_ang" type="double" value="-2.1" />
-			<param name="max_ang" type="double" value="2.1" />
+			<param name="port" type="string" value="/dev/ttyACM2" />
+			<param name="frame_id" type="string" value="camera_link" />
+			<param name="min_ang" type="double" value="-1.6" />
+			<param name="max_ang" type="double" value="1.6" />
 			<param name="skip" type="int" value="0" />
 			<param name="intensity" value="false" />
 		</node>
