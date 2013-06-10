@@ -1,7 +1,7 @@
 //ROS includes
 #include <ros.h>
 #include <std_msgs/Int16.h>
-#include <std_msgs/Float32.h>
+#include <std_msgs/Float32.h> 
 
 //Gen2 Includes
 #include <gen2_motor.h>
@@ -91,7 +91,7 @@ void setup()
   nh.subscribe(r_cmd_sub);
   
   int myEraser = 7;
-  int myPrescaler =1;
+  int myPrescaler =4;
   TCCR3B &= ~myEraser; 
   TCCR3B |= myPrescaler;
   
