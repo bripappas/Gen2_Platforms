@@ -2,11 +2,11 @@
 
 <launch>
 	<!-- Start static transforms -->
-    <include file="$(find gen2_launch)/launch/transforms.launch" />
+    <include file="$(find gen2_launch)/launch/include/transforms.launch" />
     
 	<!-- Launch Rosserial -->
-    <include file="$(find gen2_launch)/launch/arduino.launch" />
+    <include file="$(find gen2_launch)/launch/include/arduino.launch" />
     
 	<!-- Launch Diff-Drive -->
-    <include file="$(find gen2_launch)/launch/diff_drive.launch" />
+    <include file="$(find gen2_launch)/launch/include/diff_drive.launch" />
 </launch>

@@ -1,0 +1,7 @@
+ <launch>
+	<!-- joy node -->
+	<node respawn="true" pkg="joy" type="joy_node" name="joy_node" />
+  
+	<!-- joy2twist node -->
+	<node respawn="true" pkg="diff_drive" type="joy2twist.py" name="joy2twist" />
+ </launch>
