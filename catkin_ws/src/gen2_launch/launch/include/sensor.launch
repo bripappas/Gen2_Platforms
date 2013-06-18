@@ -18,7 +18,7 @@
 	<group if="$(arg hokuyo)">
 		<node pkg="hokuyo_node" type="hokuyo_node" name="base_hokuyo_node">
 			<param name="port" type="string" value="/dev/ttyACM1" />
-			<param name="frame_id" type="string" value="camera_link" />
+			<param name="frame_id" type="string" value="/camera_link" />
 			<param name="min_ang" type="double" value="-1.6" />
 			<param name="max_ang" type="double" value="1.6" />
 			<param name="skip" type="int" value="0" />
