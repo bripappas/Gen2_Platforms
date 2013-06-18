@@ -10,5 +10,6 @@
     <rosparam file="$(find gen2_nav)/config/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find gen2_nav)/config/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find gen2_nav)/config/base_local_planner_params.yaml" command="load" />
+    <remap from="cmd_vel" to="twist"/>
   </node>
 </launch>
