@@ -7,7 +7,7 @@
 
   <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
     <param name="base_frame" value="base_footprint"/>
-    <param name="odom_frame" value="odom"/>
+    <param name="odom_frame" value="odom_combined"/>
     <param name="map_update_interval" value="2.0"/>
     <param name="maxUrange" value="5.0"/>
     <param name="sigma" value="0.05"/>
