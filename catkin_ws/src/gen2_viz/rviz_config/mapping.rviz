@@ -34,65 +34,9 @@ Visualization Manager:
   Class: ""
   Displays:
     - Class: rviz/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
-        /base_footprint:
-          Value: true
-        /base_link:
-          Value: true
-        /base_middle_link:
-          Value: true
-        /base_top_link:
-          Value: true
-        /camera_depth_frame:
-          Value: true
-        /camera_depth_optical_frame:
-          Value: true
-        /camera_link:
-          Value: true
-        /camera_rgb_frame:
-          Value: true
-        /camera_rgb_optical_frame:
-          Value: true
-        /front_castor_base_link:
-          Value: true
-        /front_castor_link:
-          Value: true
-        /gyro_link:
-          Value: true
-        /left_motor_link:
-          Value: true
-        /left_wheel_link:
-          Value: true
-        /map:
-          Value: true
-        /middle_fl_link:
-          Value: true
-        /middle_fr_link:
-          Value: true
-        /middle_rl_link:
-          Value: true
-        /middle_rr_link:
-          Value: true
-        /odom_combined:
-          Value: true
-        /rear_castor_base_link:
-          Value: true
-        /rear_castor_link:
-          Value: true
-        /right_motor_link:
-          Value: true
-        /right_wheel_link:
-          Value: true
-        /top_fl_link:
-          Value: true
-        /top_fr_link:
-          Value: true
-        /top_rl_link:
-          Value: true
-        /top_rr_link:
-          Value: true
         All Enabled: false
       Marker Scale: 1
       Name: TF
@@ -100,11 +44,9 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        /map:
-          /odom_combined:
-            {}
+        {}
       Update Interval: 0
-      Value: true
+      Value: false
     - Alpha: 0.5
       Cell Size: 1
       Class: rviz/Grid

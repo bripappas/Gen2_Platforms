@@ -1,0 +1,7 @@
+<launch>
+	<node pkg="stage" type="stageros" name="stageros" args="$(find gen2_sim)/broun_L/broun_L.world">
+		<remap from="cmd_vel" to="twist"/>
+		<remap from="base_scan" to="scan"/>
+		<remap from="odom" to="robot_pose_ekf/odom_combined"/>
+	</node>
+</launch>
