@@ -1,3 +1,6 @@
+#Author: Brian Pappas
+#Last Update: 6-20-2013
+
 local_costmap:
   global_frame: /map
   robot_base_frame: base_footprint

@@ -2,9 +2,14 @@ gen2_sim package
 ================
 
 This package contains the necessary .world, .launch, and map files for initializing
-the stage simulator for use with ROS.  Each launch files loads a seperate configuration
+the stage simulator for use with ROS.  Each launch file loads a seperate configuration
 for simulation.  The robots use the "diff" odometry model and are outfitted with a "ranger"
 model to simulate a standard Hokuyo Laser Range Finder.
+
+Folders:
+launch: .launch files used by roslaunch
+maps:	.pgm map files for stage
+worlds:	stage .world configuration files
 
 Dependencies:
 stage

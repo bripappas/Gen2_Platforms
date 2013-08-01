@@ -1,5 +1,12 @@
+<!-- 
+Author: Brian Pappas 
+Last Update: 8/1/2013
+Description: Launch the stage simulator for 1 robot
+-->
+
 <launch>
 	<node pkg="stage" type="stageros" name="stageros" args="$(find gen2_sim)/worlds/broun_L.world">
+		<!-- Remap topics for Larry -->
 		<remap from="cmd_vel" to="twist"/>
 		<remap from="base_scan" to="scan"/>
 		<remap from="odom" to="robot_pose_ekf/odom_combined"/>

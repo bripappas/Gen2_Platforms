@@ -1,9 +1,13 @@
-<!--Launches the chosen laser scan sensor-->
+<!--
+Author: Brian Pappas
+Last Update: 8-1-2013
+Description:  Launches the chosen laser scan sensor (LIDAR or Kinect)
+-->
+
 <launch>
-	<!--Choose which sensor to use to generate the laser scan.  Choose only one-->
+	<!--Choose which sensor to use to generate the laser scan.  Choose only one!-->
 	<arg name="kinect" value="0" /> <!--Set to 1 if using Kinect -->
 	<arg name="hokuyo" value="1" />	<!--Set to 1 if using Hokuyo -->
-
 
 	<group if="$(arg kinect)">
 		<!-- Start Kinect (openni_launch) -->

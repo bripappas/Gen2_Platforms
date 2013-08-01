@@ -1,0 +1,18 @@
+gen2_viz package
+================
+
+This package contains configuration files for visualizing data in different applications
+such as rqt_perspective and rviz.  There are config files  descriptively named for 
+different situations such as navigation, and mapping.
+
+Folders:
+rqt_perspective: perspective files for the rqt plugin
+rviz_config: configuration files for rviz
+
+
+Dependencies:
+none
+
+Tested:
+ROS Groovy
+Ubuntu 12.04 LTS

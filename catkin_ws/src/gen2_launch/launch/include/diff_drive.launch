@@ -1,3 +1,9 @@
+<!--
+Author: Brian Pappas
+Last Update: 8-1-2013
+Description:  TODO
+-->
+
 <launch>
   <rosparam param="ticks_meter">4300</rosparam>
 

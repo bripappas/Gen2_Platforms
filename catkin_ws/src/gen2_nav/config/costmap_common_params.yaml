@@ -1,3 +1,6 @@
+#Author: Brian Pappas
+#Last Update: 6-20-2013
+
 obstacle_range: 3.0
 raytrace_range: 3.5
 #footprint: [[x0, y0], [x1, y1], ... [xn, yn]]

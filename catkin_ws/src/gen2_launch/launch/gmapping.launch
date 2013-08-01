@@ -1,3 +1,9 @@
+<!--
+Author: Brian Pappas
+Last Update: 8-1-2013
+Description:  Launches Hokyuo sensor
+-->
+
 <launch>
 
 	<!-- Start laser scan sensor

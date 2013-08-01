@@ -1,4 +1,8 @@
-<!--Launch base robot nodes (robot.launch) -->
+<!--
+Author: Brian Pappas
+Last Update: 8-1-2013
+Description:  Launch base robot nodes (robot.launch)
+-->
 
 <launch>
 	<!-- Start static transforms -->
