@@ -1,0 +1,14 @@
+gen2_sim package
+================
+
+This package contains the necessary .world, .launch, and map files for initializing
+the stage simulator for use with ROS.  Each launch files loads a seperate configuration
+for simulation.  The robots use the "diff" odometry model and are outfitted with a "ranger"
+model to simulate a standard Hokuyo Laser Range Finder.
+
+Dependencies:
+stage
+
+Tested:
+ROS Groovy
+Ubuntu 12.04 LTS
