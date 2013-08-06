@@ -5,10 +5,8 @@ Description:  Launches move_base for autonomous navigation
 -->
 
 <launch>
-  <master auto="start"/>
-
   <!--- Run AMCL -->
-  <include file="$(find amcl)/examples/amcl_diff.launch" />
+  <include file="$(find gen2_nav)/launch/amcl_diff.launch" />
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find gen2_nav)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
@@ -18,5 +16,6 @@ Description:  Launches move_base for autonomous navigation
     <rosparam file="$(find gen2_nav)/config/base_local_planner_params.yaml" command="load" />
     <remap from="cmd_vel" to="twist"/>
     <remap from="odom" to="robot_pose_ekf/odom_combined"/>
+    <remap from ="map" to="/map" />
   </node>
 </launch>

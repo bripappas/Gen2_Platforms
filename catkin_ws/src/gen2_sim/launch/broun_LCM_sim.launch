@@ -7,18 +7,18 @@ Description: Launch the stage simulator for 3 robots
 <launch>
 	<node pkg="stage" type="stageros" name="stageros" args="$(find gen2_sim)/worlds/broun_LCM.world">
 		<!-- Remap topics for Larry -->
-		<remap from="robot_0/cmd_vel" to="twist_0"/>
-		<remap from="robot_0/base_scan" to="larry/scan"/>
-		<remap from="robot_0/odom" to="larry/robot_pose_ekf/odom_combined"/>
+		<remap from="robot_0/cmd_vel" to="Larry/twist"/>
+		<remap from="robot_0/base_scan" to="Larry/scan"/>
+		<remap from="robot_0/odom" to="Larry/robot_pose_ekf/odom_combined"/>
 		
 		<!-- Remap topics for Curly -->
-		<remap from="robot_1/cmd_vel" to="twist_1"/>
-		<remap from="robot_1/base_scan" to="curly/scan"/>
-		<remap from="robot_1/odom" to="curly/robot_pose_ekf/odom_combined"/>
+		<remap from="robot_1/cmd_vel" to="Curly/twist"/>
+		<remap from="robot_1/base_scan" to="Curly/scan"/>
+		<remap from="robot_1/odom" to="Curly/robot_pose_ekf/odom_combined"/>
 		
 		<!-- Remap topics for Moe -->
-		<remap from="robot_2/cmd_vel" to="twist_2"/>
-		<remap from="robot_2/base_scan" to="moe/scan"/>
-		<remap from="robot_2/odom" to="moe/robot_pose_ekf/odom_combined"/>
+		<remap from="robot_2/cmd_vel" to="Moe/twist"/>
+		<remap from="robot_2/base_scan" to="Moe/scan"/>
+		<remap from="robot_2/odom" to="Moe/robot_pose_ekf/odom_combined"/>
 	</node>
 </launch>
