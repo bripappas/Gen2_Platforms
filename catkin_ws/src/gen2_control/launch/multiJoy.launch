@@ -1,0 +1,19 @@
+<!--
+Author: Brian Pappas
+Last Update: 8-21-2013
+Description:  Launches the joystick interface for controlling up to 3 robots
+-->
+
+<launch>
+	<!-- Launch the default ROS joy node -->
+	<node pkg="joy" type="joy_node" name="joy_node" output="screen">
+		<param name="autorepeat_rate" type="double" value="50.0" />
+	</node>
+	
+	<!-- Launch multi control joystick node -->
+	<node pkg="gen2_control" type="joystick2MultiRobot.py" name="joystick2MultiRobot" output="screen">
+		<remap from="twist_0" to="Larry/twist"/>
+		<remap from="twist_1" to="Curly/twist"/>
+		<remap from="twist_2" to="Moe/twist"/>
+	</node>
+</launch>

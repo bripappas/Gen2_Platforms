@@ -23,24 +23,6 @@ Description:  Launch three simulated robots for use with STAGE
 		<include file="$(find gen2_launch)/launch/move_base.launch" />
 	</group>
 	
-	<group ns="Curly">
-		<param name="tf_prefix" value="Curly" />
-		<node pkg="robot_state_publisher" type="robot_state_publisher"
-			name="robot_state_publisher" output="screen">
-			<param name="publish_frequency" type="double" value="10.0" />
-		</node>
-		<include file="$(find gen2_launch)/launch/move_base.launch" />
-	</group>
-	
-	<group ns="Moe">
-		<param name="tf_prefix" value="Moe" />
-		<node pkg="robot_state_publisher" type="robot_state_publisher"
-			name="robot_state_publisher" output="screen">
-			<param name="publish_frequency" type="double" value="10.0" />
-		</node>
-		<include file="$(find gen2_launch)/launch/move_base.launch" />
-	</group>
-	
 	<node pkg="tf" type="static_transform_publisher" name="link_to_sim" args="0 0 0 0 0 0 robot_0/odom Larry/base_footprint 100" />
 	
 	
