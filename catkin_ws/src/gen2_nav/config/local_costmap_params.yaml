@@ -1,8 +1,8 @@
 #Author: Brian Pappas
-#Last Update: 6-20-2013
+#Last Update: 7-23-2013
 
 local_costmap:
-  global_frame: /map
+  global_frame: odom
   robot_base_frame: base_footprint
   update_frequency: 2.0
   publish_frequency: 0.3

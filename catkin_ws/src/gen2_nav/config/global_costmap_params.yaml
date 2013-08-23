@@ -1,5 +1,5 @@
 #Author: Brian Pappas
-#Last Update: 6-20-2013
+#Last Update: 7-23-2013
 
 global_costmap:
   global_frame: /map
