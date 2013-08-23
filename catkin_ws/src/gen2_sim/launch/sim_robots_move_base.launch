@@ -1,0 +1,19 @@
+<!--
+Author: Brian Pappas
+Last Update: 8-5-2013
+Description:  Launch three simulated robots for use with STAGE
+-->
+
+
+<launch>
+	<!--Launch map server -->
+	<node name="map_server" pkg="map_server" type="map_server" args="/home/overkill/Gen2_Platforms/maps/test_map.yaml" >
+		<param name="frame_id" value="/map" />
+	</node>
+	
+	<group ns="Larry">
+		<param name="tf_prefix" value="Larry" />
+		<include file="$(find gen2_launch)/launch/move_base.launch" />
+	</group>
+	
+</launch>

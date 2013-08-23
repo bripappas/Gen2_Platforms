@@ -9,18 +9,12 @@ Description:  Launch three simulated robots for use with STAGE
 	<!--Inlcude Robot Model -->
 	<param name="robot_description" command="$(find xacro)/xacro.py '$(find gen2_description)/urdf/gen2.xacro'" />
 	
-	<!--Launch map server -->
-	<node name="map_server" pkg="map_server" type="map_server" args="/home/brain/Gen2_Platforms/maps/test_map.yaml" >
-		<param name="frame_id" value="/map" />
-	</node>
-	
 	<group ns="Larry">
 		<param name="tf_prefix" value="Larry" />
 		<node pkg="robot_state_publisher" type="robot_state_publisher"
 			name="robot_state_publisher" output="screen">
 			<param name="publish_frequency" type="double" value="10.0" />
 		</node>
-		<include file="$(find gen2_launch)/launch/move_base.launch" />
 	</group>
 	
 	<group ns="Curly">
@@ -29,7 +23,6 @@ Description:  Launch three simulated robots for use with STAGE
 			name="robot_state_publisher" output="screen">
 			<param name="publish_frequency" type="double" value="10.0" />
 		</node>
-		<include file="$(find gen2_launch)/launch/move_base.launch" />
 	</group>
 	
 	<group ns="Moe">
@@ -38,10 +31,14 @@ Description:  Launch three simulated robots for use with STAGE
 			name="robot_state_publisher" output="screen">
 			<param name="publish_frequency" type="double" value="10.0" />
 		</node>
-		<include file="$(find gen2_launch)/launch/move_base.launch" />
 	</group>
 	
-	<node pkg="tf" type="static_transform_publisher" name="link_to_sim" args="0 0 0 0 0 0 robot_0/odom Larry/base_footprint 100" />
+	<node pkg="tf" type="static_transform_publisher" name="link_to_sim_0" args="0 0 0 0 0 0 robot_0/base_footprint Larry/base_footprint 100" />
+	<node pkg="tf" type="static_transform_publisher" name="link_to_sim_1" args="0 0 0 0 0 0 robot_1/base_footprint Curly/base_footprint 100" />
+	<node pkg="tf" type="static_transform_publisher" name="link_to_sim_2" args="0 0 0 0 0 0 robot_2/base_footprint Moe/base_footprint 100" />
+	
+	
+
 	
 	
 </launch>
