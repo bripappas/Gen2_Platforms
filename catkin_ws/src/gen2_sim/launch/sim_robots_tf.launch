@@ -17,28 +17,8 @@ Description:  Launch three simulated robots for use with STAGE
 		</node>
 	</group>
 	
-	<group ns="Curly">
-		<param name="tf_prefix" value="Curly" />
-		<node pkg="robot_state_publisher" type="robot_state_publisher"
-			name="robot_state_publisher" output="screen">
-			<param name="publish_frequency" type="double" value="10.0" />
-		</node>
-	</group>
-	
-	<group ns="Moe">
-		<param name="tf_prefix" value="Moe" />
-		<node pkg="robot_state_publisher" type="robot_state_publisher"
-			name="robot_state_publisher" output="screen">
-			<param name="publish_frequency" type="double" value="10.0" />
-		</node>
-	</group>
-	
-	<node pkg="tf" type="static_transform_publisher" name="link_to_sim_0" args="0 0 0 0 0 0 robot_0/base_footprint Larry/base_footprint 100" />
-	<node pkg="tf" type="static_transform_publisher" name="link_to_sim_1" args="0 0 0 0 0 0 robot_1/base_footprint Curly/base_footprint 100" />
-	<node pkg="tf" type="static_transform_publisher" name="link_to_sim_2" args="0 0 0 0 0 0 robot_2/base_footprint Moe/base_footprint 100" />
-	
-	
 
+	<node pkg="tf" type="static_transform_publisher" name="link_to_sim" args="0 0 0 0 0 0 robot_0/odom Larry/base_footprint 100" />
 	
 	
 </launch>
