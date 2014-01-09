@@ -5,8 +5,8 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - "/Robot 1: Robot Footprint1/Status1"
         - /TF1/Frames1
-        - "/Robot 1: LaserScan1/Status1"
       Splitter Ratio: 0.5
     Tree Height: 543
   - Class: rviz/Selection
@@ -27,18 +27,10 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: "Robot 0: LaserScan"
+    SyncSource: "Robot 2: LaserScan"
 Visualization Manager:
   Class: ""
   Displays:
-    - Alpha: 0.7
-      Class: rviz/Map
-      Color Scheme: map
-      Draw Behind: false
-      Enabled: true
-      Name: Map
-      Topic: /map
-      Value: true
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
@@ -64,139 +56,11 @@ Visualization Manager:
       Topic: /robot_0/move_base_node/NavfnROS/plan
       Value: true
     - Alpha: 1
-      Class: rviz/GridCells
-      Color: 0; 0; 255
-      Enabled: true
-      Name: "Robot 0: Inflated Obstacles"
-      Topic: /robot_0/move_base_node/local_costmap/inflated_obstacles
-      Value: true
-    - Alpha: 1
-      Class: rviz/GridCells
-      Color: 255; 0; 0
-      Enabled: true
-      Name: "Robot 0: Obstacles"
-      Topic: /robot_0/move_base_node/local_costmap/obstacles
-      Value: true
-    - Alpha: 1
-      Class: rviz/GridCells
-      Color: 0; 255; 0
-      Enabled: true
-      Name: "Robot 0: Unknown Space"
-      Topic: /robot_0/move_base_node/local_costmap/unknown_space
-      Value: true
-    - Alpha: 1
       Class: rviz/Polygon
       Color: 255; 0; 0
       Enabled: true
       Name: "Robot 0: Robot Footprint"
-      Topic: /robot_0/move_base_node/local_costmap/robot_footprint
-      Value: true
-    - Alpha: 1
-      Buffer Length: 1
-      Class: rviz/Path
-      Color: 255; 149; 0
-      Enabled: true
-      Name: "Robot 1: Global Plan"
-      Topic: /robot_1/move_base_node/TrajectoryPlannerROS/global_plan
-      Value: true
-    - Alpha: 1
-      Buffer Length: 1
-      Class: rviz/Path
-      Color: 0; 0; 255
-      Enabled: true
-      Name: "Robot 1: Local Plan"
-      Topic: /robot_1/move_base_node/TrajectoryPlannerROS/local_plan
-      Value: true
-    - Alpha: 1
-      Buffer Length: 1
-      Class: rviz/Path
-      Color: 255; 0; 0
-      Enabled: true
-      Name: "Robot 1: NavFn Plan"
-      Topic: /robot_1/move_base_node/NavfnROS/plan
-      Value: true
-    - Alpha: 1
-      Class: rviz/GridCells
-      Color: 0; 0; 255
-      Enabled: true
-      Name: "Robot 1: Inflated Obstacles"
-      Topic: /robot_1/move_base_node/local_costmap/inflated_obstacles
-      Value: true
-    - Alpha: 1
-      Class: rviz/GridCells
-      Color: 255; 0; 0
-      Enabled: true
-      Name: "Robot 1: Obstacles"
-      Topic: /robot_1/move_base_node/local_costmap/obstacles
-      Value: true
-    - Alpha: 1
-      Class: rviz/GridCells
-      Color: 0; 255; 0
-      Enabled: true
-      Name: "Robot 1: Unknown Space"
-      Topic: /robot_1/move_base_node/local_costmap/unknown_space
-      Value: true
-    - Alpha: 1
-      Class: rviz/Polygon
-      Color: 255; 0; 0
-      Enabled: true
-      Name: "Robot 1: Robot Footprint"
-      Topic: /robot_1/move_base_node/local_costmap/robot_footprint
-      Value: true
-    - Class: rviz/TF
-      Enabled: true
-      Frame Timeout: 15
-      Frames:
-        All Enabled: false
-        map:
-          Value: true
-        robot_0/base_footprint:
-          Value: true
-        robot_0/base_laser_link:
-          Value: true
-        robot_0/base_link:
-          Value: true
-        robot_0/odom:
-          Value: true
-        robot_1/base_footprint:
-          Value: true
-        robot_1/base_laser_link:
-          Value: true
-        robot_1/base_link:
-          Value: true
-        robot_1/odom:
-          Value: true
-        robot_2/base_footprint:
-          Value: true
-        robot_2/base_laser_link:
-          Value: true
-        robot_2/base_link:
-          Value: true
-        robot_2/odom:
-          Value: true
-      Marker Scale: 1
-      Name: TF
-      Show Arrows: true
-      Show Axes: true
-      Show Names: true
-      Tree:
-        map:
-          robot_0/odom:
-            robot_0/base_footprint:
-              robot_0/base_link:
-                robot_0/base_laser_link:
-                  {}
-          robot_1/odom:
-            robot_1/base_footprint:
-              robot_1/base_link:
-                robot_1/base_laser_link:
-                  {}
-          robot_2/odom:
-            robot_2/base_footprint:
-              robot_2/base_link:
-                robot_2/base_laser_link:
-                  {}
-      Update Interval: 0
+      Topic: /robot_0/move_base_node/global_costmap/footprint_layer/footprint_stamped
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -228,6 +92,37 @@ Visualization Manager:
       Use rainbow: true
       Value: true
     - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 149; 0
+      Enabled: true
+      Name: "Robot 1: Global Plan"
+      Topic: /robot_1/move_base_node/TrajectoryPlannerROS/global_plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 0; 0; 255
+      Enabled: true
+      Name: "Robot 1: Local Plan"
+      Topic: /robot_1/move_base_node/TrajectoryPlannerROS/local_plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 0; 0
+      Enabled: true
+      Name: "Robot 1: NavFn Plan"
+      Topic: /robot_1/move_base_node/NavfnROS/plan
+      Value: true
+    - Alpha: 0
+      Class: rviz/Polygon
+      Color: 0; 255; 0
+      Enabled: true
+      Name: "Robot 1: Robot Footprint"
+      Topic: /robot_0/move_base_node/global_costmap/footprint_layer/footprint_stamped
+      Value: true
+    - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
         Max Value: 10
@@ -255,6 +150,28 @@ Visualization Manager:
       Topic: /robot_1/base_scan
       Use Fixed Frame: true
       Use rainbow: true
+      Value: true
+    - Class: rviz/TF
+      Enabled: false
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        {}
+      Update Interval: 0
+      Value: false
+    - Alpha: 0.7
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /map
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -301,7 +218,7 @@ Visualization Manager:
     - Class: rviz/SetInitialPose
       Topic: robot_0/initialpose
     - Class: rviz/SetGoal
-      Topic: robot_1/move_base_simple/goal
+      Topic: robot_2/move_base_simple/goal
     - Class: rviz/PublishPoint
       Single click: true
       Topic: /clicked_point
@@ -309,17 +226,17 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 8.01431
+      Distance: 9.17425
       Focal Point:
-        X: 0.954719
-        Y: -15.0727
-        Z: -0.351617
+        X: -0.293767
+        Y: -12.9007
+        Z: 0.148906
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.5298
+      Pitch: 1.1548
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.33223
+      Yaw: 4.30224
     Saved: ~
 Window Geometry:
   Displays:
@@ -337,5 +254,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1543
-  X: 65
+  X: 58
   Y: 24
