@@ -1,0 +1,17 @@
+#Author: Brian Pappas
+#Last Update: 7-23-2013
+
+obstacle_range: 3.0
+raytrace_range: 3.5
+#footprint: [[x0, y0], [x1, y1], ... [xn, yn]]
+robot_radius: 0.25
+inflation_radius: 0.5
+
+transform_tolerance: 0.8
+
+observation_sources: laser_scan_sensor
+
+laser_scan_sensor: {data_type: LaserScan, topic: scan, marking: true, clearing: true, expected_update_rate: 0.25}
+
+
+

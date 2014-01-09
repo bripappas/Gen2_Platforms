@@ -1,0 +1,8 @@
+#Author: Brian Pappas
+#Last Update: 7-23-2013
+
+global_costmap:
+  global_frame: /map
+  robot_base_frame: base_footprint
+  update_frequency: 2.0
+  static_map: true

@@ -1,0 +1,35 @@
+<!--
+Author: Brian Pappas
+Last Update: 8-5-2013
+Description:  Launch three simulated robots for use with STAGE
+-->
+
+
+<launch>
+	<!--Launch map server -->
+	<node name="map_server" pkg="map_server" type="map_server" args="/home/overkill/Gen2_Platforms/maps/test_map.yaml" >
+		<param name="frame_id" value="/map" />
+	</node>
+	
+	<group ns="Larry">
+		<param name="tf_prefix" value="robot_0" />
+		<param name="amcl/initial_pose_x" value="1" />
+		<param name="amcl/initial_pose_y" value="1" />
+		<include file="$(find gen2_launch)/launch/move_base.launch" />
+	</group>
+	
+	<group ns="Curly">
+		<param name="tf_prefix" value="robot_1" />
+		<param name="amcl/initial_pose_x" value="5" />
+		<param name="amcl/initial_pose_y" value="1" />
+		<include file="$(find gen2_launch)/launch/move_base.launch" />
+	</group>
+	
+	<group ns="Moe">
+		<param name="tf_prefix" value="robot_2" />
+		<param name="amcl/initial_pose_x" value="11" />
+		<param name="amcl/initial_pose_y" value="1" />
+		<include file="$(find gen2_launch)/launch/move_base.launch" />
+	</group>
+	
+</launch>

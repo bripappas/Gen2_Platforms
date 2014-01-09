@@ -7,8 +7,8 @@ Panels:
         - /Global Options1
         - /Status1
         - /TF1/Frames1
-        - /LaserScan1
         - /LaserScan1/Status1
+        - /LaserScan1/Autocompute Value Bounds1
       Splitter Ratio: 0.554217
     Tree Height: 775
   - Class: rviz/Selection
@@ -70,6 +70,11 @@ Visualization Manager:
       Collision Enabled: false
       Enabled: true
       Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
         base_footprint:
           Alpha: 1
           Show Axes: false
@@ -90,11 +95,27 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
+        camera_rgb_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_rgb_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         front_castor_base_link:
           Alpha: 1
           Show Axes: false
@@ -189,14 +210,14 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
+        Max Value: 2.12517
+        Min Value: -5.66153
         Value: true
-      Axis: Z
+      Axis: Y
       Channel Name: intensity
       Class: rviz/LaserScan
       Color: 255; 255; 255
-      Color Transformer: Intensity
+      Color Transformer: AxisColor
       Decay Time: 0
       Enabled: true
       Max Color: 255; 255; 255
@@ -208,8 +229,8 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.01
-      Style: Flat Squares
+      Size (m): 0.03
+      Style: Squares
       Topic: /scan
       Use Fixed Frame: true
       Use rainbow: true
@@ -220,6 +241,24 @@ Visualization Manager:
       Enabled: true
       Name: Map
       Topic: /map
+      Value: true
+    - Angle Tolerance: 0.1
+      Class: rviz/Odometry
+      Color: 255; 25; 0
+      Enabled: true
+      Keep: 50
+      Length: 0.1
+      Name: Odometry
+      Position Tolerance: 0.1
+      Topic: /odom
+      Value: true
+    - Alpha: 1
+      Class: rviz_plugin_tutorials/Imu
+      Color: 204; 51; 204
+      Enabled: true
+      History Length: 1
+      Name: Imu
+      Topic: ""
       Value: true
   Enabled: true
   Global Options:
@@ -244,17 +283,17 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 7.98512
+      Distance: 6.8487
       Focal Point:
-        X: 0.447694
-        Y: -0.433386
+        X: -1.15595
+        Y: -0.0568551
         Z: -9.53673e-07
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.580398
+      Pitch: 0.745398
       Target Frame: <Fixed Frame>
       Value: XYOrbit (rviz)
-      Yaw: 3.03857
+      Yaw: 2.50357
     Saved: ~
 Window Geometry:
   Displays:
