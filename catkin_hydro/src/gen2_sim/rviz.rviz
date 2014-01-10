@@ -3,10 +3,7 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Global Options1
-        - "/Robot 1: Robot Footprint1/Status1"
-        - /TF1/Frames1
+      Expanded: ~
       Splitter Ratio: 0.5
     Tree Height: 543
   - Class: rviz/Selection
@@ -27,7 +24,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: "Robot 2: LaserScan"
+    SyncSource: "Robot 1: LaserScan"
 Visualization Manager:
   Class: ""
   Displays:
@@ -57,7 +54,7 @@ Visualization Manager:
       Value: true
     - Alpha: 1
       Class: rviz/Polygon
-      Color: 255; 0; 0
+      Color: 255; 255; 0
       Enabled: true
       Name: "Robot 0: Robot Footprint"
       Topic: /robot_0/move_base_node/global_costmap/footprint_layer/footprint_stamped
@@ -71,8 +68,8 @@ Visualization Manager:
       Axis: Z
       Channel Name: intensity
       Class: rviz/LaserScan
-      Color: 255; 255; 255
-      Color Transformer: Intensity
+      Color: 255; 255; 0
+      Color Transformer: FlatColor
       Decay Time: 0
       Enabled: true
       Invert Rainbow: false
@@ -117,10 +114,10 @@ Visualization Manager:
       Value: true
     - Alpha: 0
       Class: rviz/Polygon
-      Color: 0; 255; 0
+      Color: 0; 0; 255
       Enabled: true
       Name: "Robot 1: Robot Footprint"
-      Topic: /robot_0/move_base_node/global_costmap/footprint_layer/footprint_stamped
+      Topic: /robot_1/move_base_node/global_costmap/footprint_layer/footprint_stamped
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -131,8 +128,8 @@ Visualization Manager:
       Axis: Z
       Channel Name: intensity
       Class: rviz/LaserScan
-      Color: 255; 255; 255
-      Color Transformer: Intensity
+      Color: 0; 0; 255
+      Color Transformer: FlatColor
       Decay Time: 0
       Enabled: true
       Invert Rainbow: false
@@ -151,27 +148,36 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
-    - Class: rviz/TF
-      Enabled: false
-      Frame Timeout: 15
-      Frames:
-        All Enabled: false
-      Marker Scale: 1
-      Name: TF
-      Show Arrows: true
-      Show Axes: true
-      Show Names: true
-      Tree:
-        {}
-      Update Interval: 0
-      Value: false
-    - Alpha: 0.7
-      Class: rviz/Map
-      Color Scheme: map
-      Draw Behind: false
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 149; 0
       Enabled: true
-      Name: Map
-      Topic: /map
+      Name: "Robot 2: Global Plan"
+      Topic: /robot_2/move_base_node/TrajectoryPlannerROS/global_plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 0; 0; 255
+      Enabled: true
+      Name: "Robot 2: Local Plan"
+      Topic: /robot_2/move_base_node/TrajectoryPlannerROS/local_plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 0; 0
+      Enabled: true
+      Name: "Robot 2: NavFn Plan"
+      Topic: /robot_2/move_base_node/NavfnROS/plan
+      Value: true
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 255; 170; 0
+      Enabled: true
+      Name: "Robot 2: Footprint"
+      Topic: /robot_2/move_base_node/global_costmap/footprint_layer/footprint_stamped
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -202,6 +208,14 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Alpha: 0.7
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /map
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -218,7 +232,7 @@ Visualization Manager:
     - Class: rviz/SetInitialPose
       Topic: robot_0/initialpose
     - Class: rviz/SetGoal
-      Topic: robot_2/move_base_simple/goal
+      Topic: robot_0/move_base_simple/goal
     - Class: rviz/PublishPoint
       Single click: true
       Topic: /clicked_point
@@ -226,7 +240,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 9.17425
+      Distance: 16.1682
       Focal Point:
         X: -0.293767
         Y: -12.9007
@@ -255,4 +269,4 @@ Window Geometry:
     collapsed: false
   Width: 1543
   X: 58
-  Y: 24
+  Y: 100

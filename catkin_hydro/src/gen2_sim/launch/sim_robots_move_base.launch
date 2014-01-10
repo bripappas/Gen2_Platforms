@@ -2,7 +2,7 @@
   <master auto="start"/>
   <param name="/use_sim_time" value="true"/>
 
-  <node pkg="map_server" type="map_server" name="map_server" args="/home/overkill/Gen2_Platforms/maps/test_map.yaml" respawn="false" >
+  <node pkg="map_server" type="map_server" name="map_server" args="$(find gen2_maps)/maps/test_map.yaml" respawn="false" >
     <param name="frame_id" value="/map" />
   </node>
 
