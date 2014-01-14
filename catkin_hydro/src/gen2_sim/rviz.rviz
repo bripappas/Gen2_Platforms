@@ -240,6 +240,14 @@ Visualization Manager:
       Name: "Robot 2: Local Cost Map"
       Topic: /robot_2/move_base_node/local_costmap/costmap
       Value: false
+    - Alpha: 0.7
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: true
+      Enabled: true
+      Name: Free Space Overlay
+      Topic: /freeSpace
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -263,15 +271,15 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0.155
+      Angle: 0.0250002
       Class: rviz/TopDownOrtho
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 179.514
+      Scale: 84.8292
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: -3.84717
-      Y: -10.5411
+      X: 0.729954
+      Y: -16.3701
     Saved: ~
 Window Geometry:
   Displays:
@@ -289,5 +297,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1215
-  X: 1345
+  X: 1338
   Y: 24
