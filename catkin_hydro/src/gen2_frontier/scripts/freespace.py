@@ -51,13 +51,7 @@ def freeSpace():
 	
 	rospy.loginfo("Waiting on Freespace Updates")
 	rospy.spin()
-	
-	
-	
-	
-	
-		
-				
+
 ### If Main ###
 if __name__ == '__main__':
         freeSpace()
