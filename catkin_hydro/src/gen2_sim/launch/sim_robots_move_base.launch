@@ -28,6 +28,10 @@
       <param name="odom_frame_id" value="robot_0/odom" />
       <param name="base_frame_id" value="robot_0/base_link" />
     </node>
+    
+    <param name="lidarLinkFrame" value="robot_0/base_laser_link" type="str" />
+    <node pkg="gen2_frontier" type="robotSenseBoundary.py" name="robtSenseBoundary" output="screen" />
+		
   </group>
   <!-- END ROBOT 0 -->
 
@@ -49,6 +53,9 @@
       <param name="odom_frame_id" value="robot_1/odom" />
       <param name="base_frame_id" value="robot_1/base_link" />
     </node>
+    
+     <param name="lidarLinkFrame" value="robot_1/base_laser_link" type="str" />
+    <node pkg="gen2_frontier" type="robotSenseBoundary.py" name="robtSenseBoundary" output="screen" />
   </group>
   <!-- END ROBOT 1 -->
   
@@ -70,6 +77,9 @@
       <param name="odom_frame_id" value="robot_2/odom" />
       <param name="base_frame_id" value="robot_2/base_link" />
     </node>
+    
+     <param name="lidarLinkFrame" value="robot_2/base_laser_link" type="str" />
+    <node pkg="gen2_frontier" type="robotSenseBoundary.py" name="robtSenseBoundary" output="screen" />
   </group>
   <!-- END ROBOT 1 -->
 

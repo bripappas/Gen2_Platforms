@@ -4,16 +4,13 @@ import rospy
 import tf
 import std_msgs.msg
 from sensor_msgs.msg import LaserScan
-import math
-from geometry_msgs.msg import PoseWithCovarianceStamped
+from geometry_msgs.msg import PoseWithCovarianceStamped, PolygonStamped, Point32
 from tf.transformations import euler_from_quaternion
-
-robX = []  #Robot X Position
-robY = []  #Robot Y Position
+import math
 
 #Initialize ROS node and setup up Publisher/Subscribers
 def robotSenseBoundary():
-	global listener
+	global listener, lidarPointsPub
 	
 	# Initialize the Node
 	rospy.init_node('robotSenseBoundary')
@@ -22,73 +19,47 @@ def robotSenseBoundary():
 	listener = tf.TransformListener()
 	
 	# Setup Subscribers
-	amclPoseSub = rospy.Subscriber('robot_0/amcl_pose',PoseWithCovarianceStamped,handlePoseMessage,queue_size = 1)
-	laserSub = rospy.Subscriber('/robot_0/base_scan',LaserScan,handleLaserScanMessage,queue_size = 1)
+	laserSub = rospy.Subscriber('base_scan',LaserScan,handleLaserScanMessage,queue_size = 1)
 	
 	# Setup Publishers
-	#robotSearchedPub = rospy.Publisher('robotSearched',OccupancyGrid)
-	
-	
-	
+	lidarPointsPub = rospy.Publisher('lidarInMap',PolygonStamped)
 	rospy.spin()
 	
-def handlePoseMessage(data):
-	#Pull out current robot position to map coordinates
-	global robX
-	global robY
-	robX=data.pose.pose.position.x
-	robY=data.pose.pose.position.y
-	
+#Convert LaserScan readings into discrete map coordinates and publish as polygon
 def handleLaserScanMessage(data):
-	global listener,trans,rot
-	laserScan = []
-	angle_min = []
-	angle_max = []
-	angle_inc = []
-	xList = []
-	yList = []
+	global listener,trans,quat, lidarPointsPub
 	xListXfrm =[]
 	yListXfrm =[]
-	laserScan = data.ranges
 	angle_min = data.angle_min
 	angle_max = data.angle_max
 	angle_inc = data.angle_increment
-	laserList = list(laserScan)
-	
-	#Find (x,y) coordinates of Laser Scanner centered in the Lidar Frame
-	for i in range(len(laserList)):
-		xList.append(-math.sin((angle_min+(angle_inc*i)))*laserList[i])
-		yList.append(math.cos((angle_min+(angle_inc*i)))*laserList[i])
+	laserList = list(data.ranges)
 		
-	#Transform (x,y) coordinates from Lidar Fram to global frame
+	#Look up transfrom from Lidar to map
 	try:
-		(trans,quat) = listener.lookupTransform('/map','/robot_0/base_laser_link', rospy.Time())
+		(trans,quat) = listener.lookupTransform('/map',rospy.get_param('lidarLinkFrame'), rospy.Time())
 	except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
 		print 'TF Lookup Failed'
+		return
 		
-	#Convert Cooridinates to map frame cartesian coordiantes(meters)
+		
+		
+	lidarPoints = PolygonStamped()
+	#Convert Lidar Cooridinates to map frame cartesian coordiantes(meters)
 	(roll,pitch,yaw) = euler_from_quaternion(quat)
 	for i in range(len(laserList)):
-		yListXfrm.append(trans[1]+(-xList[i]*math.cos(-yaw)+yList[i]*math.sin(-yaw)))
-		xListXfrm.append(trans[0]+(-xList[i]*math.sin(-yaw)-yList[i]*math.cos(-yaw)))
-		
-	print xListXfrm[0]
-	print yListXfrm[0]
+		xi = math.sin((angle_min+(angle_inc*i)))*laserList[i]
+		yi = -math.cos((angle_min+(angle_inc*i)))*laserList[i]
+		xi_Xfrm = trans[0]+(xi*math.sin(-yaw)-yi*math.cos(-yaw))
+		yi_Xfrm = trans[1]+(xi*math.cos(-yaw)+yi*math.sin(-yaw))
+		point_i=Point32()
+		point_i.x = xi_Xfrm
+		point_i.y = yi_Xfrm;
+		lidarPoints.polygon.points.append(point_i)
 	
-	#Pull out needed map paramters
-	#width=mapData.info.width
-	#height=mapData.info.height
-	#resolution=mapData.info.resolution
-	
-	#Pull out current robot position
-	#robX=data.pose.pose.position.x*(1.0/resolution)+width/2
-	#robY=data.pose.pose.position.y*(1.0/resolution)+height/2
-	
-		
-
-		
-		
-	
+	lidarPoints.header.stamp=rospy.Time.now()
+	lidarPoints.header.frame_id='/map'	
+	lidarPointsPub.publish(lidarPoints)
 				
 ### If Main ###
 if __name__ == '__main__':

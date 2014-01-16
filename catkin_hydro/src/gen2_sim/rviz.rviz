@@ -3,8 +3,7 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - "/Robot 1: Local Cost Map1/Status1"
+      Expanded: ~
       Splitter Ratio: 0.582656
     Tree Height: 815
   - Class: rviz/Selection
@@ -40,10 +39,42 @@ Visualization Manager:
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
+      Color: 255; 149; 0
+      Enabled: true
+      Name: "Robot 1: Global Plan"
+      Topic: /robot_1/move_base_node/TrajectoryPlannerROS/global_plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 149; 0
+      Enabled: true
+      Name: "Robot 2: Global Plan"
+      Topic: /robot_2/move_base_node/TrajectoryPlannerROS/global_plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
       Color: 0; 0; 255
       Enabled: true
       Name: "Robot 0: Local Plan"
       Topic: /robot_0/move_base_node/TrajectoryPlannerROS/local_plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 0; 0; 255
+      Enabled: true
+      Name: "Robot 1: Local Plan"
+      Topic: /robot_1/move_base_node/TrajectoryPlannerROS/local_plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 0; 0; 255
+      Enabled: true
+      Name: "Robot 2: Local Plan"
+      Topic: /robot_2/move_base_node/TrajectoryPlannerROS/local_plan
       Value: true
     - Alpha: 1
       Buffer Length: 1
@@ -54,11 +85,41 @@ Visualization Manager:
       Topic: /robot_0/move_base_node/NavfnROS/plan
       Value: true
     - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 0; 0
+      Enabled: true
+      Name: "Robot 1: NavFn Plan"
+      Topic: /robot_1/move_base_node/NavfnROS/plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 0; 0
+      Enabled: true
+      Name: "Robot 2: NavFn Plan"
+      Topic: /robot_2/move_base_node/NavfnROS/plan
+      Value: true
+    - Alpha: 1
       Class: rviz/Polygon
       Color: 255; 255; 0
       Enabled: true
       Name: "Robot 0: Robot Footprint"
       Topic: /robot_0/move_base_node/global_costmap/footprint_layer/footprint_stamped
+      Value: true
+    - Alpha: 0
+      Class: rviz/Polygon
+      Color: 0; 0; 255
+      Enabled: true
+      Name: "Robot 1: Robot Footprint"
+      Topic: /robot_1/move_base_node/global_costmap/footprint_layer/footprint_stamped
+      Value: true
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 255; 170; 0
+      Enabled: true
+      Name: "Robot 2: Footprint"
+      Topic: /robot_2/move_base_node/global_costmap/footprint_layer/footprint_stamped
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -90,37 +151,6 @@ Visualization Manager:
       Use rainbow: true
       Value: true
     - Alpha: 1
-      Buffer Length: 1
-      Class: rviz/Path
-      Color: 255; 149; 0
-      Enabled: true
-      Name: "Robot 1: Global Plan"
-      Topic: /robot_1/move_base_node/TrajectoryPlannerROS/global_plan
-      Value: true
-    - Alpha: 1
-      Buffer Length: 1
-      Class: rviz/Path
-      Color: 0; 0; 255
-      Enabled: true
-      Name: "Robot 1: Local Plan"
-      Topic: /robot_1/move_base_node/TrajectoryPlannerROS/local_plan
-      Value: true
-    - Alpha: 1
-      Buffer Length: 1
-      Class: rviz/Path
-      Color: 255; 0; 0
-      Enabled: true
-      Name: "Robot 1: NavFn Plan"
-      Topic: /robot_1/move_base_node/NavfnROS/plan
-      Value: true
-    - Alpha: 0
-      Class: rviz/Polygon
-      Color: 0; 0; 255
-      Enabled: true
-      Name: "Robot 1: Robot Footprint"
-      Topic: /robot_1/move_base_node/global_costmap/footprint_layer/footprint_stamped
-      Value: true
-    - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
         Max Value: 10
@@ -148,37 +178,6 @@ Visualization Manager:
       Topic: /robot_1/base_scan
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
-    - Alpha: 1
-      Buffer Length: 1
-      Class: rviz/Path
-      Color: 255; 149; 0
-      Enabled: true
-      Name: "Robot 2: Global Plan"
-      Topic: /robot_2/move_base_node/TrajectoryPlannerROS/global_plan
-      Value: true
-    - Alpha: 1
-      Buffer Length: 1
-      Class: rviz/Path
-      Color: 0; 0; 255
-      Enabled: true
-      Name: "Robot 2: Local Plan"
-      Topic: /robot_2/move_base_node/TrajectoryPlannerROS/local_plan
-      Value: true
-    - Alpha: 1
-      Buffer Length: 1
-      Class: rviz/Path
-      Color: 255; 0; 0
-      Enabled: true
-      Name: "Robot 2: NavFn Plan"
-      Topic: /robot_2/move_base_node/NavfnROS/plan
-      Value: true
-    - Alpha: 1
-      Class: rviz/Polygon
-      Color: 255; 170; 0
-      Enabled: true
-      Name: "Robot 2: Footprint"
-      Topic: /robot_2/move_base_node/global_costmap/footprint_layer/footprint_stamped
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -209,14 +208,6 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
-    - Alpha: 0.7
-      Class: rviz/Map
-      Color Scheme: map
-      Draw Behind: false
-      Enabled: true
-      Name: Map
-      Topic: /map
-      Value: true
     - Alpha: 0.5
       Class: rviz/Map
       Color Scheme: costmap
@@ -230,32 +221,45 @@ Visualization Manager:
       Color Scheme: costmap
       Draw Behind: false
       Enabled: false
-      Name: "Robot 1: Local Cost Map"
-      Topic: /robot_1/move_base_node/local_costmap/costmap
+      Name: "Robot 2: Local Cost Map"
+      Topic: /robot_2/move_base_node/local_costmap/costmap
       Value: false
     - Alpha: 0.7
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
       Enabled: false
-      Name: "Robot 2: Local Cost Map"
-      Topic: /robot_2/move_base_node/local_costmap/costmap
+      Name: "Robot 1: Local Cost Map"
+      Topic: /robot_1/move_base_node/local_costmap/costmap
       Value: false
-    - Alpha: 0.7
-      Class: rviz/Map
-      Color Scheme: map
-      Draw Behind: true
-      Enabled: false
-      Name: Free Space Overlay
-      Topic: /freeSpace
-      Value: false
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 0; 0; 0
+      Enabled: true
+      Name: "Robot 0: LaserPoly"
+      Topic: /robot_0/lidarInMap
+      Value: true
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 0; 0; 0
+      Enabled: true
+      Name: "Robot 1: LaserPoly"
+      Topic: /robot_1/lidarInMap
+      Value: true
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 0; 0; 0
+      Enabled: true
+      Name: "Robot 2: LaserPoly"
+      Topic: /robot_2/lidarInMap
+      Value: true
     - Alpha: 0.7
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
       Enabled: true
       Name: Map
-      Topic: /robotSearched
+      Topic: /map
       Value: true
   Enabled: true
   Global Options:
@@ -284,11 +288,11 @@ Visualization Manager:
       Class: rviz/TopDownOrtho
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 21.5621
+      Scale: 21.9575
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: -2.63533
-      Y: 4.43233
+      X: 0.0291264
+      Y: -16.7107
     Saved: ~
 Window Geometry:
   Displays:
@@ -306,5 +310,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1102
-  X: 59
+  X: 58
   Y: 24
