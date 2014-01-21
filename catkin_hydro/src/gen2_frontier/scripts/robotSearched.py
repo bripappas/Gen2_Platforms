@@ -12,13 +12,12 @@ import math
 
 mapList = []						#Working array to calculate searched cells
 mapData = mapMsg=OccupancyGrid()	#Ocupancy message to hold map data
-robotSearchedPub = rospy.Publisher('robotSearched',OccupancyGrid)	#robot specific searched cell
-
 
 #Initialize ROS node and setup up Publisher/Subscribers
 def robotSearched():
 	global mapData
 	global mapList
+	global robotSearchedPub
 	
 	# Initialize the Node
 	rospy.init_node('robotSearched')
@@ -45,11 +44,10 @@ def robotSearched():
 	rospy.loginfo("The static map has been retrieved")
 	
 	# Setup aSubscribers
-	amclPoseSub = rospy.Subscriber('robot_0/amcl_pose',PoseWithCovarianceStamped,handlePoseMessage,queue_size = 1)
-	laserSub = rospy.Subscriber('/robot_0/base_scan',LaserScan,handleLaserScanMessage,queue_size = 1)
+	amclPoseSub = rospy.Subscriber('amcl_pose',PoseWithCovarianceStamped,handlePoseMessage,queue_size = 1)
 	
 	# Setup Publishers
-	#robotSearchedPub = rospy.Publisher('robotSearched',OccupancyGrid)
+	robotSearchedPub = rospy.Publisher('robotSearched',OccupancyGrid)
 	
 	rospy.spin()
 	
@@ -72,14 +70,13 @@ def handlePoseMessage(data):
 		for w in range(width):
 			if mapList[h*width+w] != -1:
 				dist=math.sqrt((w-robX)**2 + (h-robY)**2)
-				if dist < 100:
-					mapList[h*width+w]=0
+				if dist < 100:									#<--Search Distance
+					if LOS(int(robX),w,int(robY),h,width):
+						mapList[h*width+w]=0
 				else:
-					mapList[h*width+w]=mapList[h*width+w]+0.25
+					mapList[h*width+w]=mapList[h*width+w]+0.25  #<--Decay Rate################
 					if mapList[h*width+w] > 100:
 						mapList[h*width+w] = 100
-			
-		
 			
 	#Use map data to generate message for robotSearched map
 	mapMsg=OccupancyGrid()
@@ -93,25 +90,27 @@ def handlePoseMessage(data):
 	
 	robotSearchedPub.publish(mapMsg)
 	
-def handleLaserScanMessage(data):
-	laserScan = []
-	angle_min = []
-	angle_max = []
-	angle_inc = []
-	xList = []
-	yList = []
-	laserScan = data.ranges
-	angle_min = data.angle_min
-	angle_max = data.angle_max
-	angle_inc = data.angle_increment
-	laserList = list(laserScan)
+def LOS(x0, x1, y0, y1, width):
+	dx = abs(x1-x0)
+	dy = abs(y1-y0)
+	sx = 1 if x0<x1 else -1
+	sy = 1 if y0<y1 else -1
+	err = dx/2 if dx>dy else -dy/2
 	
-	for i in range(len(laserList)):
-		xList.append(math.sin((angle_min+(angle_inc*i))))
-		yList.append(math.cos((angle_min+(angle_inc*i))))
-		print yList
+	while(True):
+		if(mapList[y0*width+x0] == -1):
+			return 0
+		if(x0==x1 and y0==y1):
+			return 1
+		e2=err
+		if(e2 > -dx):
+			err = err - dy
+			x0 = x0 + sx
+		if(e2 < dy):
+			err = err + dx
+			y0 = y0 + sy
+			
 	
-				
 ### If Main ###
 if __name__ == '__main__':
         robotSearched()

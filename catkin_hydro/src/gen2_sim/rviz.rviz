@@ -261,6 +261,30 @@ Visualization Manager:
       Name: Map
       Topic: /map
       Value: true
+    - Alpha: 0.9
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: false
+      Name: "Robot 0: Coverage"
+      Topic: /robot_0/robotSearched
+      Value: false
+    - Alpha: 0.9
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: false
+      Name: "Robot 1: Coverage"
+      Topic: /robot_1/robotSearched
+      Value: false
+    - Alpha: 0.9
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: false
+      Name: "Robot 2: Coverage'"
+      Topic: /robot_2/robotSearched
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -288,11 +312,11 @@ Visualization Manager:
       Class: rviz/TopDownOrtho
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 21.9575
+      Scale: 10.6609
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 0.0291264
-      Y: -16.7107
+      X: 0.148497
+      Y: 0.277897
     Saved: ~
 Window Geometry:
   Displays:
