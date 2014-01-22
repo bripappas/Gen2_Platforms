@@ -7,7 +7,6 @@ import std_msgs.msg
 from nav_msgs.msg import OccupancyGrid
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from nav_msgs.srv import GetMap
-from sensor_msgs.msg import LaserScan
 import math
 
 mapList = []						#Working array to calculate searched cells
@@ -47,7 +46,7 @@ def robotSearched():
 	amclPoseSub = rospy.Subscriber('amcl_pose',PoseWithCovarianceStamped,handlePoseMessage,queue_size = 1)
 	
 	# Setup Publishers
-	robotSearchedPub = rospy.Publisher('robotSearched',OccupancyGrid)
+	robotSearchedPub = rospy.Publisher('robotSearched',OccupancyGrid, latch=True)
 	
 	rospy.spin()
 	
@@ -74,7 +73,7 @@ def handlePoseMessage(data):
 					if LOS(int(robX),w,int(robY),h,width):
 						mapList[h*width+w]=0
 				else:
-					mapList[h*width+w]=mapList[h*width+w]+0.25  #<--Decay Rate################
+					mapList[h*width+w]=mapList[h*width+w]+0.50  #<--Decay Rate################
 					if mapList[h*width+w] > 100:
 						mapList[h*width+w] = 100
 			

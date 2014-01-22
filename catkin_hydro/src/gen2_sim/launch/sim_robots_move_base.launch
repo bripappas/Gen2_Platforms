@@ -7,8 +7,10 @@
   </node>
 
   <node pkg="stage_ros" type="stageros" name="stageros" args="$(find gen2_sim)/worlds/broun_LCM.world">
-		
 	</node>
+	
+  <node pkg="gen2_frontier" type="searchedCombine.py" name="searchedCombine" output="screen" />
+	
 
   <!-- BEGIN ROBOT 0 -->
   <group ns="robot_0">

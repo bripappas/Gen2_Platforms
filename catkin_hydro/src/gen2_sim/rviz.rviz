@@ -24,7 +24,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: "Robot 1: LaserScan"
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -133,7 +133,7 @@ Visualization Manager:
       Color: 255; 255; 0
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 1
@@ -149,7 +149,7 @@ Visualization Manager:
       Topic: /robot_0/base_scan
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -162,7 +162,7 @@ Visualization Manager:
       Color: 0; 0; 255
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 1
@@ -178,7 +178,7 @@ Visualization Manager:
       Topic: /robot_1/base_scan
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -191,7 +191,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 1
@@ -207,7 +207,7 @@ Visualization Manager:
       Topic: /robot_2/base_scan
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 0.5
       Class: rviz/Map
       Color Scheme: costmap
@@ -235,32 +235,32 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/Polygon
       Color: 0; 0; 0
-      Enabled: true
+      Enabled: false
       Name: "Robot 0: LaserPoly"
       Topic: /robot_0/lidarInMap
-      Value: true
+      Value: false
     - Alpha: 1
       Class: rviz/Polygon
       Color: 0; 0; 0
-      Enabled: true
+      Enabled: false
       Name: "Robot 1: LaserPoly"
       Topic: /robot_1/lidarInMap
-      Value: true
+      Value: false
     - Alpha: 1
       Class: rviz/Polygon
       Color: 0; 0; 0
-      Enabled: true
+      Enabled: false
       Name: "Robot 2: LaserPoly"
       Topic: /robot_2/lidarInMap
-      Value: true
+      Value: false
     - Alpha: 0.7
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Map
       Topic: /map
-      Value: true
+      Value: false
     - Alpha: 0.9
       Class: rviz/Map
       Color Scheme: map
@@ -285,6 +285,14 @@ Visualization Manager:
       Name: "Robot 2: Coverage'"
       Topic: /robot_2/robotSearched
       Value: false
+    - Alpha: 0.7
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: CombinedSearched
+      Topic: /searchedCombine
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -308,15 +316,15 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -0.274999
+      Angle: -0.409999
       Class: rviz/TopDownOrtho
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 10.6609
+      Scale: 12.1465
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 0.148497
-      Y: 0.277897
+      X: -0.456448
+      Y: -4.30232
     Saved: ~
 Window Geometry:
   Displays:
