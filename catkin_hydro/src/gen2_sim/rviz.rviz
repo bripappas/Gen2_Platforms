@@ -289,9 +289,17 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: CombinedSearched
       Topic: /searchedCombine
+      Value: false
+    - Alpha: 1
+      Class: rviz/Map
+      Color Scheme: costmap
+      Draw Behind: false
+      Enabled: true
+      Name: Frontiers
+      Topic: /fontiers
       Value: true
   Enabled: true
   Global Options:
@@ -316,15 +324,15 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -0.409999
+      Angle: -0.779999
       Class: rviz/TopDownOrtho
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 12.1465
+      Scale: 10.82
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: -0.456448
-      Y: -4.30232
+      X: -6.06787
+      Y: 0.364676
     Saved: ~
 Window Geometry:
   Displays:

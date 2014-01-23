@@ -10,6 +10,7 @@
 	</node>
 	
   <node pkg="gen2_frontier" type="searchedCombine.py" name="searchedCombine" output="screen" />
+  <node pkg="gen2_frontier" type="findFrontierCells.py" name="findFrontierCells" output="screen" />
 	
 
   <!-- BEGIN ROBOT 0 -->
