@@ -8,7 +8,7 @@ Description:  Launches the joystick interface for controlling up to 3 robots
 	<!-- Launch the default ROS joy node -->
 	<node pkg="joy" type="joy_node" name="joy_node" output="screen">
 		<param name="autorepeat_rate" type="double" value="50.0" />
-		<param name="dev" type="string" value="/dev/input/js0" />
+		<param name="dev" type="string" value="/dev/input/js1" />
 	</node>
 	
 	<!-- Launch multi control joystick node -->

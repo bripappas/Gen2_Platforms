@@ -72,10 +72,11 @@ def handlePoseMessage(data):
 				if dist < 100:									#<--Search Distance
 					if LOS(int(robX),w,int(robY),h,width):
 						mapList[h*width+w]=0
-				else:
-					mapList[h*width+w]=mapList[h*width+w]+0.50  #<--Decay Rate################
-					if mapList[h*width+w] > 100:
-						mapList[h*width+w] = 100
+				#Decay used for patrolling
+				#else:
+				#	mapList[h*width+w]=mapList[h*width+w]+0.50  #<--Decay Rate################
+				#	if mapList[h*width+w] > 100:
+				#		mapList[h*width+w] = 100
 			
 	#Use map data to generate message for robotSearched map
 	mapMsg=OccupancyGrid()
