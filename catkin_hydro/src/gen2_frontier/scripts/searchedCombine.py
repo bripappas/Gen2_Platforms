@@ -90,7 +90,7 @@ def updateCombined():
 		
 		searchedCombinePub.publish(mapMsg)
 		
-		rospy.sleep(0.1)
+		#rospy.sleep(0.1)
 
 ### If Main ###
 if __name__ == '__main__':

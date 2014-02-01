@@ -61,16 +61,17 @@ def handlePoseMessage(data):
 	resolution=mapData.info.resolution
 	
 	#Pull out current robot position
-	robX=data.pose.pose.position.x*(1.0/resolution)+width/2
-	robY=data.pose.pose.position.y*(1.0/resolution)+height/2
+	robX=int(data.pose.pose.position.x*(1.0/resolution)+width/2)
+	robY=int(data.pose.pose.position.y*(1.0/resolution)+height/2)
 	
 	# Color area that is seen (THIS IS INCORRECT, For testng purposes)
-	for h in range(height):
-		for w in range(width):
+	senseDist = 100
+	for h in xrange(robY-senseDist,robY+senseDist+1):
+		for w in xrange(robX-senseDist,robX+senseDist+1):
 			if mapList[h*width+w] != -1:
 				dist=math.sqrt((w-robX)**2 + (h-robY)**2)
-				if dist < 100:									#<--Search Distance
-					if LOS(int(robX),w,int(robY),h,width):
+				if dist < senseDist:									
+					if LOS(robX,w,robY,h,width):
 						mapList[h*width+w]=0
 				#Decay used for patrolling
 				#else:
@@ -89,6 +90,7 @@ def handlePoseMessage(data):
 	mapMsg.data=mapList
 	
 	robotSearchedPub.publish(mapMsg)
+	rospy.sleep(0.2)
 	
 def LOS(x0, x1, y0, y1, width):
 	dx = abs(x1-x0)
