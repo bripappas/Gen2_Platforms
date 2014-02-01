@@ -12,7 +12,8 @@
 	
 	<!-- Launch Frontier Coverage Nodes-->
 	<node pkg="gen2_frontier" type="searchedCombine.py" name="searchedCombine" output="screen" />
-	<!--<node pkg="gen2_frontier" type="findFrontierCells.py" name="findFrontierCells" output="screen" />-->
+	<node pkg="gen2_frontier" type="occupancyToImage.py" name="occupancyToImage" output="screen" />
+	<node pkg="gen2_frontier" type="cvFindFrontiers.py" name="cvFindFrontiers" output="screen" />
 	
 
 	<!-- Launch Robot 0 -->

@@ -7,30 +7,33 @@ import numpy as np
 import code
 import copy
 from matplotlib import pyplot as plt
-
-#import sys
-#from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
+from visualization_msgs.msg import Marker
+from geometry_msgs.msg import Point
+from std_msgs.msg import ColorRGBA
 
 def findFrontiers(): 
 	global imagePub
+	global markerPub
 	# Initialize the Node
 	rospy.init_node('findFontiers')
 	
-	#Setup subscribers
+	#Setup publishers/subscribers
 	searchedCombineSub = rospy.Subscriber('searchedCombineImage',Image,callback,queue_size = 1)
-	
-	#Setup publishers
 	imagePub = rospy.Publisher('frontierImage', Image)
+	markerPub = rospy.Publisher('frontierMarkers',Marker)
 	
-	#spind
+	#PLT in interactive mode to support resizing plt window
 	plt.ion()
 	plt.show()
+	
+	#spin
 	rospy.spin()
 	
 def callback(data):
 	global imagePub
+	global markerPub
 	
 	#Convert image to CV image
 	bridge=CvBridge()
@@ -58,34 +61,58 @@ def callback(data):
 	ret,sobelCombined_thresh = cv2.threshold(sobelCombined,0,255,cv2.THRESH_BINARY)
 
 	#Dialate Combined
-	dialate=cv2.dilate(sobelCombined_thresh,np.ones((5,5),'uint8'))
+	dialate=cv2.dilate(sobelCombined_thresh,np.ones((3,3),'uint8'))
 	
 	#Find Contour Centorids
 	dialateCopy=copy.copy(dialate)
 	contours,hier=cv2.findContours(dialateCopy,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
 	centroids = []
+	colors = []
 	for i in contours:
 		if len(i) > 10:
 			moments=cv2.moments(i)
 			cx = int(moments['m10']/moments['m00'])
 			cy = int(moments['m01']/moments['m00'])
-			centroids.append([cx,cy])
-			
-	print centroids
+			centroidPoint = Point()
+			centroidColor = ColorRGBA()
+			centroidPoint.x = cx/20.0-20
+			centroidPoint.y = cy/20.0-32.8
+			centroidPoint.z = 0
+			centroidColor.r = 0
+			centroidColor.g = 0
+			centroidColor.b = 1
+			centroidColor.a = 1
+			centroids.append(centroidPoint)
+			colors.append(centroidColor)
+
 	#code.interact(local=locals())
-	
-	'''#Display Image in PLT Window
-	plt.subplot(1,3,1),plt.imshow(sobel_xy,cmap='gray'),plt.title('SOBEL'),plt.xticks([]), plt.yticks([])
-	plt.subplot(1,3,2),plt.imshow(sobelCombined,cmap='gray'),plt.title('SUBTRACT FILTER'),plt.xticks([]), plt.yticks([])
-	plt.subplot(1,3,3),plt.imshow(dialate,cmap='gray'),plt.title('DIALATE'),plt.xticks([]), plt.yticks([])
+	#Display Image in PLT Window
+	'''plt.subplot(1,5,1),plt.imshow(searched,cmap='gray'),plt.title('Searched Space'),plt.xticks([]), plt.yticks([])
+	plt.subplot(1,5,2),plt.imshow(sobel_xy_thres,cmap='gray'),plt.title('Sobel All'),plt.xticks([]), plt.yticks([])
+	plt.subplot(1,5,3),plt.imshow(sobel_xy_base_thres,cmap='gray'),plt.title('Sobel All'),plt.xticks([]), plt.yticks([])
+	plt.subplot(1,5,4),plt.imshow(sobelCombined,cmap='gray'),plt.title('Frontiers Map'),plt.xticks([]), plt.yticks([])
+	plt.subplot(1,5,5),plt.imshow(dialate,cmap='gray'),plt.title('Dialate'),plt.xticks([]), plt.yticks([])
 	plt.draw()
 	plt.pause(0.001)'''
 	
-	#Convert the image back to mat format
+	#Convert the image back to mat format and publish as ROS image
 	frontiers = cv.fromarray(dialate)
-	
-	#Convert back to ROS image
 	imagePub.publish(bridge.cv_to_imgmsg(frontiers, "mono8"))
+
+	#Publish centorids of frontiers as marker
+	markerMsg = Marker()
+	markerMsg.header.frame_id = "/map"
+	markerMsg.header.stamp = rospy.Time.now()
+	markerMsg.ns = ""
+	markerMsg.id = 0
+	markerMsg.type = 7			#Sphere List
+	markerMsg.action = 0		#Add
+	markerMsg.scale.x = 0.5
+	markerMsg.scale.y = 0.5
+	markerMsg.scale.z = 0.5
+	markerMsg.points = centroids
+	markerMsg.colors = colors
+	markerPub.publish(markerMsg)
 	
 if __name__ == '__main__':
     findFrontiers()
