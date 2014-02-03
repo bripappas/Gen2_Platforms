@@ -78,6 +78,7 @@ def callback(data):
 			centroidPoint.x = cx/20.0-20
 			centroidPoint.y = cy/20.0-32.8
 			centroidPoint.z = 0
+			#centroidColor = (0,0,1,1)
 			centroidColor.r = 0
 			centroidColor.g = 0
 			centroidColor.b = 1
@@ -113,6 +114,7 @@ def callback(data):
 	markerMsg.points = centroids
 	markerMsg.colors = colors
 	markerPub.publish(markerMsg)
+	print 'yes'
 	
 if __name__ == '__main__':
     findFrontiers()

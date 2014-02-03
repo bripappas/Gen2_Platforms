@@ -11,9 +11,8 @@
 	<node pkg="stage_ros" type="stageros" name="stageros" args="$(find gen2_sim)/worlds/broun_LCM.world" />
 	
 	<!-- Launch Frontier Coverage Nodes-->
-	<node pkg="gen2_frontier" type="searchedCombine.py" name="searchedCombine" output="screen" />
-	<node pkg="gen2_frontier" type="occupancyToImage.py" name="occupancyToImage" output="screen" />
-	<node pkg="gen2_frontier" type="cvFindFrontiers.py" name="cvFindFrontiers" output="screen" />
+	<node pkg="gen2_frontier" type="combineSearchSpace.py" name="combineSearchSpace" output="screen" />
+	<node pkg="gen2_frontier" type="findFrontiers.py" name="findFrontiers" output="screen" />
 	
 
 	<!-- Launch Robot 0 -->

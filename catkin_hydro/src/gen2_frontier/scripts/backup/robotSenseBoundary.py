@@ -33,6 +33,7 @@ def handleLaserScanMessage(data):
 	angle_min = data.angle_min
 	angle_max = data.angle_max
 	angle_inc = data.angle_increment
+	range_max = data.range_max
 	laserList = list(data.ranges)
 		
 	#Look up transfrom from Lidar to map
@@ -41,8 +42,6 @@ def handleLaserScanMessage(data):
 	except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
 		print 'TF Lookup Failed'
 		return
-		
-		
 		
 	lidarPoints = PolygonStamped()
 	#Convert Lidar Cooridinates to map frame cartesian coordiantes(meters)

@@ -23,7 +23,7 @@ def searchedCombine():
 		getStaticMap = rospy.ServiceProxy('/static_map',GetMap)
 
 		resp = getStaticMap()
-		mapData = OccupancyGrid()
+		#mapData = OccupancyGrid()
 		mapData=resp.map
 		
 	except rospy.ServiceException, e:
@@ -90,7 +90,7 @@ def updateCombined():
 		
 		searchedCombinePub.publish(mapMsg)
 		
-		#rospy.sleep(0.1)
+		rospy.sleep(1.0)
 
 ### If Main ###
 if __name__ == '__main__':

@@ -6,6 +6,7 @@ import rospy
 import std_msgs.msg
 from nav_msgs.msg import OccupancyGrid
 from geometry_msgs.msg import PoseWithCovarianceStamped
+from tf.transformations import euler_from_quaternion
 from nav_msgs.srv import GetMap
 import math
 
@@ -63,16 +64,22 @@ def handlePoseMessage(data):
 	#Pull out current robot position
 	robX=int(data.pose.pose.position.x*(1.0/resolution)+width/2)
 	robY=int(data.pose.pose.position.y*(1.0/resolution)+height/2)
+	quat=data.pose.pose.orientation
 	
 	# Color area that is seen (THIS IS INCORRECT, For testng purposes)
 	senseDist = 100
+	(roll,pitch,yaw) = euler_from_quaternion([quat.x,quat.y,quat.z,quat.w])
 	for h in xrange(robY-senseDist,robY+senseDist+1):
 		for w in xrange(robX-senseDist,robX+senseDist+1):
 			if mapList[h*width+w] != -1:
 				dist=math.sqrt((w-robX)**2 + (h-robY)**2)
-				if dist < senseDist:									
-					if LOS(robX,w,robY,h,width):
-						mapList[h*width+w]=0
+				if dist < senseDist:
+				#	if yaw < 0:
+				#		yaw = yaw+(math.pi*2)
+				#	angleRelYaw = math.atan2(w-robX,h-robY)+yaw
+				#	if angleRelYaw >= 0 and angleRelYaw <= math.pi:
+						if LOS(robX,w,robY,h,width):
+							mapList[h*width+w]=0
 				#Decay used for patrolling
 				#else:
 				#	mapList[h*width+w]=mapList[h*width+w]+0.50  #<--Decay Rate################
@@ -90,7 +97,7 @@ def handlePoseMessage(data):
 	mapMsg.data=mapList
 	
 	robotSearchedPub.publish(mapMsg)
-	rospy.sleep(0.2)
+	#rospy.sleep(0.1)
 	
 def LOS(x0, x1, y0, y1, width):
 	dx = abs(x1-x0)
