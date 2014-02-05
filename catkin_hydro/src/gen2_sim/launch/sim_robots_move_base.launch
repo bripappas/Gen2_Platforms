@@ -3,7 +3,7 @@
 	<param name="/use_sim_time" value="true"/>
 
 	<!-- Launch Map Server -->
-	<node pkg="map_server" type="map_server" name="map_server" args="$(find gen2_maps)/maps/test_map.yaml" respawn="false" >
+	<node pkg="map_server" type="map_server" name="map_server" args="$(find gen2_maps)/maps/test_map_simple.yaml" respawn="false" >
 		<param name="frame_id" value="/map" />
 	</node>
 
@@ -29,6 +29,19 @@
 			<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
 			<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
 		</node>
+		
+		<!-- Launch Move Base For Navigation Only-->
+		<group ns = "nav">
+			<node pkg="move_base" type="move_base" respawn="false" name="move_base_node_nav" output="screen">
+				<remap from="map" to="/map" />
+				<param name="controller_frequency" value="10.0" />
+				<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+				<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+				<rosparam file="$(find gen2_sim)/config/local_costmap_params.yaml" command="load" />
+				<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
+				<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
+			</node>
+		</group>
 
 		<!-- Launch Localization -->
 		<node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false" output="screen">
@@ -54,6 +67,19 @@
 			<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
 			<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
 		</node>
+		
+		<!-- Launch Move Base For Navigation Only-->
+		<group ns = "nav">
+			<node pkg="move_base" type="move_base" respawn="false" name="move_base_node_nav" output="screen">
+				<remap from="map" to="/map" />
+				<param name="controller_frequency" value="10.0" />
+				<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+				<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+				<rosparam file="$(find gen2_sim)/config/local_costmap_params.yaml" command="load" />
+				<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
+				<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
+			</node>
+		</group>
 
 		<!-- Launch Localization -->
 		<node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false" output="screen">
@@ -79,6 +105,19 @@
 			<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
 			<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
 		</node>
+		
+		<!-- Launch Move Base For Navigation Only-->
+		<group ns = "nav">
+			<node pkg="move_base" type="move_base" respawn="false" name="move_base_node_nav" output="screen">
+				<remap from="map" to="/map" />
+				<param name="controller_frequency" value="10.0" />
+				<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+				<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+				<rosparam file="$(find gen2_sim)/config/local_costmap_params.yaml" command="load" />
+				<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
+				<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
+			</node>
+		</group>
 
 		<!-- Launch Localization -->
 		<node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false" output="screen">
