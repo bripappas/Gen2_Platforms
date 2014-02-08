@@ -7,11 +7,13 @@ import std_msgs.msg
 from nav_msgs.msg import OccupancyGrid
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from tf.transformations import euler_from_quaternion
+from std_srvs.srv import Empty
+from std_srvs.srv import EmptyResponse
 from nav_msgs.srv import GetMap
 import math
 
 mapList = []						#Working array to calculate searched cells
-mapData = mapMsg=OccupancyGrid()	#Ocupancy message to hold map data
+mapData =OccupancyGrid()	#Ocupancy message to hold map data
 
 #Initialize ROS node and setup up Publisher/Subscribers
 def robotSearched():
@@ -48,6 +50,9 @@ def robotSearched():
 	
 	# Setup Publishers
 	robotSearchedPub = rospy.Publisher('robotSearched',OccupancyGrid, latch=True)
+	
+	#Setup Service Server
+	s=rospy.Service('clearSearched',Empty,clearSearched)
 	
 	rospy.spin()
 	
@@ -118,6 +123,19 @@ def LOS(x0, x1, y0, y1, width):
 		if(e2 < dy):
 			err = err + dx
 			y0 = y0 + sy
+			
+def clearSearched(req):
+	global mapData
+	global mapList
+	#Initial map setup, set all open cells to not searced (cell=100) and other cells to -1
+	mapList=list(mapData.data)
+	for i in range(len(mapList)):
+		if mapList[i]==100:
+			mapList[i]=-1;
+		if mapList[i]==0:
+			mapList[i]=100;	
+	rospy.loginfo("The searched map has been cleared")
+	return EmptyResponse()
 			
 	
 ### If Main ###
