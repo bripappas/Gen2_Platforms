@@ -1,135 +1,41 @@
 <launch>
 	<master auto="start"/>
 	<param name="/use_sim_time" value="true"/>
+	<param name="/num_robots" value = "4" />
 
-	<!-- Launch Map Server -->
-	<node pkg="map_server" type="map_server" name="map_server" args="$(find gen2_maps)/maps/test_map_simple.yaml" respawn="false" >
-		<param name="frame_id" value="/map" />
-	</node>
-
-	<!-- Launch Stage Simulator-->
-	<node pkg="stage_ros" type="stageros" name="stageros" args="$(find gen2_sim)/worlds/broun_LCM.world" />
+	<!-- Launch Map Server, Stage Simulator, and Global Frontier nodes.  Also Rviz -->
+	<include file="$(find gen2_sim)/launch/sim_global.launch" />
 	
-	<!-- Launch Frontier Coverage Nodes-->
-	<node pkg="gen2_frontier" type="combineSearchSpace.py" name="combineSearchSpace" output="screen" />
-	<node pkg="gen2_frontier" type="findFrontiers.py" name="findFrontiers" output="screen" />
-	
-
-	<!-- Launch Robot 0 -->
+	<!-- Launch Simulated Robot 0 -->
 	<group ns="robot_0">
-		<param name="tf_prefix" value="robot_0" />
-
-		<!-- Launch Move Base -->
-		<node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
-			<remap from="map" to="/map" />
-			<param name="controller_frequency" value="10.0" />
-			<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
-			<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-			<rosparam file="$(find gen2_sim)/config/local_costmap_params.yaml" command="load" />
-			<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
-			<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
-		</node>
-		
-		<!-- Launch Move Base For Navigation Only-->
-		<group ns = "nav">
-			<node pkg="move_base" type="move_base" respawn="false" name="move_base_node_nav" output="screen">
-				<remap from="map" to="/map" />
-				<param name="controller_frequency" value="10.0" />
-				<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
-				<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-				<rosparam file="$(find gen2_sim)/config/local_costmap_params.yaml" command="load" />
-				<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
-				<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
-			</node>
-		</group>
-
-		<!-- Launch Localization -->
-		<node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false" output="screen">
-			<param name="odom_frame_id" value="robot_0/odom" />
-			<param name="base_frame_id" value="robot_0/base_link" />
-		</node>
-		
-		<!-- Launch Searched Cells Node -->
-		<node pkg="gen2_frontier" type="robotSearched.py" name="robotSearched" output="screen" />
+		<include file="$(find gen2_sim)/launch/sim_robot.launch" >
+			<arg name = "prefix" value="robot_0" />
+			<arg name = "num" value="0" />
+		</include>
 	</group>
 	
-	<!-- Launch Robot 1 -->
+	<!-- Launch Simulated Robot 1 -->
 	<group ns="robot_1">
-		<param name="tf_prefix" value="robot_1" />
-
-		<!-- Launch Move Base -->
-		<node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
-			<remap from="map" to="/map" />
-			<param name="controller_frequency" value="10.0" />
-			<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
-			<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-			<rosparam file="$(find gen2_sim)/config/local_costmap_params.yaml" command="load" />
-			<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
-			<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
-		</node>
-		
-		<!-- Launch Move Base For Navigation Only-->
-		<group ns = "nav">
-			<node pkg="move_base" type="move_base" respawn="false" name="move_base_node_nav" output="screen">
-				<remap from="map" to="/map" />
-				<param name="controller_frequency" value="10.0" />
-				<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
-				<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-				<rosparam file="$(find gen2_sim)/config/local_costmap_params.yaml" command="load" />
-				<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
-				<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
-			</node>
-		</group>
-
-		<!-- Launch Localization -->
-		<node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false" output="screen">
-			<param name="odom_frame_id" value="robot_1/odom" />
-			<param name="base_frame_id" value="robot_1/base_link" />
-		</node>
-		
-		<!-- Launch Searched Cells Node -->
-		<node pkg="gen2_frontier" type="robotSearched.py" name="robotSearched" output="screen" />
+		<include file="$(find gen2_sim)/launch/sim_robot.launch" >
+			<arg name = "prefix" value="robot_1" />
+			<arg name = "num" value="1" />
+		</include>
 	</group>
 	
-	<!-- Launch Robot 2 -->
+	<!-- Launch Simulated Robot 2 -->
 	<group ns="robot_2">
-		<param name="tf_prefix" value="robot_2" />
-
-		<!-- Launch Move Base -->
-		<node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
-			<remap from="map" to="/map" />
-			<param name="controller_frequency" value="10.0" />
-			<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
-			<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-			<rosparam file="$(find gen2_sim)/config/local_costmap_params.yaml" command="load" />
-			<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
-			<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
-		</node>
-		
-		<!-- Launch Move Base For Navigation Only-->
-		<group ns = "nav">
-			<node pkg="move_base" type="move_base" respawn="false" name="move_base_node_nav" output="screen">
-				<remap from="map" to="/map" />
-				<param name="controller_frequency" value="10.0" />
-				<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
-				<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-				<rosparam file="$(find gen2_sim)/config/local_costmap_params.yaml" command="load" />
-				<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
-				<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
-			</node>
-		</group>
-
-		<!-- Launch Localization -->
-		<node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false" output="screen">
-			<param name="odom_frame_id" value="robot_2/odom" />
-			<param name="base_frame_id" value="robot_2/base_link" />
-		</node>
-		
-		<!-- Launch Searched Cells Node -->
-		<node pkg="gen2_frontier" type="robotSearched.py" name="robotSearched" output="screen" />
+		<include file="$(find gen2_sim)/launch/sim_robot.launch" >
+			<arg name = "prefix" value="robot_2" />
+			<arg name = "num" value="2" />
+		</include>
 	</group>
- 
-	<!-- Launch RVIV for System Visualization -->
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find gen2_sim)/rviz.rviz" />
-
+	
+	<!-- Launch Simulated Robot 3 -->
+	<group ns="robot_3">
+		<include file="$(find gen2_sim)/launch/sim_robot.launch" >
+			<arg name = "prefix" value="robot_3" />
+			<arg name = "num" value="3" />
+		</include>
+	</group>
+	
 </launch>

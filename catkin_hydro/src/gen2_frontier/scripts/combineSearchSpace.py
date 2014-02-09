@@ -30,15 +30,18 @@ class nodeClass():
 		except rospy.ServiceException, e:
 			print "Static map service call failed: %s"%e
 			
-		#Initialize Robot Occupance Grids
-		self.data0 = copy.copy(self.mapData)
-		self.data1 = copy.copy(self.mapData)
-		self.data2 = copy.copy(self.mapData)
+		#Get Current Number of Robots
+		self.numRobots = rospy.get_param('/num_robots')
+		self.searchedData = []
 			
-		#Setup Subscribers to individual robot searched grids
-		searched_0 = rospy.Subscriber('robot_0/robotSearched',OccupancyGrid,self.get0,queue_size = 1)
-		searched_1 = rospy.Subscriber('robot_1/robotSearched',OccupancyGrid,self.get1,queue_size = 1)
-		searched_2 = rospy.Subscriber('robot_2/robotSearched',OccupancyGrid,self.get2,queue_size = 1)	
+		#Initialize Robot Occupancy Grids and Subscribers
+		for i in range(0, self.numRobots):
+			#Setup Occupany Grids
+			self.searchedData.append(copy.copy(self.mapData))
+			
+			#Setup Subscribers to individual robot searched grids
+			topicName = 'robot_' + `i` +'/robotSearched'
+			rospy.Subscriber(topicName,OccupancyGrid,self.get,queue_size = 1)
 			
 		#Setup Publisher for combined searched grid	and image
 		self.searchedCombinePub = rospy.Publisher('searchedCombine',OccupancyGrid, latch=True)
@@ -54,15 +57,19 @@ class nodeClass():
 	def publishCombined(self):
 		#Enter Main Loop
 		while not rospy.is_shutdown():
-			#Convert Searched Grids to Numpy Arrays
-			map0 = numpy.array(self.data0.data)
-			map1 = numpy.array(self.data1.data)
-			map2 = numpy.array(self.data2.data)
 			
-			#Combine Searched Areas
-			combined = numpy.minimum(map0,map1)
-			combined = numpy.minimum(combined,map2)
-			
+			#Convert to Numpy  Arrays
+			map = []
+			for i in range(0, self.numRobots):
+				map.append(numpy.array(self.searchedData[i].data))
+				
+			combined2 = map[0]
+			if self.numRobots > 1:
+				print self.numRobots
+				#Find Minimum of all maps
+				for i in range(1, self.numRobots):
+					combined2 = numpy.minimum(combined2,map[i])
+					
 			#Pack Occupancy Grid Message
 			mapMsg=OccupancyGrid()
 			mapMsg.header.stamp=rospy.Time.now()
@@ -71,11 +78,11 @@ class nodeClass():
 			mapMsg.info.width=self.mapData.info.width
 			mapMsg.info.height=self.mapData.info.height
 			mapMsg.info.origin=self.mapData.info.origin
-			mapMsg.data=combined.tolist()
+			mapMsg.data=combined2.tolist()
 			
 			#Convert combined Occupancy grid values to grayscal image values
-			combined[combined == -1] = 150			#Unknown -1->150 		(gray)
-			combined[combined == 100] = 255			#Not_Searched 100->255	(white)
+			combined2[combined2 == -1] = 150			#Unknown -1->150 		(gray)
+			combined2[combined2 == 100] = 255			#Not_Searched 100->255	(white)
 													#Searched=0				(black)
 			#Pack Image Message
 			imageMsg=Image()
@@ -86,7 +93,7 @@ class nodeClass():
 			imageMsg.encoding = 'mono8'
 			imageMsg.is_bigendian = 0
 			imageMsg.step = self.mapData.info.width
-			imageMsg.data = combined.tolist()
+			imageMsg.data = combined2.tolist()
 			
 			#Publish Combined Occupancy Grid and Image
 			self.searchedCombinePub.publish(mapMsg)
@@ -95,15 +102,13 @@ class nodeClass():
 			#Update Every 0.5 seconds
 			rospy.sleep(0.5)
 		
-	#Subscriber CallBacks	
-	def get0(self,data):
-		self.data0=data
-	def get1(self,data):
-		self.data1=data
-	def get2(self,data):
-		self.data2=data
+	def get(self,data):
+		#topic = data._connection_header.topic
+		topic = data._connection_header['topic']
+		ns = topic.split('_')
+		numRobot = int(ns[1][0])
+		self.searchedData[numRobot] = data
 		
-
 # Main Function
 if __name__ == '__main__':
 	# Initialize the Node and Call nodeClass()

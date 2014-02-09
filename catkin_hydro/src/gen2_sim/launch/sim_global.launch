@@ -1,0 +1,16 @@
+<launch>
+	<!-- Launch Map Server -->
+	<node pkg="map_server" type="map_server" name="map_server" args="$(find gen2_maps)/maps/test_map_simple.yaml" respawn="false" >
+		<param name="frame_id" value="/map" />
+	</node>
+
+	<!-- Launch Stage Simulator-->
+	<node pkg="stage_ros" type="stageros" name="stageros" args="$(find gen2_sim)/worlds/broun_LCM.world" />
+	
+	<!-- Launch Frontier Coverage Nodes -->
+	<node pkg="gen2_frontier" type="combineSearchSpace.py" name="combineSearchSpace" output="screen" />
+	<node pkg="gen2_frontier" type="findFrontiers.py" name="findFrontiers" output="screen" /> 
+	
+	<!-- Launch RVIV for System Visualization -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find gen2_sim)/rviz.rviz" />
+</launch>

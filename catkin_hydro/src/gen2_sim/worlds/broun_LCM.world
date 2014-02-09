@@ -48,7 +48,7 @@ define floorplan model
   color "gray30"
   boundary 1
   gui_nose 0
-  gui_grid 0
+  gui_grid 1
   gui_move 0
 
   gui_outline 0
@@ -81,7 +81,13 @@ floorplan
 )
 
 #Add the robots
-robot( pose [ 1.28 -15.0 0 45 ] name "Larry" color "yellow")
-robot( pose [ 0.77 -14.0 0 45 ] name "Curly" color "blue")
-robot( pose [ 1.88 -15.45 0 45 ] name "Moe" color "orange")
+robot( pose [ -19 -28.0 0 45 ] name "robot_0" color "yellow")
+robot( pose [ -18 -28.0 0 45 ] name "robot_1" color "blue")
+robot( pose [ -17 -28.0 0 45 ] name "robot_2" color "orange")
+robot( pose [ -19 -29.0 0 45 ] name "robot_3" color "green")
+robot( pose [ -18 -29.0 0 45 ] name "robot_4" color "red")
+robot( pose [ -17 -29.0 0 45 ] name "robot_5" color "cyan")
+robot( pose [ -19 -30.0 0 45 ] name "robot_6" color "magenta")
+robot( pose [ -18 -30.0 0 45 ] name "robot_7" color "pink")
+robot( pose [ -17 -30.0 0 45 ] name "robot_8" color "purple")
 

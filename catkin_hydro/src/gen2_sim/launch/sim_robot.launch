@@ -1,0 +1,42 @@
+<launch>
+	
+	
+	<arg name="prefix" default="robot_x" />
+	<arg name="num" default = "-1"/>
+
+	<param name="tf_prefix" value="$(arg prefix)" />
+	<param name="rob_num" value="$(arg num)" />
+	
+	<!-- Launch Move Base -->
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
+		<remap from="map" to="/map" />
+		<param name="controller_frequency" value="10.0" />
+		<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+		<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+		<rosparam file="$(find gen2_sim)/config/local_costmap_params.yaml" command="load" />
+		<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
+		<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
+	</node>
+	
+	<!-- Launch Move Base For Navigation Only-->
+	<group ns = "nav">
+		<node pkg="move_base" type="move_base" respawn="false" name="move_base_node_nav" output="screen">
+			<remap from="map" to="/map" />
+			<param name="controller_frequency" value="10.0" />
+			<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+			<rosparam file="$(find gen2_sim)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+			<rosparam file="$(find gen2_sim)/config/local_costmap_params.yaml" command="load" />
+			<rosparam file="$(find gen2_sim)/config/global_costmap_params.yaml" command="load" />
+			<rosparam file="$(find gen2_sim)/config/base_local_planner_params.yaml" command="load" />
+		</node>
+	</group>
+
+	<!-- Launch Localization -->
+	<node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false" output="screen">
+		<param name="odom_frame_id" value="$(arg prefix)/odom" />
+		<param name="base_frame_id" value="$(arg prefix)/base_link" />
+	</node>
+	
+	<!-- Launch Searched Cells Node -->
+	<node pkg="gen2_frontier" type="robotSearched.py" name="robotSearched" output="screen" />
+</launch>
