@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #Author:		Brian Pappas
-#Last Modified	2-3-2014
+#Last Modified	2-10-2014
 #Name:			combineSearchSpace.py			
 #Description:  	Combine occupancy searched space for multiple robots.  
 
@@ -100,10 +100,9 @@ class nodeClass():
 			self.imagePub.publish(imageMsg)
 			
 			#Update Every 0.5 seconds
-			rospy.sleep(0.5)
+			rospy.sleep(2.0)
 		
 	def get(self,data):
-		#topic = data._connection_header.topic
 		topic = data._connection_header['topic']
 		ns = topic.split('_')
 		numRobot = int(ns[1][0])

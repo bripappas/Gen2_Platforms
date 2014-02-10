@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #Author:		Brian Pappas
-#Last Modified	2-3-2014
+#Last Modified	2-10-2014
 #Name:			findFrontiers.py			
 #Description:  	Use OpenCV to find frontier waypoints from searched image
 

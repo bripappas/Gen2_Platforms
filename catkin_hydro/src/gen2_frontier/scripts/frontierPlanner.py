@@ -15,17 +15,27 @@ class nodeClass():
 		#Setup subscriber for combined searched image
 		frontierMarkerSub = rospy.Subscriber('frontierMarkers',Marker,self.markerCallback,queue_size = 1) 
 		
+		#Get Number of Robots
+		self.numRobots = rospy.get_param('/num_robots')
+		
 		#Setup publishers
 		self.goalPub0 = rospy.Publisher('robot_0/move_base_simple/goal', PoseStamped)
 		self.goalPub1 = rospy.Publisher('robot_1/move_base_simple/goal', PoseStamped)
 		self.goalPub2 = rospy.Publisher('robot_2/move_base_simple/goal', PoseStamped)
+		
+		#Initialize Goal Publishers
+		self.goalPub = []
+		for i in range(0, self.numRobots):
+			#Setup Subscribers to individual robot searched grids
+			topicName = 'robot_' + `i` +'/move_base_simple/goal'
+			self.goalPub.append(rospy.Publisher(topicName,PoseStamped))
 		
 		#Wait for subscribed messages to start arriving
 		rospy.spin()
 		
 	def markerCallback(self,data):
 		if len(data.points) == 0:
-			print "SIMULATION COMPLETE"
+			print "SIMULATION COMPLETE: NO MORE FRONTIERS--Node is shutting down"
 			rospy.signal_shutdown("DONE")
 		else:
 			#Create Cost Matrix (Cost for each robot(row)/frontier(col) pair)
@@ -42,17 +52,13 @@ class nodeClass():
 			minMatrix[minMatrix == 0] = 999
 			
 			#Assign each robot a frontier
-			frontierMin0 = numpy.argmin(minMatrix[0,:])
-			frontierMin1 = numpy.argmin(minMatrix[1,:])
-			frontierMin2 = numpy.argmin(minMatrix[2,:])
-			
-			#If no assignament, take greedy option
-			if min(minMatrix[0,:]) == 999:
-				frontierMin0 = numpy.argmin(costMatrix[0,:])
-			if min(minMatrix[1,:]) == 999:
-				frontierMin1 = numpy.argmin(costMatrix[1,:])
-			if min(minMatrix[2,:]) == 999:
-				frontierMin2 = numpy.argmin(costMatrix[2,:])
+			frontierMin = []
+			for i in range(0, self.numRobots):
+				print i
+				if min(minMatrix[i,:]) == 999:
+					frontierMin.append(numpy.argmin(costMatrix[i,:]))
+				else:
+					frontierMin.append(numpy.argmin(minMatrix[i,:]))
 			
 			#Print for DEBUG
 			print "\nCost Matrix"
@@ -64,39 +70,19 @@ class nodeClass():
 			print "\nMin Matrix"
 			print minMatrix
 			
+			goal = []
 			#Pack messages
-			goal0 = PoseStamped()
-			goal1 = PoseStamped()
-			goal2 = PoseStamped()
-			
-			goal0.header.stamp = rospy.Time.now()
-			goal0.header.frame_id = '/map'
-			goal1.header.stamp = rospy.Time.now()
-			goal1.header.frame_id = '/map'
-			goal2.header.stamp = rospy.Time.now()
-			goal2.header.frame_id = '/map'
-			goal0.pose.position = data.points[frontierMin0]
-			goal1.pose.position = data.points[frontierMin1]
-			goal2.pose.position = data.points[frontierMin2]
-			
-			goal0.pose.orientation.x = 0
-			goal0.pose.orientation.y = 0
-			goal0.pose.orientation.z = 0
-			goal0.pose.orientation.w = 1
-			
-			goal1.pose.orientation.x = 0
-			goal1.pose.orientation.y = 0
-			goal1.pose.orientation.z = 0
-			goal1.pose.orientation.w = 1
-			
-			goal2.pose.orientation.x = 0
-			goal2.pose.orientation.y = 0
-			goal2.pose.orientation.z = 0
-			goal2.pose.orientation.w = 1
-			
-			self.goalPub0.publish(goal0)
-			self.goalPub1.publish(goal1)
-			self.goalPub2.publish(goal2)
+			for i in range(0, self.numRobots):
+				goal.append(PoseStamped())
+				goal[i].header.stamp = rospy.Time.now()
+				goal[i].header.frame_id = '/map'
+				goal[i].pose.position = data.points[frontierMin[i]]
+				goal[i].pose.orientation.x = 0
+				goal[i].pose.orientation.y = 0
+				goal[i].pose.orientation.z = 0
+				goal[i].pose.orientation.w = 1
+				self.goalPub[i].publish(goal[i])
+						
 		
 	def createAssignmentMatrix(self,P):
 		tempMatrix = P.argmin(axis=0)
@@ -115,14 +101,14 @@ class nodeClass():
 	def createCostMatrix(self,frontierPoints):
 		#Make list of robots get_plan services (PUT ON PARAMATER SERVER)
 		makePlanList = []
-		makePlanList.append('/robot_0/nav/move_base_node_nav/make_plan')
-		makePlanList.append('/robot_1/nav/move_base_node_nav/make_plan')
-		makePlanList.append('/robot_2/nav/move_base_node_nav/make_plan')
 		PlanFrameId = []
-		PlanFrameId.append('/robot_0/map')
-		PlanFrameId.append('/robot_1/map')
-		PlanFrameId.append('/robot_2/map')
 		
+		for i in range(0, self.numRobots):
+			serviceName = '/robot_' + `i` +'/nav/move_base_node_nav/make_plan'
+			frameId = '/robot_' + `i` +'/map'
+			makePlanList.append(serviceName)
+			PlanFrameId.append(frameId)
+			
 		C = numpy.zeros((len(makePlanList), len(frontierPoints)))
 		
 		for i in range(0,len(frontierPoints)):

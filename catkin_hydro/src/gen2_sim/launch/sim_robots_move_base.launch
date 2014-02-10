@@ -1,7 +1,7 @@
 <launch>
 	<master auto="start"/>
 	<param name="/use_sim_time" value="true"/>
-	<param name="/num_robots" value = "4" />
+	<param name="/num_robots" value = "2" />
 
 	<!-- Launch Map Server, Stage Simulator, and Global Frontier nodes.  Also Rviz -->
 	<include file="$(find gen2_sim)/launch/sim_global.launch" />
@@ -22,20 +22,20 @@
 		</include>
 	</group>
 	
-	<!-- Launch Simulated Robot 2 -->
+	<!-- Launch Simulated Robot 2 -
 	<group ns="robot_2">
 		<include file="$(find gen2_sim)/launch/sim_robot.launch" >
 			<arg name = "prefix" value="robot_2" />
 			<arg name = "num" value="2" />
 		</include>
-	</group>
+	</group> -->
 	
-	<!-- Launch Simulated Robot 3 -->
+	<!-- Launch Simulated Robot 3 
 	<group ns="robot_3">
 		<include file="$(find gen2_sim)/launch/sim_robot.launch" >
 			<arg name = "prefix" value="robot_3" />
 			<arg name = "num" value="3" />
 		</include>
-	</group>
+	</group>-->
 	
 </launch>
