@@ -264,10 +264,10 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: "Robot 3: Local Cost Map"
       Topic: /robot_3/move_base_node/local_costmap/costmap
-      Value: true
+      Value: false
     - Alpha: 0.9
       Class: rviz/Map
       Color Scheme: map
@@ -369,15 +369,15 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -0.075
+      Angle: 0.015
       Class: rviz/TopDownOrtho
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 12.2149
+      Scale: 19.3935
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 3.5431
-      Y: -12.3029
+      X: 0.0773666
+      Y: -10.4102
     Saved: ~
 Window Geometry:
   Displays:

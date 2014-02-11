@@ -76,7 +76,7 @@ window
 floorplan
 ( 
   name "broun"
-  bitmap "../../gen2_maps/maps/test_map_simple.pgm" #<------------EDIT MAP FILE HERE
+  bitmap "../../gen2_maps/maps/drawn_map.pgm" #<------------EDIT MAP FILE HERE
   size [40 65.6 1]
 )
 

@@ -1,6 +1,6 @@
 <launch>
 	<!-- Launch Map Server -->
-	<node pkg="map_server" type="map_server" name="map_server" args="$(find gen2_maps)/maps/test_map_simple.yaml" respawn="false" >
+	<node pkg="map_server" type="map_server" name="map_server" args="$(find gen2_maps)/maps/drawn_map.yaml" respawn="false" >
 		<param name="frame_id" value="/map" />
 	</node>
 	
