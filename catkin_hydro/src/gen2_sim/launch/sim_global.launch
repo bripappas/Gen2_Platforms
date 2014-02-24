@@ -1,6 +1,9 @@
 <launch>
+	<!--Choose Map File.  This will probably be passed from parent launch file-->
+	<arg name="mapFile" />	
+	
 	<!-- Launch Map Server -->
-	<node pkg="map_server" type="map_server" name="map_server" args="$(find gen2_maps)/maps/drawn_map.yaml" respawn="false" >
+	<node pkg="map_server" type="map_server" name="map_server" args="$(find gen2_maps)/maps/$(arg mapFile)" respawn="false" >
 		<param name="frame_id" value="/map" />
 	</node>
 	

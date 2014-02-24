@@ -100,7 +100,7 @@ class nodeClass():
 			self.imagePub.publish(imageMsg)
 			
 			#Update Every 0.5 seconds
-			rospy.sleep(2.0)
+			rospy.sleep(1.0)
 		
 	def get(self,data):
 		topic = data._connection_header['topic']

@@ -30,14 +30,27 @@ class nodeClass():
 			topicName = 'robot_' + `i` +'/move_base_simple/goal'
 			self.goalPub.append(rospy.Publisher(topicName,PoseStamped))
 		
+		#Get simulation start time
+		rospy.sleep(0.01)						#Without this line, get_rostime always returns 0
+		self.start_time = rospy.get_rostime()
+		rospy.loginfo("SIMULATION STARTED AT: %i %i", self.start_time.secs, self.start_time.nsecs)
+		
 		#Wait for subscribed messages to start arriving
 		rospy.spin()
 		
 	def markerCallback(self,data):
+		#Get current simulation duration
+		self.elapsed_time = rospy.get_rostime()-self.start_time
+		
+		#Shut down node if simualtion is complete
 		if len(data.points) == 0:
-			print "SIMULATION COMPLETE: NO MORE FRONTIERS--Node is shutting down"
+			rospy.loginfo("Coverage Time (sec) (nsec): %i", self.elapsed_time.secs)
+			rospy.loginfo("SIMULATION COMPLETE: Node is shutting down")
 			rospy.signal_shutdown("DONE")
 		else:
+			
+			rospy.loginfo("Elapsed Time (sec): %i", self.elapsed_time.secs)
+			
 			#Create Cost Matrix (Cost for each robot(row)/frontier(col) pair)
 			costMatrix = self.createCostMatrix(data.points)
 			
@@ -54,21 +67,20 @@ class nodeClass():
 			#Assign each robot a frontier
 			frontierMin = []
 			for i in range(0, self.numRobots):
-				print i
 				if min(minMatrix[i,:]) == 999:
 					frontierMin.append(numpy.argmin(costMatrix[i,:]))
 				else:
 					frontierMin.append(numpy.argmin(minMatrix[i,:]))
 			
 			#Print for DEBUG
-			print "\nCost Matrix"
+			'''print "\nCost Matrix"
 			print costMatrix
 			print "\nPosition Matrix"
 			print posMatrix
 			print "\nAssignment Matrix"
 			print assignMatrix
 			print "\nMin Matrix"
-			print minMatrix
+			print minMatrix'''
 			
 			goal = []
 			#Pack messages

@@ -7,7 +7,7 @@ Description: Launch nodes needed for joystick to produce twist messsages
  <launch>
 	<!-- joy node -->
 	<node respawn="true" pkg="joy" type="joy_node" name="joy_node" >
-		<param name="dev" type="string" value="/dev/input/js1" />
+		<param name="dev" type="string" value="/dev/input/js0" />
 	</node>
 	
   

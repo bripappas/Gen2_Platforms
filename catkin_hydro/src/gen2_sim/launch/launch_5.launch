@@ -1,0 +1,42 @@
+<launch>
+	<!-- Launch Simulated Robot 0 -->
+	<group ns="robot_0">
+		<include file="$(find gen2_sim)/launch/sim_robot.launch" >
+			<arg name = "prefix" value="robot_0" />
+			<arg name = "num" value="0" />
+		</include>
+	</group>
+	
+	<!-- Launch Simulated Robot 1 -->
+	<group ns="robot_1">
+		<include file="$(find gen2_sim)/launch/sim_robot.launch" >
+			<arg name = "prefix" value="robot_1" />
+			<arg name = "num" value="1" />
+		</include>
+	</group>
+	
+	<!-- Launch Simulated Robot 2 -->
+	<group ns="robot_2">
+		<include file="$(find gen2_sim)/launch/sim_robot.launch" >
+			<arg name = "prefix" value="robot_2" />
+			<arg name = "num" value="2" />
+		</include>
+	</group> -->
+	
+	<!-- Launch Simulated Robot 3  -->
+	<group ns="robot_3">
+		<include file="$(find gen2_sim)/launch/sim_robot.launch" >
+			<arg name = "prefix" value="robot_3" />
+			<arg name = "num" value="3" />
+		</include>
+	</group>
+	
+	<!-- Launch Simulated Robot 4  -->
+	<group ns="robot_4">
+		<include file="$(find gen2_sim)/launch/sim_robot.launch" >
+			<arg name = "prefix" value="robot_4" />
+			<arg name = "num" value="4" />
+		</include>
+	</group>
+	
+</launch>

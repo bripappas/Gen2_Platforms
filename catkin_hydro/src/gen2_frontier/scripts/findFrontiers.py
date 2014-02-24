@@ -84,7 +84,7 @@ class nodeClass():
 		
 		#Find Contours (make copy since dialate destorys original image)
 		dialateCopy=copy.copy(dialate)
-		contours,hier=cv2.findContours(dialateCopy,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+		contours,hier=cv2.findContours(dialateCopy,cv2.RETR_LIST,cv2.CHAIN_APPROX_NONE)
 
 		#Convert the image back to mat format for publishing as ROS image
 		frontiers = cv.fromarray(dialate)
@@ -94,7 +94,7 @@ class nodeClass():
 		colors = []
 		#Filter Frontier Contour by number of pixels
 		for i in contours:
-			if len(i) > 20:
+			if len(i) > 40:
 				moments=cv2.moments(i)
 				cx = int(moments['m10']/moments['m00'])
 				cy = int(moments['m01']/moments['m00'])
