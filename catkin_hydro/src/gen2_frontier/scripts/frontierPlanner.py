@@ -44,7 +44,7 @@ class nodeClass():
 		
 		#Shut down node if simualtion is complete
 		if len(data.points) == 0:
-			rospy.loginfo("Coverage Time (sec) (nsec): %i", self.elapsed_time.secs)
+			rospy.loginfo("Coverage Time (sec): %i", self.elapsed_time.secs)
 			rospy.loginfo("SIMULATION COMPLETE: Node is shutting down")
 			rospy.signal_shutdown("DONE")
 		else:

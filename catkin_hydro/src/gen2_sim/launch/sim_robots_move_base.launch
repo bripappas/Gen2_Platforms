@@ -1,7 +1,7 @@
 <launch>
 	<!--******************* Simulation Configuration Parameters **********************************-->
 	<!--Set number of robots to use.  1-9 robots can be selected -->
-	<arg name="number_of_robots" value = "2" />
+	<arg name="number_of_robots" value = "3" />
 	
 	<!--Choose Map File(Map must be in gen2_maps/maps folder).  Must also change in stage world file -->
 	<arg name="map_yaml_file" value = "drawn_map.yaml" />
