@@ -3,7 +3,10 @@
 	<!--Set number of robots to use.  1-9 robots can be selected -->
 	<arg name="number_of_robots" value = "3" />
 	
-	<!--Choose Map File(Map must be in gen2_maps/maps folder).  Must also change in stage world file -->
+	<!--Set robot oni-directioanl sense distance in meters -->
+	<arg name="sense_distance" value = "5.6" />
+	
+	<!--Choose Map File(Map must be in gen2_maps/maps folder).  Must also change in Stage world file -->
 	<arg name="map_yaml_file" value = "drawn_map.yaml" />
 	
 	<!--******************** END Simulation Configuration Parameters *****************************-->
@@ -11,6 +14,7 @@
 	<!-- Set global paramters -->
 	<param name="/use_sim_time" value="true"/>
 	<param name="/num_robots" value = "$(arg number_of_robots)" /> 	
+	<param name="/senseDist" value = "$(arg sense_distance)" /> 	
 	
 	<!-- Launch Map Server, Stage Simulator, and Global Frontier nodes.  Also Rviz -->
 	<include file="$(find gen2_sim)/launch/sim_global.launch" >

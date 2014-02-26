@@ -72,17 +72,13 @@ def handlePoseMessage(data):
 	quat=data.pose.pose.orientation
 	
 	# Color area that is seen (THIS IS INCORRECT, For testng purposes)
-	senseDist = 100
+	senseDist = int(rospy.get_param('/senseDist')/resolution)
 	(roll,pitch,yaw) = euler_from_quaternion([quat.x,quat.y,quat.z,quat.w])
 	for h in xrange(robY-senseDist,robY+senseDist+1):
 		for w in xrange(robX-senseDist,robX+senseDist+1):
 			if mapList[h*width+w] != -1:
 				dist=math.sqrt((w-robX)**2 + (h-robY)**2)
 				if dist < senseDist:
-				#	if yaw < 0:
-				#		yaw = yaw+(math.pi*2)
-				#	angleRelYaw = math.atan2(w-robX,h-robY)+yaw
-				#	if angleRelYaw >= 0 and angleRelYaw <= math.pi:
 						if LOS(robX,w,robY,h,width):
 							mapList[h*width+w]=0
 				#Decay used for patrolling

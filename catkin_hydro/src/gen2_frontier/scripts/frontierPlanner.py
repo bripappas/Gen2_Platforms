@@ -1,12 +1,17 @@
 #!/usr/bin/env python
 
+#Author:		Brian Pappas
+#Last Modified	2-26-2014
+#Name:			findFrontiers.py			
+#Description:  	Assign Frontiers to Robots based on rank
+
 import roslib 								#ROS Imports
 roslib.load_manifest('gen2_frontier')
 import rospy
 from visualization_msgs.msg import Marker	#Message Imports
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.srv import GetPlan
-import math									#Other Imports
+import math								#Other Imports
 import numpy
 
 class nodeClass():
@@ -17,11 +22,6 @@ class nodeClass():
 		
 		#Get Number of Robots
 		self.numRobots = rospy.get_param('/num_robots')
-		
-		#Setup publishers
-		self.goalPub0 = rospy.Publisher('robot_0/move_base_simple/goal', PoseStamped)
-		self.goalPub1 = rospy.Publisher('robot_1/move_base_simple/goal', PoseStamped)
-		self.goalPub2 = rospy.Publisher('robot_2/move_base_simple/goal', PoseStamped)
 		
 		#Initialize Goal Publishers
 		self.goalPub = []
@@ -64,23 +64,35 @@ class nodeClass():
 			minMatrix = assignMatrix * costMatrix
 			minMatrix[minMatrix == 0] = 999
 			
-			#Assign each robot a frontier
+			#Assign each robot a frontier based on rank
 			frontierMin = []
 			for i in range(0, self.numRobots):
+				#Check to see if robot has an asignment and flag if it does not
 				if min(minMatrix[i,:]) == 999:
-					frontierMin.append(numpy.argmin(costMatrix[i,:]))
+					frontierMin.append(-1)
 				else:
+					#Assign Robot to Frontier wih rank of 1
 					frontierMin.append(numpy.argmin(minMatrix[i,:]))
+					
+			#Resolve unassigned robots
+			for i in range(0, len(frontierMin)):
+				if frontierMin[i] == -1:
+					#If more robots then frontiers exist, set unassigned robots to nearest frontier
+					if (self.numRobots > len(data.points)):
+						frontierMin[i] = numpy.argmin(costMatrix[i,:])
+					else:
+						#Change This to assign nearest unassigned frontier
+						frontierMin[i] = numpy.argmin(costMatrix[i,:])	
 			
 			#Print for DEBUG
-			'''print "\nCost Matrix"
+			print "\nCost Matrix"
 			print costMatrix
 			print "\nPosition Matrix"
 			print posMatrix
 			print "\nAssignment Matrix"
 			print assignMatrix
 			print "\nMin Matrix"
-			print minMatrix'''
+			print minMatrix
 			
 			goal = []
 			#Pack messages
