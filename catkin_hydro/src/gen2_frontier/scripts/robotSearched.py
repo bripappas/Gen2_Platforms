@@ -71,7 +71,7 @@ def handlePoseMessage(data):
 	robY=int(data.pose.pose.position.y*(1.0/resolution)+height/2)
 	quat=data.pose.pose.orientation
 	
-	# Color area that is seen (THIS IS INCORRECT, For testng purposes)
+	# Color area that is seen (Circle)
 	senseDist = int(rospy.get_param('/senseDist')/resolution)
 	(roll,pitch,yaw) = euler_from_quaternion([quat.x,quat.y,quat.z,quat.w])
 	for h in xrange(robY-senseDist,robY+senseDist+1):
@@ -85,8 +85,33 @@ def handlePoseMessage(data):
 				#else:
 				#	mapList[h*width+w]=mapList[h*width+w]+0.50  #<--Decay Rate################
 				#	if mapList[h*width+w] > 100:
-				#		mapList[h*width+w] = 100
-			
+				#		mapList[h*width+w] = 100'''
+	
+	# Color area that is seen (Cirlce No LOS)
+	'''senseDist = int(rospy.get_param('/senseDist')/resolution)
+	(roll,pitch,yaw) = euler_from_quaternion([quat.x,quat.y,quat.z,quat.w])
+	for h in xrange(robY-senseDist,robY+senseDist+1):
+		for w in xrange(robX-senseDist,robX+senseDist+1):
+			if mapList[h*width+w] != -1:
+				dist=math.sqrt((w-robX)**2 + (h-robY)**2)
+				if dist < senseDist:
+					mapList[h*width+w]=0'''
+					
+	# Color area that is seen (Square)
+	'''senseDist = int(rospy.get_param('/senseDist')/resolution)
+	(roll,pitch,yaw) = euler_from_quaternion([quat.x,quat.y,quat.z,quat.w])
+	for h in xrange(robY-senseDist,robY+senseDist+1):
+		for w in xrange(robX-senseDist,robX+senseDist+1):
+			if LOS(robX,w,robY,h,width):
+				mapList[h*width+w]=0'''
+				
+	# Color area that is seen (Square No LOS)
+	'''senseDist = int(rospy.get_param('/senseDist')/resolution)
+	(roll,pitch,yaw) = euler_from_quaternion([quat.x,quat.y,quat.z,quat.w])
+	for h in xrange(robY-senseDist,robY+senseDist+1):
+		for w in xrange(robX-senseDist,robX+senseDist+1):
+			mapList[h*width+w]=0'''
+									
 	#Use map data to generate message for robotSearched map
 	mapMsg=OccupancyGrid()
 	mapMsg.header.stamp=rospy.Time.now()

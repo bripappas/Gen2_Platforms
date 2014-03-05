@@ -132,7 +132,7 @@ Visualization Manager:
       Color: 255; 255; 0
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 1
@@ -148,7 +148,7 @@ Visualization Manager:
       Topic: /robot_0/base_scan
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -161,7 +161,7 @@ Visualization Manager:
       Color: 0; 0; 255
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 1
@@ -177,7 +177,7 @@ Visualization Manager:
       Topic: /robot_1/base_scan
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -190,7 +190,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 1
@@ -206,7 +206,7 @@ Visualization Manager:
       Topic: /robot_2/base_scan
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -331,13 +331,13 @@ Visualization Manager:
       Transport Hint: raw
       Value: false
     - Class: rviz/Marker
-      Enabled: true
+      Enabled: false
       Marker Topic: /frontierMarkers
       Name: Frontier Markers
       Namespaces:
-        "": true
+        {}
       Queue Size: 100
-      Value: true
+      Value: false
     - Alpha: 0.7
       Class: rviz/Map
       Color Scheme: map
@@ -369,15 +369,15 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0.015
+      Angle: 0
       Class: rviz/TopDownOrtho
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 19.3935
+      Scale: 29.5633
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 0.0773666
-      Y: -10.4102
+      X: -0.159155
+      Y: -15.817
     Saved: ~
 Window Geometry:
   Displays:
@@ -399,5 +399,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1215
-  X: 58
+  X: 1345
   Y: 24
