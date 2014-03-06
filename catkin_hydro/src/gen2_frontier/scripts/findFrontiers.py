@@ -129,17 +129,18 @@ class nodeClass():
 		self.markerPub.publish(markerMsg)
 		
 		#Dispaly images for debug
-		self.displayImages(searched,sobel_xy_thres,sobel_xy_base_thres,sobelCombined,dialate)
+		#self.displayImages(searched,sobel_xy_thres,sobel_xy_base_thres,sobelCombined,dialate)
+		#plt.subplot(1,1,1),plt.imshow(dialate,cmap='gray'),plt.title('Searched Space'),plt.xticks([]), plt.yticks([])
+		#plt.subplot(1,2,2),plt.imshow(searchedCopy,cmap='gray'),plt.title('Searched Space'),plt.xticks([]), plt.yticks([])
+		#plt.subplot(1,5,3),plt.imshow(sobel_xy_thres,cmap='gray'),plt.title('Sobel All'),plt.xticks([]), plt.yticks([])
+		#plt.subplot(1,5,4),plt.imshow(sobel_xy_base_thres,cmap='gray'),plt.title('Frontiers Map'),plt.xticks([]), plt.yticks([])
+		#plt.subplot(1,5,5),plt.imshow(sobelCombined_thresh,cmap='gray'),plt.title('Dialate'),plt.xticks([]), plt.yticks([])
+		#plt.draw()
+		#plt.pause(0.01)
 		
 	#Dispaly OpenCV images in PLT windows			
-	def displayImages(self,searched,sobelOrig,sobelBase,sobelBoth,dialate):
-		plt.subplot(2,3,1),plt.imshow(searched,cmap='gray'),plt.title('Searched Space'),plt.xticks([]), plt.yticks([])
-		plt.subplot(2,3,2),plt.imshow(sobelOrig,cmap='gray'),plt.title('Sobel All'),plt.xticks([]), plt.yticks([])
-		plt.subplot(2,3,3),plt.imshow(sobelBase,cmap='gray'),plt.title('Sobel All'),plt.xticks([]), plt.yticks([])
-		plt.subplot(2,3,4),plt.imshow(sobelBoth,cmap='gray'),plt.title('Frontiers Map'),plt.xticks([]), plt.yticks([])
-		plt.subplot(2,3,5),plt.imshow(dialate,cmap='gray'),plt.title('Dialate'),plt.xticks([]), plt.yticks([])
-		plt.draw()
-		plt.pause(0.001)
+	#def displayImages(self,searched,sobelOrig,sobelBase,sobelBoth,dialate,searchedCopy,sobel_xy_thres,sobel_xy_base_thres,sobelCombined_thresh):
+		
 		
 # Main Function
 if __name__ == '__main__':
