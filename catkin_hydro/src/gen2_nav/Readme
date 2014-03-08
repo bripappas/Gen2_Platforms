@@ -1,0 +1,19 @@
+gen2_nav package
+================
+
+This package contains configuration files for usign the ROS navigation stack, specifically
+the move_base package.
+
+Folders:
+config: perspective files for the rqt plugin
+rviz_config: configuration files for rviz
+
+
+Dependencies:
+gen2_description
+gen2_drive
+move_base
+
+Tested:
+ROS Groovy
+Ubuntu 12.04 LTS

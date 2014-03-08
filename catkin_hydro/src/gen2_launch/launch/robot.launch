@@ -1,0 +1,16 @@
+<!--
+Author: Brian Pappas
+Last Update: 8-1-2013
+Description:  Launch base robot nodes (robot.launch)
+-->
+
+<launch>
+	<!-- Start static transforms -->
+    <include file="$(find gen2_launch)/launch/include/transforms.launch" />
+    
+	<!-- Launch Rosserial -->
+    <include file="$(find gen2_launch)/launch/include/arduino.launch" />
+    
+	<!-- Launch Diff-Drive -->
+    <include file="$(find gen2_launch)/launch/include/diff_drive.launch" />
+</launch>

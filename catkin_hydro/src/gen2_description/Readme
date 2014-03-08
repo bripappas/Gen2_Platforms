@@ -1,0 +1,18 @@
+gen2_description package
+================
+
+This package contains files that describe the robot model thorugh the use of a 
+URDF file.  This is used to define the TF tree and to visualize the robot in 
+rviz
+
+Folders:
+meshes: contains 3d models referenced by the urdf
+rurdf: contains the robot description files (urdf, xacro)
+
+Dependencies:
+urdf
+xacro
+
+Tested:
+ROS Groovy
+Ubuntu 12.04 LTS

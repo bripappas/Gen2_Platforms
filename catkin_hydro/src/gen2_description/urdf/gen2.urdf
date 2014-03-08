@@ -1,0 +1,115 @@
+<!--
+Authors: Jared Beck, Brian Pappas
+Last Update: 6-20-2013
+-->
+
+<?xml version="1.0" ?>
+<robot 
+	name="Gen2_Platform">
+	<material name="Green">
+		<color rgba="0.0 0.8 0.0 1.0"/>
+	</material>
+	<material name="Red">
+		<color rgba="0.8 0.0 0.0 1.0"/>
+	</material>
+	<material name="White">
+		<color rgba="1.0 1.0 1.0 1.0"/>
+	</material>
+	<material name="Blue">
+		<color rgba="0.0 0.0 0.8 1.0"/>
+	</material>
+	<material name="Black">
+		<color rgba="0.0 0.0 0.0 1.0"/>
+	</material>
+	<material name="Grey">
+		<color rgba="0.7 0.7 0.7 0.7"/>
+	</material>
+	<link name="base_footprint">
+	    <inertial>
+		<mass value="0.0001" />
+		<origin xyz="0 0 0" />
+		<inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001" />
+	    </inertial>	
+	    <visual>
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<geometry>
+		    <box size="0.001 0.001 0.001" />
+		</geometry>
+		<material name="White"/>
+	    </visual>
+	    <collision>
+		<origin xyz="0 0 0.017" rpy="0 0 0" />
+		<geometry>
+		    <box size="0.001 0.001 0.001" />
+		</geometry>
+	    </collision>
+	</link>
+
+	<link name="base_link">
+		<inertial>
+			<mass value="1" />
+			<origin xyz=" 0 0 0.15" />
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+		</inertial>
+
+		<visual>
+			<origin xyz=" 0 0 0.15" rpt=" 0 0 0" />
+			<material name="Green" />
+			<geometry>
+				<cylinder length="0.007" radius="0.2025" />
+			</geometry>
+		</visual>
+	</link>
+
+	<link name="base_middle_link">
+		<inertial>
+			<mass value="1" />
+			<origin xyz=" 0 0 0.415" />
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+		</inertial>
+
+		<visual>
+			<origin xyz=" 0 0 0.15" rpt=" 0 0 0" />
+			<material name="Green" />
+			<geometry>
+				<cylinder length="0.007" radius="0.2025" />
+			</geometry>
+		</visual>
+	</link>
+
+		<link name="base_top_link">
+		<inertial>
+			<mass value="1" />
+			<origin xyz=" 0 0 0.54" />
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+		</inertial>
+
+		<visual>
+			<origin xyz=" 0 0 0.15" rpt=" 0 0 0" />
+			<material name="Green" />
+			<geometry>
+				<cylinder length="0.007" radius="0.2025" />
+			</geometry>
+		</visual>
+	</link>
+
+	<joint name="base_footprint_joint" type="fixed">
+		<origin xyz="0 0 0.15" rpy="0 0 0" />        
+		<parent link="base_footprint" />
+		<child link="base_link" />
+	</joint>
+
+	<joint name="base_middle_joint" type="fixed">
+		<origin xyz=" 0 0 0.415" rpy="0 0 0" />        
+		<parent link="base_link" />
+		<child link="base_middle_link" />
+	</joint>
+
+	<joint name="base_top_joint" type="fixed">
+		<origin xyz=" 0 0 0.54" rpy="0 0 0" />        
+		<parent link="base_middle_link" />
+		<child link="base_top_link" />
+	</joint>
+
+	
+</robot>

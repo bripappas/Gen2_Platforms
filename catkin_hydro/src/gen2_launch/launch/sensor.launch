@@ -1,0 +1,33 @@
+<!--
+Author: Brian Pappas
+Last Update: 8-1-2013
+Description:  Launches the chosen laser scan sensor (LIDAR or Kinect)
+-->
+
+<launch>
+	<!--Choose which sensor to use to generate the laser scan.  Choose only one!-->
+	<arg name="kinect" value="0" /> <!--Set to 1 if using Kinect -->
+	<arg name="hokuyo" value="1" />	<!--Set to 1 if using Hokuyo -->
+
+	<group if="$(arg kinect)">
+		<!-- Start Kinect (openni_launch) -->
+		<include file="$(find openni_launch)/launch/openni.launch" />
+		
+		<!-- Run depth_image_to_laser_scan -->
+		<node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan" >
+		<remap from="image" to="camera/depth/image_raw" />
+	</node>
+	</group>
+	
+	<group if="$(arg hokuyo)">
+		<node pkg="hokuyo_node" type="hokuyo_node" name="base_hokuyo_node">
+			<param name="port" type="string" value="/dev/ttyACM1" />
+			<param name="frame_id" type="string" value="/camera_link" />
+			<param name="min_ang" type="double" value="-1.6" />
+			<param name="max_ang" type="double" value="1.6" />
+			<param name="skip" type="int" value="0" />
+			<param name="intensity" value="false" />
+		</node>
+	</group>
+	
+</launch>

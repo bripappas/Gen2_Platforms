@@ -1,0 +1,15 @@
+<!--
+Author: Brian Pappas
+Last Update: 8-1-2013
+Description:  Launches the robot transforms built from the gen2.xacro file
+-->
+
+<launch>
+	<param name="robot_description" command="$(find xacro)/xacro.py '$(find
+		gen2_description)/urdf/gen2.xacro'" />
+
+	<node pkg="robot_state_publisher" type="robot_state_publisher"
+		name="robot_state_publisher" output="screen">
+		<param name="publish_frequency" type="double" value="10.0" />
+	</node>
+</launch>

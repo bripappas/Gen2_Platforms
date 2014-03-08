@@ -1,0 +1,16 @@
+gen2_launch package
+================
+
+This package contains .launch files to use with roslaunch.  These launch files
+are used to easily bring up the whole multirobot system in different configurations
+instead of individual packages.
+
+Folders:
+launch: contains .launch files
+
+Dependencies:
+none
+
+Tested:
+ROS Groovy
+Ubuntu 12.04 LTS

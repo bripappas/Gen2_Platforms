@@ -1,0 +1,54 @@
+<!--
+Author: Brian Pappas
+Last Update: 8-1-2013
+Description:  TODO
+-->
+
+<launch>
+  <rosparam param="ticks_meter">4300</rosparam>
+
+  <node pkg="diff_drive" type="pid_velocity.py" name="lpid_velocity">
+      <remap from="wheel" to="lwheel"/>
+      <remap from="motor_cmd" to="l_motor_cmd"/>
+      <remap from="wheel_vtarget" to="lwheel_vtarget"/>
+      <remap from="wheel_vel" to="lwheel_vel"/>
+      <rosparam param="Kp">165</rosparam>
+      <rosparam param="Ki">900</rosparam>
+      <rosparam param="Kd">0</rosparam>
+      <rosparam param="out_min">-255</rosparam>
+      <rosparam param="out_max">255</rosparam>
+      <rosparam param="rate">30</rosparam>
+      <rosparam param="timeout_ticks">1000</rosparam>
+      <rosparam param="rolling_pts">5</rosparam>
+  </node>
+  <node pkg="diff_drive" type="pid_velocity.py" name="rpid_velocity">
+      <remap from="wheel" to="rwheel"/>
+      <remap from="motor_cmd" to="r_motor_cmd"/>
+      <remap from="wheel_vtarget" to="rwheel_vtarget"/>
+      <remap from="wheel_vel" to="rwheel_vel"/>
+      <rosparam param="Kp">165</rosparam>
+      <rosparam param="Ki">900</rosparam>
+      <rosparam param="Kd">0</rosparam>
+      <rosparam param="out_min">-255</rosparam>
+      <rosparam param="out_max">255</rosparam>
+      <rosparam param="rate">30</rosparam>
+      <rosparam param="timeout_ticks">1000</rosparam>
+      <rosparam param="rolling_pts">5</rosparam>
+  </node>
+
+  <!--<node pkg="diff_drive" type="virtual_joystick.py" name="virtual_joystick" output="screen"/>-->
+  <node pkg="diff_drive" type="twist_to_motors.py" name="twist_to_motors" output="screen">
+    <rosparam param="base_width">0.35</rosparam>
+    <rosparam param="rate">40</rosparam>
+  </node>
+  
+  <node pkg="diff_drive" type="diff_tf.py" name="diff_tf" output="screen">
+    <rosparam param="base_width">0.35</rosparam>
+  </node>
+  
+  <!-- gyro2imu node -->
+  <node respawn="true" pkg="diff_drive" type="gyro2imu.py" name="gyro2imu" />
+  
+  <!-- Launch Pose EKF -->
+    <include file="$(find gen2_launch)/launch/include/robot_pose_ekf.launch" />
+</launch>

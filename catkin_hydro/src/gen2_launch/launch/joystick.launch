@@ -1,0 +1,16 @@
+ <!--
+Author: Brian Pappas
+Last Update: 8-1-2013
+Description: Launch nodes needed for joystick to produce twist messsages
+-->
+ 
+ <launch>
+	<!-- joy node -->
+	<node respawn="true" pkg="joy" type="joy_node" name="joy_node" >
+		<param name="dev" type="string" value="/dev/input/js0" />
+	</node>
+	
+  
+	<!-- joy2twist node -->
+	<node respawn="true" pkg="diff_drive" type="joy2twist.py" name="joy2twist" />
+ </launch>
