@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #Author:		Brian Pappas
-#Last Modified	2-10-2014
+#Last Modified	3-14-2014
 #Name:			combineSearchSpace.py			
 #Description:  	Combine occupancy searched space for multiple robots.  
 
@@ -11,6 +11,7 @@ import rospy
 from nav_msgs.msg import OccupancyGrid		#Message Imports
 from nav_msgs.srv import GetMap
 from sensor_msgs.msg import Image
+from std_msgs.msg import Float32
 import copy								#Other imports
 import thread
 import numpy
@@ -47,6 +48,9 @@ class nodeClass():
 		self.searchedCombinePub = rospy.Publisher('searchedCombine',OccupancyGrid, latch=True)
 		self.imagePub = rospy.Publisher('searchedCombineImage', Image)	
 		
+		#Setup Publisher for percentage searched
+		self.percentPub = rospy.Publisher('percentSearched', Float32)	
+		
 		#Launch standalone thread for publishing
 		thread.start_new_thread(self.publishCombined, ())
 		
@@ -65,7 +69,6 @@ class nodeClass():
 				
 			combined2 = map[0]
 			if self.numRobots > 1:
-				print self.numRobots
 				#Find Minimum of all maps
 				for i in range(1, self.numRobots):
 					combined2 = numpy.minimum(combined2,map[i])
@@ -83,7 +86,16 @@ class nodeClass():
 			#Convert combined Occupancy grid values to grayscal image values
 			combined2[combined2 == -1] = 150			#Unknown -1->150 		(gray)
 			combined2[combined2 == 100] = 255			#Not_Searched 100->255	(white)
-													#Searched=0				(black)
+														#Searched=0				(black)
+														
+			#Calculate percentage of open area searched
+			numNotSearched = combined2[combined2==255].size
+			numSearched = combined2[combined2==0].size
+			percentSearched = 100*float(numSearched)/(numNotSearched+numSearched)
+			percentSearchedMsg = Float32()
+			percentSearchedMsg.data = percentSearched
+			self.percentPub.publish(percentSearchedMsg)
+			
 			#Pack Image Message
 			imageMsg=Image()
 			imageMsg.header.stamp = rospy.Time.now()
