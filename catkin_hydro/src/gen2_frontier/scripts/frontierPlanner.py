@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #Author:		Brian Pappas
-#Last Modified	2-26-2014
+#Last Modified	3-14-2014
 #Name:			findFrontiers.py			
 #Description:  	Assign Frontiers to Robots based on rank
 
@@ -11,6 +11,7 @@ import rospy
 from visualization_msgs.msg import Marker	#Message Imports
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.srv import GetPlan
+from std_msgs.msg import Header
 import math								#Other Imports
 import numpy
 
@@ -29,11 +30,21 @@ class nodeClass():
 			#Setup Subscribers to individual robot searched grids
 			topicName = 'robot_' + `i` +'/move_base_simple/goal'
 			self.goalPub.append(rospy.Publisher(topicName,PoseStamped))
+			
+		#Setup start/stop time publishers
+		self.startPub = rospy.Publisher('startTime', Header)
+		self.stopPub = rospy.Publisher('stopTime', Header)
 		
 		#Get simulation start time
 		rospy.sleep(0.01)						#Without this line, get_rostime always returns 0
 		self.start_time = rospy.get_rostime()
 		rospy.loginfo("SIMULATION STARTED AT: %i %i", self.start_time.secs, self.start_time.nsecs)
+		
+		#Publish Start TIme
+		startMsg = Header()
+		startMsg.stamp = self.start_time
+		startMsg.frame_id = '0'
+		self.startPub.publish(startMsg)
 		
 		#Wait for subscribed messages to start arriving
 		rospy.spin()
@@ -46,6 +57,12 @@ class nodeClass():
 		if len(data.points) == 0:
 			rospy.loginfo("Coverage Time (sec): %i", self.elapsed_time.secs)
 			rospy.loginfo("SIMULATION COMPLETE: Node is shutting down")
+			
+			#publish stop message
+			stopMsg = Header()
+			stopMsg.stamp = rospy.get_rostime()
+			stopMsg.frame_id = '0'
+			self.stopPub.publish(stopMsg)
 			rospy.signal_shutdown("DONE")
 		else:
 			
