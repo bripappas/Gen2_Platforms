@@ -346,6 +346,36 @@ Visualization Manager:
       Name: Map
       Topic: /map
       Value: false
+    - Angle Tolerance: 0.1
+      Class: rviz/Odometry
+      Color: 170; 255; 0
+      Enabled: true
+      Keep: 0
+      Length: 0.3
+      Name: "Robot 0: Odom"
+      Position Tolerance: 0.1
+      Topic: /robot_0/odom
+      Value: true
+    - Angle Tolerance: 0.1
+      Class: rviz/Odometry
+      Color: 0; 0; 255
+      Enabled: true
+      Keep: 0
+      Length: 0.3
+      Name: "Robot 1: Odom"
+      Position Tolerance: 0.1
+      Topic: /robot_1/odom
+      Value: true
+    - Angle Tolerance: 0.1
+      Class: rviz/Odometry
+      Color: 206; 137; 0
+      Enabled: true
+      Keep: 0
+      Length: 0.3
+      Name: "Robot 2: Odom"
+      Position Tolerance: 0.1
+      Topic: /robot_2/odom
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -369,15 +399,15 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0
+      Angle: 0.115
       Class: rviz/TopDownOrtho
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 15.6015
+      Scale: 41.5327
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: -0.159155
-      Y: -15.817
+      X: -0.648813
+      Y: -20.986
     Saved: ~
 Window Geometry:
   Displays:
@@ -399,5 +429,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1215
-  X: 1338
+  X: 58
   Y: 24

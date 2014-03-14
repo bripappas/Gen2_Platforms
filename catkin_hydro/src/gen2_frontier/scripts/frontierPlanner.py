@@ -12,7 +12,7 @@ from visualization_msgs.msg import Marker	#Message Imports
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.srv import GetPlan
 from std_msgs.msg import Header
-import math								#Other Imports
+import math									#Other Imports
 import numpy
 
 class nodeClass():
