@@ -5,7 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded: ~
       Splitter Ratio: 0.784387
-    Tree Height: 787
+    Tree Height: 843
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -63,6 +63,22 @@ Visualization Manager:
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
+      Color: 0; 0; 255
+      Enabled: true
+      Name: "Robot 4: Local Plan"
+      Topic: /robot_4/move_base_node/TrajectoryPlannerROS/local_plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 85; 0; 255
+      Enabled: true
+      Name: "Robot 5: Local Plan"
+      Topic: /robot_5/move_base_node/TrajectoryPlannerROS/local_plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
       Color: 255; 0; 0
       Enabled: true
       Name: "Robot 0: NavFn Plan"
@@ -93,6 +109,22 @@ Visualization Manager:
       Topic: /robot_3/move_base_node/NavfnROS/plan
       Value: true
     - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 255; 85; 0
+      Enabled: true
+      Name: "Robot 4: NavFn Plan"
+      Topic: /robot_4/move_base_node/NavfnROS/plan
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 170; 0; 0
+      Enabled: true
+      Name: "Robot 5: NavFn Plan"
+      Topic: /robot_5/move_base_node/NavfnROS/plan
+      Value: true
+    - Alpha: 1
       Class: rviz/Polygon
       Color: 255; 255; 0
       Enabled: true
@@ -119,6 +151,20 @@ Visualization Manager:
       Enabled: true
       Name: "Robot 3: Footprint"
       Topic: /robot_3/move_base_node/global_costmap/footprint_layer/footprint_stamped
+      Value: true
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 0; 170; 0
+      Enabled: true
+      Name: "Robot 4: Footprint"
+      Topic: /robot_4/move_base_node/global_costmap/footprint_layer/footprint_stamped
+      Value: true
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 85; 255; 255
+      Enabled: true
+      Name: "Robot 5: Footprint"
+      Topic: /robot_5/move_base_node/global_costmap/footprint_layer/footprint_stamped
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -309,7 +355,7 @@ Visualization Manager:
       Topic: /searchedCombine
       Value: true
     - Class: rviz/Image
-      Enabled: false
+      Enabled: true
       Image Topic: /searchedCombineImage
       Max Value: 1
       Median window: 5
@@ -318,9 +364,9 @@ Visualization Manager:
       Normalize Range: true
       Queue Size: 2
       Transport Hint: raw
-      Value: false
+      Value: true
     - Class: rviz/Image
-      Enabled: false
+      Enabled: true
       Image Topic: /frontierImage
       Max Value: 1
       Median window: 5
@@ -329,7 +375,7 @@ Visualization Manager:
       Normalize Range: true
       Queue Size: 2
       Transport Hint: raw
-      Value: false
+      Value: true
     - Class: rviz/Marker
       Enabled: true
       Marker Topic: /frontierMarkers
@@ -349,33 +395,33 @@ Visualization Manager:
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 170; 255; 0
-      Enabled: true
+      Enabled: false
       Keep: 0
-      Length: 0.3
+      Length: 0.7
       Name: "Robot 0: Odom"
       Position Tolerance: 0.1
       Topic: /robot_0/odom
-      Value: true
+      Value: false
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 0; 0; 255
-      Enabled: true
+      Enabled: false
       Keep: 0
-      Length: 0.3
+      Length: 0.7
       Name: "Robot 1: Odom"
       Position Tolerance: 0.1
       Topic: /robot_1/odom
-      Value: true
+      Value: false
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 206; 137; 0
-      Enabled: true
+      Enabled: false
       Keep: 0
-      Length: 0.3
+      Length: 0.7
       Name: "Robot 2: Odom"
       Position Tolerance: 0.1
       Topic: /robot_2/odom
-      Value: true
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -399,25 +445,25 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0.115
+      Angle: 0.0149999
       Class: rviz/TopDownOrtho
       Name: Current View
       Near Clip Distance: 0.01
-      Scale: 41.5327
+      Scale: 15.2357
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: -0.648813
-      Y: -20.986
+      X: -0.204488
+      Y: -1.72303
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
   Frontier Image:
     collapsed: false
-  Height: 1000
+  Height: 1056
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000010f000003a2fc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000028000003a2000000dd00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c00430061006d0065007200610200000264000001e300000173000000cc000000010000010f000003a2fc0200000007fb0000000a0049006d006100670065020000047f0000002f0000028c00000409fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000028000001b50000006400fffffffb0000001c00460072006f006e007400690065007200200049006d006100670065020000079e00000090000002620000034efb0000002c0053006500610072006300680065006400200043006f006d00620069006e006500200049006d006100670065020000079d00000089000002630000034efb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000028000000a30000000000000000fb0000000a0056006900650077007301000001e3000001e7000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000044e000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004fc0000003efc0100000002fb0000000800540069006d00650000000000000004fc000002f600fffffffb0000000800540069006d0065010000000000000450000000000000000000000295000003a200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000010f000003dafc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c0061007900730100000028000003da000000dd00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c00430061006d0065007200610200000264000001e300000173000000cc000000010000010f000003dafc0200000007fb0000000a0049006d006100670065020000047f0000002f0000028c00000409fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000028000001cf0000006400fffffffb0000001c00460072006f006e007400690065007200200049006d006100670065020000079e00000090000002620000034efb0000002c0053006500610072006300680065006400200043006f006d00620069006e006500200049006d006100670065020000079d00000089000002630000034efb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000028000000a30000000000000000fb0000000a0056006900650077007301000001fd00000205000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000044e000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004fc0000003efc0100000002fb0000000800540069006d00650000000000000004fc000002f600fffffffb0000000800540069006d0065010000000000000450000000000000000000000515000003da00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Searched Combine Image:
     collapsed: false
   Selection:
@@ -428,6 +474,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1215
+  Width: 1855
   X: 58
   Y: 24

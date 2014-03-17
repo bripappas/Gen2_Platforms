@@ -94,7 +94,7 @@ class nodeClass():
 		colors = []
 		#Filter Frontier Contour by number of pixels
 		for i in contours:
-			if len(i) > 40:
+			if len(i) > 50:
 				moments=cv2.moments(i)
 				cx = int(moments['m10']/moments['m00'])
 				cy = int(moments['m01']/moments['m00'])
