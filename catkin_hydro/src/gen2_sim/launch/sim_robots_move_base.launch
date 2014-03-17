@@ -1,7 +1,7 @@
 <launch>
 	<!--******************* Simulation Configuration Parameters **********************************-->
 	<!--Set number of robots to use.  1-9 robots can be selected -->
-	<arg name="number_of_robots" value = "4" />
+	<arg name="number_of_robots" value = "5" />
 	
 	<!--Set robot oni-directioanl sense distance in meters -->
 	<arg name="sense_distance" value = "6.0" />
