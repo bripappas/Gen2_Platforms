@@ -395,33 +395,33 @@ Visualization Manager:
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 170; 255; 0
-      Enabled: false
+      Enabled: true
       Keep: 0
-      Length: 0.7
+      Length: 1.3
       Name: "Robot 0: Odom"
       Position Tolerance: 0.1
       Topic: /robot_0/odom
-      Value: false
+      Value: true
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 0; 0; 255
-      Enabled: false
+      Enabled: true
       Keep: 0
-      Length: 0.7
+      Length: 1.3
       Name: "Robot 1: Odom"
       Position Tolerance: 0.1
       Topic: /robot_1/odom
-      Value: false
+      Value: true
     - Angle Tolerance: 0.1
       Class: rviz/Odometry
       Color: 206; 137; 0
-      Enabled: false
+      Enabled: true
       Keep: 0
-      Length: 0.7
+      Length: 1.3
       Name: "Robot 2: Odom"
       Position Tolerance: 0.1
       Topic: /robot_2/odom
-      Value: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -445,7 +445,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0.0149999
+      Angle: 0.00499781
       Class: rviz/TopDownOrtho
       Name: Current View
       Near Clip Distance: 0.01

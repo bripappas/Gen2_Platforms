@@ -1,14 +1,14 @@
 <launch>
 	<!--******************* Simulation Configuration Parameters **********************************-->
 	<!--Set number of robots to use.  1-9 robots can be selected -->
-	<arg name="number_of_robots" value = "1" />
+	<arg name="number_of_robots" value = "6" />
 	
 	<!--Set robot oni-directioanl sense distance in meters -->
 	<arg name="sense_distance" value = "6.0" />
 	
 	<!--Choose Map File(Map must be in gen2_maps/maps folder).  Must also change in Stage world file -->
-	<arg name="map_yaml_file" value = "office.yaml" />
-	<!-- <arg name="map_yaml_file" value = "drawn_map.yaml" /> -->
+	<!-- <arg name="map_yaml_file" value = "office.yaml" /> -->
+	<arg name="map_yaml_file" value = "drawn_map.yaml" />
 	<!-- <arg name="map_yaml_file" value = "test_map.yaml" /> -->
 	
 	<!--******************** END Simulation Configuration Parameters *****************************-->

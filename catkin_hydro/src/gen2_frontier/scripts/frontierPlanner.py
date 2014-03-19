@@ -81,7 +81,7 @@ class nodeClass():
 			minMatrix = assignMatrix * costMatrix
 			minMatrix[minMatrix == 0] = 999
 			
-			#Assign each robot a frontier based on rank
+			'''#Assign each robot a frontier based on rank
 			frontierMin = []
 			for i in range(0, self.numRobots):
 				#Check to see if robot has an asignment and flag if it does not
@@ -89,7 +89,12 @@ class nodeClass():
 					frontierMin.append(-1)
 				else:
 					#Assign Robot to Frontier wih rank of 1
-					frontierMin.append(numpy.argmin(minMatrix[i,:]))
+					frontierMin.append(numpy.argmin(minMatrix[i,:]))'''
+					
+			#Use minimum Frontier
+			frontierMin = []
+			for i in range(0, self.numRobots):
+				frontierMin.append(numpy.argmin(costMatrix[i,:]))
 					
 			#Resolve unassigned robots
 			for i in range(0, len(frontierMin)):
